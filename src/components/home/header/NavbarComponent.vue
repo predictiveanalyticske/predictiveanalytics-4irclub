@@ -16,15 +16,22 @@
         props: ['data'],
         data () {
             return {
-                url: this.data.appurl
+                url: this.data.appurl,
+                links: [
+                     { title: "Home",  icon: "home", to: this.$router.resolve({name:"home"}).href },
+                     { title: "Plans", icon: "star", to: this.$router.resolve({name:"plans"}).href },
+                     { title: "Login", icon: "lock", to: this.$router.resolve({name:"auth"}).href },
+                ]
             }
         },
-        computed: {
-            links () {
-                return [
-                    { title: "Home", icon: "home", to: "/" },
-                    { title: "Documentaries", icon: "grid", to: "/documentaries" },
-                ]
+        created(){
+            if( this.$store.state.app.auth.isAuthenticated ){
+                let authlinks = [
+                        { title: "Documentaries", icon: "play", to: this.$router.resolve({name:"documentaries"}).href }
+                ];
+                authlinks.forEach( function (value,) {
+                    this.links.push(value);
+                });
             }
         }
     }
