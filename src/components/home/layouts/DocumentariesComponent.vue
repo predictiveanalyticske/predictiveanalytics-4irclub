@@ -42,7 +42,6 @@
 <script>    
     import { chunk } from 'lodash';
     import Posts from './show/PostsComponent'
-    import stored from '../../../stores'
 
     export default {
         components: {
@@ -77,13 +76,10 @@
             }
         },
         created () {
-            this.bralcoaxios({ url: "api/v1/home/posts", request: "GET" }).then( (response) => {
+            this.bralcoaxios({ url: this.$store.state.app.backend_url + "/api/v1/home/posts", request: "GET" }).then( (response) => {
                 var resolve = this.bralcoresponse(response);
                 this.posts = resolve.data.posts;
-                this.posts = Object.entries(this.posts).map( ([key, value]) => 
-                {
-                   return value;
-                });
+                this.posts = Object.entries(this.posts).map( ([, value]) => {return value;});
                 this.postChunk = chunk(this.posts, this.perPage);
                 this.activePostChunk = this.postChunk[0];
             }); 
