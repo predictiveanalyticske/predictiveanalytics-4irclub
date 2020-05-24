@@ -1,7 +1,7 @@
 <template>
       <vk-grid class="uk-child-width-1-1 uk-margin-remove">
           <div class="uk-padding-remove uk-margin-remove">
-              <vk-card class="uk-card-red uk-width-1-1 uk-light uk-padding-large">
+              <vk-card class="br-banner uk-width-1-1 uk-light uk-padding-large">
                   <vk-grid class="uk-child-width-1-2">
                       <div>
                         <h1>{{ data.name }}</h1>

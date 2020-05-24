@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@600&display=swap');
+h1,h2,h3,h4,h5,h6,p,a,input,text,select,label,button{
+    font-family: 'Dosis', sans-serif !important;
+}
 body::after {
     content: "";
     background: url('../images/background.gif') !important;
@@ -8,4 +12,50 @@ body::after {
     right: 0;
     position: fixed;
     z-index: -1; 
+}
+.bounce-enter-active {
+  animation: bounce-in .5s;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.br-banner{
+    background-color:#bf040f !important;
+    box-shadow: none !important; 
+    opacity: 0.7;
+}
+/* Enter and leave animations can use different */
+/* durations and timing functions.              */
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
+}
+.uk-card-no-shadow {
+    box-shadow: none !important;
+}
+.uk-button-red {
+    background-color:#bf040f !important;
+    color: #fff;
+}
+.uk-navbar, .uk-navbar-dropdown {
+    background-color:#bf040f !important;
+    opacity:0.7;
+}
+.uk-navbar a {
+    color: #ffffff !important;
 }

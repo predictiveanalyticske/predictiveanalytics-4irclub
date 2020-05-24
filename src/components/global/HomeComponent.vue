@@ -53,24 +53,3 @@
         }
     }
 </script>
-
-<style>
-
-    .uk-card-purple{ 
-        background-color:#9561e2 !important;
-        color: #fff !important;
-    }
-    .uk-card-no-shadow {
-        box-shadow: none !important;
-    }
-
-    .uk-card-red {
-        background-color:#bf040f !important;
-        box-shadow: none !important;        
-    }
-    .uk-button-red {
-        background-color:#bf040f !important;
-        color: #fff;
-    }
-
-</style>

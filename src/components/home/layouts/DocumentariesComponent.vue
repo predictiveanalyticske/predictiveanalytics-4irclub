@@ -1,7 +1,7 @@
 <template>
     <vk-grid class="uk-child-width-1-1 uk-margin-remove">
         <div class="uk-padding-remove">
-            <vk-card class="uk-card-red uk-width-1-1 uk-light uk-text-center">
+            <vk-card class="br-banner uk-width-1-1 uk-light uk-text-center">
                 <h1>Documentaries</h1>
                 <h4 class="uk-text-break">
                     Predictive Analytics provides a list of evolutional videos in the world of Data Science, AI and Big Data. 

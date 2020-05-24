@@ -36,12 +36,3 @@
         }
     }
 </script>
-
-<style scoped>
-    .uk-navbar,.uk-navbar-dropdown {
-        background-color:#bf040f !important;
-    }
-    .uk-navbar a {
-        color: #ffffff !important;
-    }
-</style>
