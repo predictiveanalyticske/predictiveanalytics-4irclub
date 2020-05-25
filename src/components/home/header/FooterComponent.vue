@@ -7,7 +7,6 @@
 </template>
 
 <script>
-    import stored from '../../../stores'
 
     export default {
         name: 'footernav',

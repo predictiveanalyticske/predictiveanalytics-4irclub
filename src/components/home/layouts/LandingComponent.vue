@@ -12,7 +12,7 @@
             </vk-card>
         </div>
         <div class="uk-padding-remove uk-margin-remove">
-            <vk-card class="uk-width-1-1 uk-padding-small">
+            <vk-card class="uk-width-1-1 uk-padding-small" type="blank">
                 <h3 class="uk-text-center">This is a subscription based platform with a lifelong learning package that includes:</h3>
                 <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-expand@s uk-padding-small">
                     <div class="uk-text-center uk-visible@m uk-visible@l">
@@ -33,7 +33,7 @@
             </vk-card>
         </div>
         <div class="uk-padding-remove uk-margin-remove">
-            <vk-card class="uk-width-1-1 uk-padding-small" type="blank">
+            <vk-card class="uk-width-1-1 uk-padding-small">
                 <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-expand@s uk-padding-small">
                     <div>
                         <table class="uk-table">
@@ -54,54 +54,34 @@
             </vk-card>
         </div>
         <div class="uk-padding-remove uk-margin-remove">
-            <vk-card class="uk-width-1-1 uk-padding-small">
+            <vk-card class="uk-width-1-1 uk-padding-small" type="blank">
                 <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-expand@s uk-padding-small">
                     <div class="uk-text-center uk-visible@m uk-visible@l">
                         <vk-icon icon="users" ratio="11"></vk-icon>
                     </div>
                     <div>
-                        <h3>This is a subscription based platform with a lifelong learning package that includes:</h3>
                         <table class="uk-table">
                             <tbody>
-                                <tr><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Monthly Topical Webinairs.</h5></tr>
-                                <tr><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Free online courses.</h5></tr>
-                                <tr><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Job Openings and Job Placement for Data Science Talent.</h5></tr>
-                                <tr><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Business Consulting Opportunities.</h5></tr>
-                                <tr><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Free documentaries.</h5></tr>
+                              <tr><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Free Access to Diagnostics tools:</h5>
+                                  <ul class="uk-list uk-list-large uk-list-bullet">
+                                      <li><h5>Career disruption diagnostic</h5></li>
+                                      <li><h5>Data Science career fitness diagnosis</h5></li>
+                                      <li><h5>Procurement Sandbox Toolkit for Big Data Tools</h5></li>
+                                      <li><h5>Data Science Trainers Toolkit</h5></li>
+                                      <li><h5>Data Science Talent Interviewers Framework</h5></li>
+                                      <li><h5>Data Science Toolkit for Leaders </h5></li>
+                                  </ul>
+                              </tr>
+                              <tr><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Dicsounted Rate for Analytics Masterclass.</h5></tr>
+                              <tr><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Virtual/Physical Office Space</h5></tr>
+                              <tr><h5><vk-icon icon="check" class="uk-text-success"></vk-icon>  Access to living book title Big Data Principle and Practice authored by <b>Timothy Oriedo</b></h5></tr>
                             </tbody>
                         </table>
                     </div>
                 </vk-grid>
             </vk-card>
         </div>
-        <div class="uk-padding-remove uk-margin-remove">
-                <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-expand@s uk-padding-large">
-                    <div class="uk-text-center uk-padding-large">
-                        <vk-icon icon="tag" class="uk-hidden@s uk-visible@m uk-visible@l uk-visible@xl" ratio="13"></vk-icon>
-                    </div>
-                    <div>
-                        <vk-card class=" uk-width-1-1 uk-padding-large">
-                            <vk-icon icon="tag" class="uk-hidden@s uk-text-center" ratio="13"></vk-icon>
-                            <ul class="uk-list uk-list-large">
-                                <li><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Free Access to Diagnostics tools:</h5>
-                                    <ul class="uk-list uk-list-large uk-list-bullet">
-                                        <li><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Career disruption diagnostic</h5></li>
-                                        <li><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Data Science career fitness diagnosis</h5></li>
-                                        <li><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Procurement Sandbox Toolkit for Big Data Tools</h5></li>
-                                        <li><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Data Science Trainers Toolkit</h5></li>
-                                        <li><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Data Science Talent Interviewers Framework</h5></li>
-                                        <li><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Data Science Toolkit for Leaders </h5></li>
-                                    </ul>
-                                </li>
-                                <li><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Free events</h5></li>
-                                <li><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Dicsounted Rate for Analytics Masterclass.</h5></li>
-                                <li><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Virtual/Physical Office Space</h5></li>
-                                <li><h5><vk-icon icon="check" class="uk-text-success"></vk-icon>  Access to living book title Big Data Principle and Practice authored by <b>Timothy Oriedo</b></h5></li>
-                            </ul>
-                        </vk-card>
-                    </div>
-                </vk-grid>
-        </div>
+
         <div class="uk-inline uk-padding-remove uk-margin-remove">
 
             <img src="@/assets/images/global.jpg" alt="">

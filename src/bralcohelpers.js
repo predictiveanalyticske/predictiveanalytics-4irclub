@@ -1,20 +1,17 @@
-import Vue from 'vue'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import stored from './stores'
-import routes from './router'
- 
 
 const BralcoHelpers = () => {};
 
-BralcoHelpers.install = function (Vue, options) {
+BralcoHelpers.install = function (Vue,) {
 
     Vue.prototype.bralcoaxios = function ({ request: method, url, form: data, }) {
         var payload = {
             method,
             url,
             data,
-            contentType: false, 
+            contentType: false,
             cache: false,
         };
 
@@ -25,8 +22,8 @@ BralcoHelpers.install = function (Vue, options) {
         if( stored.state.app.auth.isAuthenticated ){
 
             payload.headers = {
-                Accept: "application/json", 
-                Authorization: stored.state.app.auth.token_type + ' ' + stored.state.app.auth.access_token 
+                Accept: "application/json",
+                Authorization: stored.state.app.auth.token_type + ' ' + stored.state.app.auth.access_token
             }
 
         }
@@ -44,7 +41,6 @@ BralcoHelpers.install = function (Vue, options) {
         switch( response.status ){
             case 200:
                 return stored.state.app.response = response.data;
-            break;
             case 201:
                 switch( this.$route.name ){
                     case "auth":
@@ -65,7 +61,6 @@ BralcoHelpers.install = function (Vue, options) {
                     case "auth":
                         response_container.m = data.m;
                         return Vue.prototype.bralcoswal(response_container);
-                    break;
                     default:
                         console.log("here");
                         window.localStorage.clear();
@@ -74,22 +69,17 @@ BralcoHelpers.install = function (Vue, options) {
             break;
             case 402:
                 return response.data;
-            break;
             case 403:
                 return response.data;
-            break;
             case 404:
                 return response.data;
-            break;
             case 405:
                 return response.data;
-            break;
             case 409:
                 return response.data;
-            break;
             case 422:
-                let array            = toArray(data.errors);
-                let string           = arrayToString(array);
+                var array            = toArray(data.errors);
+                var string           = arrayToString(array);
                 response_container.m = string;
 
                 Vue.prototype.bralcoswal(response_container);
@@ -127,7 +117,7 @@ BralcoHelpers.install = function (Vue, options) {
             case 'error':
                 Swal.fire({ title: d.h, text: d.m ,icon: d.t }).then((result) => {
                     return result;
-                }); 
+                });
             break;
             case 'success':
                 Swal.fire({ title: d.h, text: d.m ,icon: d.t }).then((v) => {
@@ -138,49 +128,44 @@ BralcoHelpers.install = function (Vue, options) {
                             window.location.reload();
                         }
                     }
-                    return result;
-                }); 
+                });
             break;
-            case 'confirm': 
-
+            case 'confirm':
                 return Swal.fire({ title: d.h, text: d.m ,icon: "info", buttons: true, showCancelButton: d.b.cancelButton != undefined ? d.b.cancelButton : false  });
-
-            break;
             case 'warning':
                 return Swal.fire({ title: d.h, text: d.m ,icon: d.t }).then((result) => {
                     return result;
-                }); 
-            break;
+                });
             default:
-                Swal.fire({ title: d.h, text: d.m ,icon: "success" }).then((v) => {
+                Swal.fire({ title: d.h, text: d.m ,icon: "success" }).then(() => {
                     window.location.reload();
-                }); 
-        }       
+                });
+        }
     }
 
     Vue.prototype.dataURItoBlob = (dataURI) => {
-        var byteString, 
-            mimestring 
-    
+        let byteString,
+            mimestring
+
         if(dataURI.split(',')[0].indexOf('base64') !== -1 ) {
             byteString = atob(dataURI.split(',')[1])
         } else {
             byteString = decodeURI(dataURI.split(',')[1])
         }
-    
+
         mimestring = dataURI.split(',')[0].split(':')[1].split(';')[0]
-    
+
         var content = new Array();
         for (var i = 0; i < byteString.length; i++) {
             content[i] = byteString.charCodeAt(i)
         }
-    
+
         return new Blob([new Uint8Array(content)], {type: mimestring});
     }
 
 };
 
-function toArray(obj) {        
+function toArray(obj) {
         var result = Object.keys(obj).map(function(key) {
            return [String(key), obj[key]];
         });
@@ -189,13 +174,13 @@ function toArray(obj) {
 }
 
 function arrayToString(array) {
-    
+
     var data = [];
-    
+
     array.forEach(function (value){
-                    
+
             if(value.constructor.name == "Array") {
-                value.forEach(function (item,key){
+                value.forEach(function (item,){
                     if(item.constructor.name == "Array") {
                             data.push(item);
                     }

@@ -16,15 +16,10 @@
               <h1 class="uk-text-center">{{ key }}</h1>
               <vk-grid gutter="small" :class="'uk-child-width-1-' + value.length">
                 <div v-for="(item,index) in value" :key="index">
-                  <vk-card class="uk-card-100">
-                    <div slot="header" class="uk-text-primary">
-                        <h4 class="uk-margin-remove-bottom">{{ item.name }}</h4>
-                    </div>
+                  <vk-card class="uk-card-100 uk-padding-small">
+                    <h4 class="uk-margin-remove-bottom">{{ item.name }}</h4>
                     <div v-html="item.summary"></div>
-                    <div slot="footer">
-                      <a class="uk-text-center uk-button uk-button-danger">Buy</a>
-                      <a :href="$router.resolve({name:'plan',params:{ item: item.id}}).href" class="uk-text-center uk-button uk-button-primary uk-padding-right">View More</a>
-                    </div>
+                    <a :href="$router.resolve({name:'plan',params:{ item: item.id}}).href" class="uk-button uk-button-default">View More</a>
                   </vk-card>
                 </div>
               </vk-grid>
