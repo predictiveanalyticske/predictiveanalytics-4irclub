@@ -92,10 +92,3 @@
         }
     }
 </script>
-
-<style lang="scss">
-  @import '@/assets/css/radio.scss'
-</style>
-<style>
-.uk-leader-fill-content::before { content: '.'; }
-</style>
