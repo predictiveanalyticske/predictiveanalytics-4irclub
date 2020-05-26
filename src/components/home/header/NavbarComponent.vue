@@ -24,7 +24,7 @@
                 ]
             }
         },
-        created(){
+        mounted(){
             if( this.$store.state.app.auth.isAuthenticated ){
                 let authlinks = [
                         { title: "Documentaries", icon: "play", to: this.$router.resolve({name:"documentaries"}).href }
