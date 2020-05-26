@@ -16,6 +16,7 @@ body::after {
 .bounce-enter-active {
   animation: bounce-in .5s;
 }
+
 @keyframes bounce-in {
   0% {
     transform: scale(0);

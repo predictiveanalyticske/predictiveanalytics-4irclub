@@ -47,7 +47,16 @@
         }
     },
     created (){
-      this.expand(i);
+     for(let [key,value] of Object.entries(this.contents)){
+         if( value.active ){
+                let el = this.$refs['accordion-body-'+key][0];
+                console.log(el.scrollHeight);
+                TweenLite.to(el, 1, {
+                    height: el.scrollHeight,
+                    ease: Elastic.easeOut.config(1, 0.3)
+                });
+         }
+     }
     }
 }
 </script>
