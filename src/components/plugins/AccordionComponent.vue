@@ -18,6 +18,10 @@
               <div class="accordion-content" v-if="content.description != undefined">{{ content.description }}</div>
               <div v-html="content.html"  class="accordion-content" v-if="content.html != undefined"></div>
           </div>
+          <div class="accordion-footer">
+                <div class="accordion-content" v-if="content.footer != undefined">{{ content.footer }}</div>
+                <div class="accordion-content" v-if="content.footerhtml != undefined" v-html="content.footerhtml" ></div>
+          </div>
       </div>
   </div>
 </template>
@@ -26,6 +30,11 @@
  import { TweenLite, Bounce, Elastic } from 'gsap/all'
  export default {
     props: ['contents'],
+    computed: {
+        accordion () {
+            return this.$refs;
+        }
+    },
     methods: {
         expand (i) {
             let el = this.$refs['accordion-body-'+i][0];
@@ -46,17 +55,16 @@
             }
         }
     },
-    created (){
-     for(let [key,value] of Object.entries(this.contents)){
-         if( value.active ){
-                let el = this.$refs['accordion-body-'+key][0];
-                console.log(el.scrollHeight);
+    mounted (){
+        for(let value in this.contents){
+            if( this.contents[value].active ){
+                let el = this.$refs['accordion-body-'+value][0];
                 TweenLite.to(el, 1, {
                     height: el.scrollHeight,
                     ease: Elastic.easeOut.config(1, 0.3)
                 });
-         }
-     }
+            }
+        }
     }
 }
 </script>
