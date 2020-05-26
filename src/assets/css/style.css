@@ -56,7 +56,12 @@ body::after {
 }
 .uk-button-red {
     background-color:#bf040f !important;
-    color: #fff;
+    color: #fff !important;
+}
+.uk-button-red:hover {
+  background-color:#fff !important;
+  border-color: #bf040f !important;
+  color: #bf040f !important;
 }
 .uk-navbar, .uk-navbar-dropdown {
     background-color:#bf040f !important;
