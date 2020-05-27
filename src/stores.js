@@ -3,10 +3,10 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex);
 
-var storage = window.localStorage;
-var env     = process.env;
+let storage = window.localStorage;
+let env     = process.env;
 
-var VuexData = {
+let VuexData = {
   state: {
       app: {
         auth: {
@@ -19,6 +19,9 @@ var VuexData = {
         env: {
           state: process.env.MIX_APP_ENV,
           backend_url: process.env.VUE_APP_ENDPOINT_URL,
+        },
+        data: {
+          global: {}
         },
         home: {
           popups: false
@@ -35,7 +38,7 @@ environment();
 export default new Vuex.Store(VuexData);
 
 function authenticate(){
-  
+
   if( storage.length > 0 ){
 
      VuexData.state.app.auth.access_token    = storage.getItem('access_token');
@@ -44,7 +47,7 @@ function authenticate(){
      VuexData.state.app.auth.isAuthenticated = storage.getItem('access_token') != undefined ? true : false;
 
   }
-  
+
 
 }
 
