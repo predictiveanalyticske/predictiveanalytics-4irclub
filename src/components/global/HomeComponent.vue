@@ -1,18 +1,21 @@
 <template>
     <div class="uk-child-width-1-1" uk-grid>
         <navbar :data="navbar"></navbar>
+        <loader :isActive="isLoading" />
         <router-view name="view" :pageData="viewRoute"></router-view>
         <footernav :data="footer"></footernav>
     </div>
 </template>
 
-<script>    
-    import navbar from '../home/header/NavbarComponent'
-    import footernav from '../home/header/FooterComponent'
+<script>
+    import loader from '@/components/global/LoaderComponent'
+    import navbar from '@/components/home/header/NavbarComponent'
+    import footernav from '@/components/home/header/FooterComponent'
 
     export default {
         components: {
             footernav,
+            loader,
             navbar
         },
         data () {
@@ -44,12 +47,12 @@
                 return false;
             }
         },
-        beforeCreate () {      
+        beforeCreate () {
             this.bralcoaxios({ url: this.$store.state.app.env.backend_url + "/api/v1/home", request: "GET" }).then( (response) => {
-                var resolve = this.bralcoresponse(response)
+                let resolve = this.bralcoresponse(response)
                 this.company = resolve.data.company;
-                this.$store.state.app.env.url = resolve.data.company.appurl;
-            }); 
+                this.$store.state.app.data.global['company'] = resolve.data.company;
+            });
         }
     }
 </script>
