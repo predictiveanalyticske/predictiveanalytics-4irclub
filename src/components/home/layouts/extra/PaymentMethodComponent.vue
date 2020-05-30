@@ -3,17 +3,16 @@
     <div class="accordion  uk-padding-remove">
         <div class="accordion-item">
             <div class="accordion-header">
-                <a href="#" @click.prevent="selectUser" >
-                    <div class="accordion-header-div"><input value="newuser" target="accordionnew" class="uk-radio" name="account" type="radio"> Pay via Mpesa</div>
+                <a href="#" @click.prevent="selectMethod" >
+                    <div class="accordion-header-div"><input value="mpesa" target="accordionmpesa" class="uk-radio" name="paymentmethod" type="radio"> Pay via Mpesa</div>
                     <div class="accordion-header-div">
                         <div class="accordion-caret"></div>
                     </div>
                 </a>
             </div>
-            <div class="accordion-body" ref="accordionnew">
+            <div class="accordion-body" ref="accordionmpesa">
                 <div class="accordion-content">
                   <div class="uk-width-1-1 uk-padding-small">
-                      <h4></h4>
                       <ul class="uk-list uk-list-large">
                           <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Go to <strong>Safaricom Menu</strong></li>
                           <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Select <strong>M-PESA</strong></li>
@@ -29,16 +28,18 @@
     <div class="accordion uk-padding-remove">
         <div class="accordion-item">
             <div class="accordion-header">
-                <a href="#" @click.prevent="selectUser">
-                    <div class="accordion-header-div"> <input value="existinguser" target="accordionexisting" class="uk-radio" name="account" type="radio"> Pay via Card</div>
+                <a href="#" @click.prevent="selectMethod">
+                    <div class="accordion-header-div"> <input value="creditcard" target="accordioncard" class="uk-radio" name="paymentmethod" type="radio"> Pay via Card</div>
                     <div class="accordion-header-div">
                         <div class="accordion-caret"></div>
                     </div>
                 </a>
             </div>
-            <div class="accordion-body" ref="accordionexisting">
+            <div class="accordion-body" ref="accordioncard">
                 <div class="accordion-content">
-                  <div class="uk-width-1-1 uk-padding-small">
+                  <div class="uk-width-1-1 uk-padding-small uk-text-center">
+                    <h3>4IRClub Visa Online Payment</h3>
+                    <p>Your card will be charged <strong>{{ fields.amount }}</strong></p>
                     <creditcard />
                   </div>
                 </div>
@@ -59,18 +60,18 @@ export default {
   props: ["fields"],
   data () {
     return {
-      showNewAccount: {
+      mpesa: {
         show: false,
-        target: 'accordionnew'
+        target: 'accordionmpesa'
       },
-      showExisting: {
+      creditcard: {
         show: false,
-        target: 'accordionexisting'
+        target: 'accordioncard'
       }
     }
   },
   methods: {
-    selectUser () {
+    selectMethod () {
       let el = event.target;
       this.selectiveToggle(this.toggleAccordion(el));
     },
@@ -93,21 +94,21 @@ export default {
     selectiveToggle(input){
       input.checked = true;
       switch( input.attributes.value.value ){
-        case 'existinguser':
-          this.showExisting.show = true;
-          if( this.showNewAccount.show ){
-            this.showNewAccount.show = false;
-            TweenLite.to(this.$refs[this.showNewAccount.target], 0.5, {
+        case 'mpesa':
+          this.mpesa.show = true;
+          if( this.creditcard.show ){
+            this.creditcard.show = false;
+            TweenLite.to(this.$refs[this.creditcard.target], 0.5, {
                 height: 0,
                 ease: Bounce.easeOut
             });
           }
         break;
-        case 'newuser':
-          this.showNewAccount.show = true;
-          if( this.showExisting.show ){
-            this.showExisting.show = false;
-            TweenLite.to(this.$refs[this.showExisting.target], 0.5, {
+        case 'creditcard':
+          this.creditcard.show = true;
+          if( this.mpesa.show ){
+            this.mpesa.show = false;
+            TweenLite.to(this.$refs[this.mpesa.target], 0.5, {
                 height: 0,
                 ease: Bounce.easeOut
             });

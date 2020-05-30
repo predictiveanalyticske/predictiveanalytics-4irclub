@@ -55,7 +55,16 @@
         computed: {
           payment () {
             return {
-              amount: this.subscription.amount
+              amount: this.subscription.amount,
+              card: {
+                cardholder: "",
+                cardnumber: "",
+                cvv: "",
+                month: "",
+                year: ""
+              },
+              type: "",
+              mpesa: {},
             }
           }
         },

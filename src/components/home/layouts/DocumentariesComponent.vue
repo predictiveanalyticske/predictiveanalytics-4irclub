@@ -4,7 +4,7 @@
             <vk-card class="br-banner uk-width-1-1 uk-light uk-text-center">
                 <h1>Documentaries</h1>
                 <h4 class="uk-text-break">
-                    Predictive Analytics provides a list of evolutional videos in the world of Data Science, AI and Big Data. 
+                    Predictive Analytics provides a list of evolutional videos in the world of Data Science, AI and Big Data.
                     These concepts allows viewers to understand how information can be used and made sense in the world.
                 </h4>
             </vk-card>
@@ -39,7 +39,7 @@
     </vk-grid>
 </template>
 
-<script>    
+<script>
     import { chunk } from 'lodash';
     import Posts from './show/PostsComponent'
 
@@ -76,13 +76,13 @@
             }
         },
         created () {
-            this.bralcoaxios({ url: this.$store.state.app.backend_url + "/api/v1/home/posts", request: "GET" }).then( (response) => {
+            this.bralcoaxios({ url: this.$store.state.app.env.backend_url + "/api/v1/home/posts", request: "GET" }).then( (response) => {
                 var resolve = this.bralcoresponse(response);
                 this.posts = resolve.data.posts;
                 this.posts = Object.entries(this.posts).map( ([, value]) => {return value;});
                 this.postChunk = chunk(this.posts, this.perPage);
                 this.activePostChunk = this.postChunk[0];
-            }); 
+            });
         },
         methods: {
             gotToPage (event) {
@@ -92,12 +92,12 @@
             }
         }
     }
-</script> 
+</script>
 
 <style scoped>
     .uk-card-red {
         background-color:#bf040f !important;
-        box-shadow: none !important;        
+        box-shadow: none !important;
     }
     .uk-button-red {
         background-color:#bf040f !important;

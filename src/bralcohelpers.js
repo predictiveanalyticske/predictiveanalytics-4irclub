@@ -72,7 +72,8 @@ BralcoHelpers.install = function (Vue,) {
             case 403:
                 return response.data;
             case 404:
-                return response.data;
+                this.$router.push({name:"notfound"});
+              break;
             case 405:
                 return response.data;
             case 409:

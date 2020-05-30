@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-
+import stored from './stores'
 /**
  * Import components from the
  */
@@ -13,6 +13,10 @@ import HomeDocumentaries from './components/home/layouts/DocumentariesComponent.
 import HomePlans from './components/home/layouts/PlansComponent.vue';
 import HomePlan from './components/home/layouts/PlanComponent.vue';
 import HomeAuth from './components/home/layouts/AuthComponent.vue';
+import HomeSignup from './components/home/layouts/SignupComponent.vue';
+import HomeProfile from './components/home/layouts/ProfileComponent.vue';
+import HomeVerify from './components/home/layouts/VerifyComponent.vue';
+import NotFound from './components/global/NotFoundComponent.vue';
 
 Vue.use(Router);
 
@@ -35,7 +39,21 @@ export default new Router({
                             view: HomeDocumentaries,
                         },
                         beforeEnter (to,from, next) {
-                            if( this.$store.state.app.auth.isAuthenticated ){
+                            if( stored.state.app.auth.isAuthenticated ){
+                                next();
+                            } else {
+                                next({name: "auth"});
+                            }
+                        }
+                    },
+                    {
+                        name: "profile",
+                        path: '/profile',
+                        components: {
+                            view: HomeProfile,
+                        },
+                        beforeEnter (to,from, next) {
+                            if( stored.state.app.auth.isAuthenticated ){
                                 next();
                             } else {
                                 next({name: "auth"});
@@ -57,10 +75,45 @@ export default new Router({
                         }
                     },
                     {
+                        name: "signup",
+                        path: '/signup',
+                        components: {
+                            view: HomeSignup,
+                        },
+                        beforeEnter (to,from, next) {
+                            if( stored.state.app.auth.isAuthenticated ){
+                              next({name: "home"});
+                            } else {
+                              next();
+                            }
+                        }
+                    },
+                    {
+                        name: "verify",
+                        path: '/verify/email/:token',
+                        components: {
+                            view: HomeVerify,
+                        }
+                    },
+                    {
                         name: "auth",
                         path: '/login',
                         components: {
                             view: HomeAuth,
+                        },
+                        beforeEnter (to,from, next) {
+                            if( stored.state.app.auth.isAuthenticated ){
+                              next({name: "home"});
+                            } else {
+                              next();
+                            }
+                        }
+                    },
+                    {
+                        name: "notfound",
+                        path: '/404',
+                        components: {
+                            view: NotFound,
                         }
                     },
             ],
