@@ -38,7 +38,7 @@ export default new Router({
                         components: {
                             view: HomeDocumentaries,
                         },
-                        beforeEnter (to,from, next) {
+                        beforeCreate (to,from, next) {
                             if( stored.state.app.auth.isAuthenticated ){
                                 next();
                             } else {
@@ -52,7 +52,7 @@ export default new Router({
                         components: {
                             view: HomeProfile,
                         },
-                        beforeEnter (to,from, next) {
+                        beforeCreate (to,from, next) {
                             if( stored.state.app.auth.isAuthenticated ){
                                 next();
                             } else {
@@ -80,7 +80,7 @@ export default new Router({
                         components: {
                             view: HomeSignup,
                         },
-                        beforeEnter (to,from, next) {
+                        beforeCreate (to,from, next) {
                             if( stored.state.app.auth.isAuthenticated ){
                               next({name: "home"});
                             } else {

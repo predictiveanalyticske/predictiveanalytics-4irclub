@@ -11,13 +11,9 @@
                 <li v-for="(item,index) in this.links" :key="index">
                   <a :href="item.to" v-if="item.auth && $store.state.app.auth.isAuthenticated"> <span :class="'uk-icon-'+item.icon"></span> {{ item.title }}</a>
                   <a :href="item.to" v-else><span :class="'uk-icon-'+item.icon"></span> {{ item.title }}</a>
-                  <div class="uk-navbar-dropdown" v-if="item.children != undefined && item.children.length > 0">
-                      <ul class="uk-nav uk-navbar-dropdown-nav">
-                          <li v-for="(value,key) in item.children" :key="key">
-                            <a :href="value.to">{{ value.title }}</a>
-                          </li>
-                      </ul>
-                  </div>
+                </li>
+                <li  v-if="$store.state.app.auth.isAuthenticated" >
+                  <a @click.prevent="logout" href="#">Logout</a>
                 </li>
             </ul>
 
@@ -33,36 +29,60 @@
         props: ['data'],
         data () {
             return {
-                url: this.data.appurl,
-                links: [
-                     { title: "Home",          icon: "home",    to: this.$router.resolve({name:"home"}).href,  },
-                     { title: "Plans",         icon: "star",    to: this.$router.resolve({name:"plans"}).href, },
-                ]
+                authenticated: this.$store.state.app.auth.isAuthenticated,
+                links: []
             }
         },
-        created() {
-          switch(this.$store.state.app.auth.isAuthenticated){
+        watch: {
+          authenticated () {
+            switch(this.authenticated){
+              case true:
+                this.links = [
+                  { title: "Home",          icon: "home",    to: this.$router.resolve({name:"home"}).href,  },
+                  { title: "Documentaries", icon: "play", to: this.$router.resolve({name:"documentaries"}).href},
+                  { title: "Profile",       icon: "user", to: this.$router.resolve({name:"profile"}).href},
+                ];
+              break;
+              case false:
+                this.links = [
+                  { title: "Home",          icon: "home",    to: this.$router.resolve({name:"home"}).href,  },
+                  { title: "Plans",         icon: "star",    to: this.$router.resolve({name:"plans"}).href, },
+                  { title: "Login",         icon: "sign-in", to: this.$router.resolve({name:"auth"}).href,  },
+                  { title: "Signup",        icon: "lock",    to: this.$router.resolve({name:"signup"}).href},
+                ];
+              break;
+            }
+          }
+        },
+        beforeMount () {
+          switch(this.authenticated){
             case true:
-              var authlinks = [
+              this.links = [
+                { title: "Home",          icon: "home",    to: this.$router.resolve({name:"home"}).href,  },
                 { title: "Documentaries", icon: "play", to: this.$router.resolve({name:"documentaries"}).href},
-                { title: "Profile",       to: "#", children: [
-                   { title: "Settings",   icon: "cogs",     to: this.$router.resolve({name:"profile"}).href },
-                   { title: "Logout",     icon: "sign-out", to: this.$router.resolve({name:"logout"}).href }
-                ]},
-              ];
-              authlinks.forEach( (value, ) => {
-                this.links.push(value);
-              });
-            break;
+                { title: "Profile",       icon: "user", to: this.$router.resolve({name:"profile"}).href},
+              ]
+              break;
             case false:
-              var notauthlinks = [
+              this.links = [
+                { title: "Home",          icon: "home",    to: this.$router.resolve({name:"home"}).href,  },
+                { title: "Plans",         icon: "star",    to: this.$router.resolve({name:"plans"}).href, },
                 { title: "Login",         icon: "sign-in", to: this.$router.resolve({name:"auth"}).href,  },
                 { title: "Signup",        icon: "lock",    to: this.$router.resolve({name:"signup"}).href},
-              ];
-              notauthlinks.forEach( (value, ) => {
-                this.links.push(value);
+              ]
+              break;
+          }
+        },
+        methods: {
+          logout (){
+              this.bralcoaxios({ url: this.$store.state.app.env.backend_url + '/api/v1/auth/logout', request:'POST' });
+              this.$store.state.app.loader = false;
+              window.localStorage.clear();
+              // console.log(this.$router.resolve());
+              this.$router.replace({name:"auth"}).then((e) => {
+                console.log(e);
               });
-            break;
+              // this.$router.push({ name: "auth" });
           }
         }
     }

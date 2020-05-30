@@ -40,7 +40,7 @@ BralcoHelpers.install = function (Vue,) {
 
         switch( response.status ){
             case 200:
-                return stored.state.app.response = response.data;
+              return response.data;
             case 201:
                 switch( this.$route.name ){
                     case "auth":
@@ -62,7 +62,6 @@ BralcoHelpers.install = function (Vue,) {
                         response_container.m = data.m;
                         return Vue.prototype.bralcoswal(response_container);
                     default:
-                        console.log("here");
                         window.localStorage.clear();
                         window.location.reload();
                 }

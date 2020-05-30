@@ -112,10 +112,6 @@
             return {
                 plansLink:this.$router.resolve({name:"plans"}).href
             }
-        },
-        mounted () {
-          console.log(this.$store.state.app.auth);
-          
         }
     }
 </script>

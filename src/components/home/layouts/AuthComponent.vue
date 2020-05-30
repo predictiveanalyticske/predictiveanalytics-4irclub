@@ -65,6 +65,7 @@
             attemptLogin (event) {
                 let el = event.target
                 let formData = new FormData(el);
+                formData.append('return_url', this.$router.resolve({name:"home"}).href );
                 this.bralcoaxios({ url: el.attributes.action.value, request:el.attributes.method.value, form: formData }).then( (response) => {
                     this.bralcoresponse(response);
                 });
