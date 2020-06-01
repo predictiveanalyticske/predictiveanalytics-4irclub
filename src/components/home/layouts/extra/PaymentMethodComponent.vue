@@ -51,7 +51,7 @@
 </template>
 <script>
 import { TweenLite, Bounce, Elastic } from 'gsap/all'
-import creditcard from '@/components/home/layouts/extra/CreditCardComponent'
+import creditcard from '@/components/home/layouts/extra/StripeCardComponent'
 export default {
   components: {
     creditcard,

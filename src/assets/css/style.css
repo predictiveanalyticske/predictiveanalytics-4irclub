@@ -172,3 +172,7 @@ body::after {
 .uk-navbar a {
     color: #ffffff !important;
 }
+.uk-card-alerts {
+  background: #2d2d2d !important;
+  color: #fff !important;
+}

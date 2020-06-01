@@ -1,40 +1,48 @@
 <template>
     <vk-grid class="uk-child-width-1-1 uk-margin-remove">
         <div class="uk-padding-remove">
-            <vk-card class="br-banner uk-width-1-1 uk-light uk-text-center">
-                <h1>Documentaries</h1>
-                <h4 class="uk-text-break">
-                    Predictive Analytics provides a list of evolutional videos in the world of Data Science, AI and Big Data.
-                    These concepts allows viewers to understand how information can be used and made sense in the world.
-                </h4>
+            <vk-card class="br-banner uk-width-1-1 uk-light uk-padding-large">
+                <vk-grid class="uk-child-width-1-2">
+                    <div>
+                        <h1>Documentaries</h1>
+                        <h4 class="uk-text-break uk-margin-remove">
+                            Predictive Analytics provides a list of evolutional videos in the world of Data Science, AI and Big Data.
+                            These concepts allows viewers to understand how information can be used and made sense in the world.
+                        </h4>                    
+                    </div>
+                </vk-grid>
             </vk-card>
         </div>
-        <div v-if="posts.length > 0">
-            <div class="uk-padding-small uk-flex uk-flex-center">
-            <vk-button-group class="uk-padding">
-                <div v-for="(value,index) in postChunk.length" :key="index">
-                   <vk-button class="uk-margin-small-right uk-button-red" :target="(parseInt(value) - 1)" v-if="activePage == (parseInt(value) - 1)"  @click="gotToPage">{{ value }}</vk-button>
-                   <vk-button class="uk-margin-small-right" v-else @click="gotToPage" :target="(parseInt(value) - 1)">{{ value }}</vk-button>
+        <div class="uk-padding-remove uk-margin-remove">
+            <vk-card>
+                <div v-if="posts.length > 0">
+                    <div class="uk-padding-small uk-flex uk-flex-center">
+                    <vk-button-group class="uk-padding">
+                        <div v-for="(value,index) in postChunk.length" :key="index">
+                        <vk-button class="uk-margin-small-right uk-button-red" :target="(parseInt(value) - 1)" v-if="activePage == (parseInt(value) - 1)"  @click="gotToPage">{{ value }}</vk-button>
+                        <vk-button class="uk-margin-small-right" v-else @click="gotToPage" :target="(parseInt(value) - 1)">{{ value }}</vk-button>
+                        </div>
+                    </vk-button-group>
+                    </div>
+                    <div class="uk-flex uk-flex-center" >
+                        <Posts :data="activePostChunk" />
+                    </div>
+                    <div class="uk-padding-small uk-flex uk-flex-center">
+                    <vk-button-group class="uk-padding">
+                        <div v-for="(value,index) in postChunk.length" :key="index">
+                        <vk-button class="uk-margin-small-right uk-button-red" :target="(parseInt(value) - 1)" v-if="activePage == (parseInt(value) - 1)"  @click="gotToPage">{{ value }}</vk-button>
+                        <vk-button class="uk-margin-small-right" v-else @click="gotToPage" :target="(parseInt(value) - 1)">{{ value }}</vk-button>
+                        </div>
+                    </vk-button-group>
+                    </div>
                 </div>
-            </vk-button-group>
-            </div>
-            <div class="uk-flex uk-flex-center" >
-                <Posts :data="activePostChunk" />
-            </div>
-            <div class="uk-padding-small uk-flex uk-flex-center">
-            <vk-button-group class="uk-padding">
-                <div v-for="(value,index) in postChunk.length" :key="index">
-                   <vk-button class="uk-margin-small-right uk-button-red" :target="(parseInt(value) - 1)" v-if="activePage == (parseInt(value) - 1)"  @click="gotToPage">{{ value }}</vk-button>
-                   <vk-button class="uk-margin-small-right" v-else @click="gotToPage" :target="(parseInt(value) - 1)">{{ value }}</vk-button>
+                <div v-else-if="posts.length == 0" class="uk-text-center">
+                    <h3 class="uk-text-warning"><vk-icon icon="info"></vk-icon> Nothing Found Here</h3>
                 </div>
-            </vk-button-group>
-            </div>
-        </div>
-        <div v-else-if="posts.length == 0" class="uk-text-center">
-            <h3 class="uk-text-warning"><vk-icon icon="info"></vk-icon> Nothing Found Here</h3>
-        </div>
-        <div v-else class="uk-text-center uk-flex uk-flex-center uk-flex-middle uk-padding-large uk-margin-large">
-            <vk-spinner ratio="4"></vk-spinner>
+                <div v-else class="uk-text-center uk-flex uk-flex-center uk-flex-middle uk-padding-large uk-margin-large">
+                    <vk-spinner ratio="4"></vk-spinner>
+                </div>
+            </vk-card>
         </div>
     </vk-grid>
 </template>

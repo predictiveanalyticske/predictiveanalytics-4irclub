@@ -4,6 +4,7 @@ import BralcoHelpers from './bralcohelpers'
 import router from './router'
 import store from './stores'
 
+require('./croppie');
 require('./vuikit');
 
 Vue.use(BralcoHelpers);

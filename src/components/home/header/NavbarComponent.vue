@@ -75,14 +75,13 @@
         },
         methods: {
           logout (){
-              this.bralcoaxios({ url: this.$store.state.app.env.backend_url + '/api/v1/auth/logout', request:'POST' });
-              this.$store.state.app.loader = false;
-              window.localStorage.clear();
-              // console.log(this.$router.resolve());
-              this.$router.replace({name:"auth"}).then((e) => {
-                console.log(e);
+              this.bralcoaxios({ url: this.$store.state.app.env.backend_url + '/api/v1/auth/logout', request:'POST' }).then( () => {
+                this.$store.state.app.auth.isAuthenticated = false;
+                this.authenticated = false;
+                window.localStorage.clear();
+                this.$router.push({name:"auth"});
+                this.$store.state.app.loader = false;
               });
-              // this.$router.push({ name: "auth" });
           }
         }
     }

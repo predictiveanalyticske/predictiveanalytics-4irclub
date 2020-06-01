@@ -1,5 +1,6 @@
 <template>
     <div class="uk-child-width-1-1" uk-grid>
+        <alerts />
         <navbar :data="navbar"></navbar>
         <loader :isActive="isLoading" />
         <router-view name="view" :pageData="viewRoute"></router-view>
@@ -8,12 +9,14 @@
 </template>
 
 <script>
+    import alerts from '@/components/global/AlertsComponent'
     import loader from '@/components/global/LoaderComponent'
     import navbar from '@/components/home/header/NavbarComponent'
     import footernav from '@/components/home/header/FooterComponent'
 
     export default {
         components: {
+            alerts,
             footernav,
             loader,
             navbar

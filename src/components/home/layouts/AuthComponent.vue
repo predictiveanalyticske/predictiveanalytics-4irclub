@@ -12,14 +12,11 @@
         </div>
         <div class="uk-padding-remove uk-margin-remove">
           <vk-card padding="large">
-            <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-padding-large">
+            <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m">
               <div>
-                <div class="uk-flex uk-flex-left uk-flex-middle">
-                  <div>
-                      <h1>Welcome to the <br> 4th Industrial Revolution Club</h1>
-                      <h4>To create an account click <a :href="$router.resolve({name:'signup'}).href">here</a>. <br> You will receive a free subscription <br> of up to 2weeks of trail.</h4>
-                  </div>
-                </div>
+                <vk-card padding="large" type="blank">
+                <img src="@/assets/images/login.png" alt="">
+                </vk-card>
               </div>
               <div>
                 <vk-card padding="large" type="blank">
@@ -65,14 +62,11 @@
             attemptLogin (event) {
                 let el = event.target
                 let formData = new FormData(el);
-                formData.append('return_url', this.$router.resolve({name:"home"}).href );
+                formData.append('role', btoa(process.env.VUE_APP_USER_ROLE) );
                 this.bralcoaxios({ url: el.attributes.action.value, request:el.attributes.method.value, form: formData }).then( (response) => {
                     this.bralcoresponse(response);
                 });
             }
-        },
-        mounted () {
-
         },
     }
 </script>

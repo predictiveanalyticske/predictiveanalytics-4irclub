@@ -11,8 +11,8 @@
             </vk-card>
         </div>
         <div class="uk-padding-remove uk-margin-remove">
-          <vk-card padding="large">
-            <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-padding-large">
+          <vk-card padding="small">
+            <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m">
               <div class="uk-flex uk-flex-left uk-flex-middle">
                 <div>
                     <img src="@/assets/images/signup.png"/>

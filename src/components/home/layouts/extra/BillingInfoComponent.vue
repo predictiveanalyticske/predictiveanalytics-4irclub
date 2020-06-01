@@ -26,8 +26,8 @@
                   </div>
                   <h3>Account Security</h3>
                   <div class="uk-grid uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-1-2@xl uk-child-width-expand@s">
-                      <div><label>Password</label> <input class="uk-input" name="password" placeholder="Password" required v-model="this.fields.newaccount.password" /></div>
-                      <div><label>Confirm Password</label> <input class="uk-input" name="confirmpassword" placeholder="Confirm Password" required v-model="this.fields.newaccount.confirmpassword" /></div>
+                      <div><label>Password</label> <input class="uk-input" name="password" type="password" placeholder="Password" required v-model="fields.newaccount.password" /></div>
+                      <div><label>Confirm Password</label> <input class="uk-input" name="confirmpassword" type="password" placeholder="Confirm Password" required v-model="fields.newaccount.confirmpassword" /></div>
                   </div>
                 </div>
               </div>
@@ -104,6 +104,7 @@ export default {
       input.checked = true;
       switch( input.attributes.value.value ){
         case 'existinguser':
+          this.fields.type = 'existinguser';
           this.showExisting.show = true;
           if( this.showNewAccount.show ){
             this.showNewAccount.show = false;
@@ -114,6 +115,7 @@ export default {
           }
         break;
         case 'newuser':
+          this.fields.type = 'newuser';
           this.showNewAccount.show = true;
           if( this.showExisting.show ){
             this.showExisting.show = false;

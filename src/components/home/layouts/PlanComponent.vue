@@ -14,24 +14,26 @@
             <vk-card class="uk-padding-small">
               <div class="uk-flex uk-flex-center">
                 <vk-card type="blank" class="uk-width-2-3 uk-padding-remove">
-                  <h3>Review & Checkout</h3>
-                  <h4>View Product</h4>
+                  <h2>View Product</h2>
                   <accordion v-if="items.length > 0" :contents="items" class="uk-width-1-1 uk-padding-remove-bottom uk-padding-remove-top"/>
                   <vk-button class="uk-button-red uk-margin" size="large" @click="showpurchase" v-if="showbuy">Buy</vk-button>
                   <transition name="slideDown">
-                    <div class="uk-width-1-1" v-if="showpurchasediv">
-                      <h4>Billing Details</h4>
-                      <billinginfo :fields="billing" class="uk-width-1-1 uk-padding-remove-top"/>
-                      <h4>Subscription etails</h4>
-                      <subscriptions :fields="subscription" :data="{'monthly_cost':data.monthly_cost,'annual_cost':data.annual_cost}" class="uk-width-1-1 uk-padding-remove-top"/>
-                      <transition name="slide-fade">
-                        <div v-if="subscription.showPayment">
-                          <h4>Payment Details</h4>
-                          <paymentmethod :fields="payment" class="uk-width-1-1 uk-padding-remove-top"/>
-                          <vk-button class="uk-button-red uk-light" size="large">Checkout</vk-button>
-                        </div>
-                      </transition>
-                    </div>
+                    <vk-grid class="uk-child-width-1-1 uk-margin" v-if="showpurchasediv">
+                      <div>
+                        <h3>Review & Checkout</h3>
+                      </div>
+                      <div>
+                        <h4 class="uk-margin-small">Billing Details</h4>
+                        <billinginfo :fields="billing" class="uk-width-1-1 uk-padding-remove-top"/>
+                      </div>
+                      <div>
+                        <h4>Subscription details</h4>
+                        <subscriptions :fields="subscription" :data="{'monthly_cost':data.monthly_cost,'annual_cost':data.annual_cost}" class="uk-width-1-1 uk-padding-remove-top"/>
+                      </div>
+                      <div>
+                        <vk-button class="uk-button-red uk-light" @click="submitForm" size="large">Next</vk-button>
+                      </div>
+                    </vk-grid>
                   </transition>
                 </vk-card>
               </div>
@@ -43,50 +45,19 @@
 <script>
     import accordion from '@/components/plugins/AccordionComponent'
     import billinginfo from '@/components/home/layouts/extra/BillingInfoComponent'
-    import paymentmethod from '@/components/home/layouts/extra/PaymentMethodComponent'
     import subscriptions from '@/components/home/layouts/extra/SubscriptionComponent'
     export default {
         components: {
           accordion,
           billinginfo,
-          paymentmethod,
           subscriptions
-        },
-        computed: {
-          payment () {
-            return {
-              amount: this.subscription.amount,
-              card: {
-                cardholder: "",
-                cardnumber: "",
-                cvv: "",
-                month: "",
-                year: ""
-              },
-              type: "",
-              mpesa: {},
-            }
-          }
         },
         name: 'plan',
         data () {
           return {
             data: {},
-            fields:{
-              email: '',
-              password:'',
-              confirmpassword:'',
-              amount: 0,
-              subscription:{
-                amount:0
-              }
-            },
-            items: [],
-            subscription: {
-                amount: 0,
-                showPayment: false,
-            },
             billing: {
+              type: null,
               existingaccount: {
                   email:    '',
                   password: ''
@@ -100,10 +71,14 @@
                 phone:    ''
               }
             },
+            items: [],
             showbuy: true,
             showpurchasediv: false,
             showExisting: false,
-            showNewAccount:false
+            showNewAccount:false,
+            subscription: {
+                amount: 0,
+            },
           }
         },
         beforeCreate () {
@@ -127,6 +102,40 @@
           selectPayment () {
             let el = event.target;
             console.log(el);
+          },
+          submitForm () {
+            let formData = new FormData();
+            let data = this.fields;
+            var result = Object.values(data).map(function(value) {
+              return value;
+              // return [String(key), data[key]];
+            });
+            console.log(Object.entries(data));
+            // Object.entries(this.fields).map( ([key,value]) => {
+            //   if( typeof value == 'object'){
+            //     Object.entries(value).map( ([index,item]) => {
+            //        if( typeof item == 'object'){
+            //          Object.entries(item).map( ([k,v]) => { 
+            //            formData.append(k,v);
+            //          });
+            //         } else {
+            //            formData.append(index,value);
+            //         }
+            //     });
+            //   } else {
+            //     formData.append(key,value);
+            //   }
+            // });
+
+            // Display the key/value pairs
+            // for(var pair of formData.entries()) {
+            //   console.log(pair[0]+ ', '+ pair[1]); 
+            // }
+
+            // this.bralcoaxios({ url:this.$store.state.app.env.backend_url + '/api/v1/4irclub/subscribe/challenge/1', request: 'POST', form: formData}).then( (response) => {
+            //   // this.bralcoresponse(response);
+            // });
+
           }
         }
     }

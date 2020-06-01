@@ -5,9 +5,11 @@
                 <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-expand@s">
                     <div>
                         <h1>4th Industrial Revolution Club</h1>
-                        <p>Life Long Learning to re-engineer your career and business to be adaptive to the demands of the emerging 4th Industrial Revolution.</p>
+                        <h4 class="uk-text-break uk-margin-remove">
+                            Life Long Learning to re-engineer your career and business to 
+                            be adaptive to the demands of the emerging 4th Industrial Revolution.
+                        </h4>
                     </div>
-                    <div></div>
                 </vk-grid>
             </vk-card>
         </div>
@@ -88,19 +90,18 @@
 
             <div class="uk-position-cover uk-overlay uk-overlay-default uk-flex uk-flex-center uk-flex-middle">
                 <vk-card class="uk-width-1-1 uk-dark uk-padding-large" type="blank">
-                        <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-expand@s uk-padding-large">
-                            <div>
-                                <h2>This is necessitated by the drive towards the 4th industrial revolution.</h2>
-                                <ul class="uk-list uk-list-large">
-                                    <li><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> The fourth industrial revolution is the current and developing environment in which disruptive technologies and trends such as the Internet of Things (IoT), robotics, virtual reality (VR) and artificial intelligence (AI) are changing the way we live and work.</h5></li>
-                                    <li><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Reskilling – the process of learning new skills so you can do a different job, or of training people to do a different job. While upskilling points out the same, it focuses more on improving worker's skills so they can work within the same job.</h5></li>
-                                </ul>
-                                <a class="uk-button uk-button-primary uk-button-large" :href="plansLink">View Plans</a>
-                            </div>
-                        </vk-grid>
-                    </vk-card>
+                    <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-expand@s uk-padding-large">
+                        <div>
+                            <h2>This is necessitated by the drive towards the 4th industrial revolution.</h2>
+                            <ul class="uk-list uk-list-large">
+                                <li><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> The fourth industrial revolution is the current and developing environment in which disruptive technologies and trends such as the Internet of Things (IoT), robotics, virtual reality (VR) and artificial intelligence (AI) are changing the way we live and work.</h5></li>
+                                <li><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Reskilling – the process of learning new skills so you can do a different job, or of training people to do a different job. While upskilling points out the same, it focuses more on improving worker's skills so they can work within the same job.</h5></li>
+                            </ul>
+                            <a class="uk-button uk-button-primary uk-button-large" :href="plansLink">View Plans</a>
+                        </div>
+                    </vk-grid>
+                </vk-card>
             </div>
-
         </div>
     </vk-grid>
 </template>
