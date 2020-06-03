@@ -11,12 +11,12 @@
         </div>
         <div class="accordion-body" ref="accordionbody">
           <div class="accordion-content uk-padding">
-             <label><h6 class="uk-margin-remove"><input @click="selectSubscription" class="uk-radio" name="subscription" type="radio" v-model="fields.amount" :value="data.monthly_cost"> Monthly Subscription</h6></label>
+             <label><h6 class="uk-margin-remove"><input @click="selectSubscription" class="uk-radio" name="subscription" type="radio" v-model="fields.amount" data-target="monthly" :value="data.monthly_cost"> Monthly Subscription</h6></label>
              <div class="uk-padding-small uk-grid uk-grid-small">
                  <div class="uk-leader-fill-content uk-width-expand">Total</div>
                  <div>{{ data.monthly_cost }}</div>
              </div>
-             <label><h6 class="uk-margin-remove"><input class="uk-radio" @click="selectSubscription" name="subscription" type="radio" v-model="fields.amount" :value="data.annual_cost"> Annual Subscription</h6></label>
+             <label><h6 class="uk-margin-remove"><input class="uk-radio" @click="selectSubscription" name="subscription" type="radio" v-model="fields.amount" data-target="annual" :value="data.annual_cost"> Annual Subscription</h6></label>
              <div class="uk-padding-small uk-grid uk-grid-small">
                  <div class="uk-leader-fill-content uk-width-expand">Total</div>
                  <div>{{ data.annual_cost }}</div>
@@ -31,6 +31,8 @@
   export default {
     methods: {
       selectSubscription () {
+        let el = event.target;
+        this.fields.subscription_type = el.attributes['data-target'].value;
       }
     },
     mounted () {

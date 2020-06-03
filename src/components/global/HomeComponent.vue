@@ -54,7 +54,6 @@
             this.bralcoaxios({ url: this.$store.state.app.env.backend_url + "/api/v1/home", request: "GET" }).then( (response) => {
                 let resolve = this.bralcoresponse(response)
                 this.company = resolve.data.company;
-                this.$store.state.app.data.global['company'] = resolve.data.company;
             });
         }
     }

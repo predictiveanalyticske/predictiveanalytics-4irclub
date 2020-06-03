@@ -28,7 +28,7 @@
                       </div>
                       <div>
                         <h4>Subscription details</h4>
-                        <subscriptions :fields="subscription" :data="{'monthly_cost':data.monthly_cost,'annual_cost':data.annual_cost}" class="uk-width-1-1 uk-padding-remove-top"/>
+                        <subscriptions :fields="fields" :data="{'monthly_cost':data.monthly_cost,'annual_cost':data.annual_cost}" class="uk-width-1-1 uk-padding-remove-top"/>
                       </div>
                       <div>
                         <vk-button class="uk-button-red uk-light" @click="submitForm" size="large">Next</vk-button>
@@ -55,7 +55,6 @@
         name: 'plan',
         data () {
           return {
-            data: {},
             billing: {
               type: null,
               existingaccount: {
@@ -63,20 +62,23 @@
                   password: ''
               },
               newaccount: {
-                confirmpassword: '',
                 email: '',
-                firstname: '',
-                lastname: '',
+                first_name: '',
+                last_name: '',
                 password: '',
+                password_confirmation: '',
                 phone:    ''
               }
             },
+            data: {},
+            fields: {},
             items: [],
             showbuy: true,
             showpurchasediv: false,
             showExisting: false,
             showNewAccount:false,
             subscription: {
+                subcription_type: null,
                 amount: 0,
             },
           }
@@ -90,11 +92,6 @@
             });
         },
         methods: {
-          // buyPackage(value){
-            // this.fields.payment = value;
-            // this.showPayment = true;
-            // event.target.scrollTop = this.$el.lastElementChild.offsetTop;
-          // },
           showpurchase(){
             this.showbuy = false;
             this.showpurchasediv = true;
@@ -105,37 +102,61 @@
           },
           submitForm () {
             let formData = new FormData();
-            let data = this.fields;
-            var result = Object.values(data).map(function(value) {
-              return value;
-              // return [String(key), data[key]];
+
+            for( let value in this.fields ){
+              formData.append(value,this.fields[value]);
+            }
+            formData.append('plan', this.$route.params.item);
+
+            this.bralcoaxios({url: this.$store.state.app.env.backend_url + "/api/v1/4irclub/subscribe/challenge/1", request: 'POST', form: formData}).then( (response) => {
+              let resolve = this.bralcoresponse(response);
+              localStorage.setItem('access_token',resolve.data.token.access_token);
+              localStorage.setItem('token_type',resolve.data.token.type);
+              localStorage.setItem('expires_in',resolve.data.token.expires_at);
+              this.$store.state.app.auth.access_token      = resolve.data.token.access_token;
+              this.$store.state.app.auth.expires_in        = resolve.data.token.expires_in;
+              this.$store.state.app.auth.token_type        = resolve.data.token.token_type;
+              this.$store.state.app.auth.isAuthenticated   = true;
+              this.$router.push( { name:"checkout",params:{ payment: resolve.data.payment.id } } );
             });
-            console.log(Object.entries(data));
-            // Object.entries(this.fields).map( ([key,value]) => {
-            //   if( typeof value == 'object'){
-            //     Object.entries(value).map( ([index,item]) => {
-            //        if( typeof item == 'object'){
-            //          Object.entries(item).map( ([k,v]) => { 
-            //            formData.append(k,v);
-            //          });
-            //         } else {
-            //            formData.append(index,value);
-            //         }
-            //     });
-            //   } else {
-            //     formData.append(key,value);
-            //   }
-            // });
+          }
+        },
+        watch: {
+          billing: {
+             handler(val){
+               this.fields.type = this.billing.type;
+               if( val.type != null ){
+                 switch( val.type ){
+                   case 'existingaccount':
+                    if( Object.keys(this.fields).length > 0){
+                      for(let value in val.existingaccount){
+                        this.fields[value] = val.existingaccount[value];
+                      }
+                    } else {
+                        this.fields = val.existingaccount;
+                    }
 
-            // Display the key/value pairs
-            // for(var pair of formData.entries()) {
-            //   console.log(pair[0]+ ', '+ pair[1]); 
-            // }
+                   break;
+                   case 'newaccount':
+                     if( Object.keys(this.fields).length > 0){
+                       for(let value in val.newaccount){
+                         this.fields[value] = val.newaccount[value];
+                       }
+                     } else {
+                         this.fields = val.newaccount;
+                     }
 
-            // this.bralcoaxios({ url:this.$store.state.app.env.backend_url + '/api/v1/4irclub/subscribe/challenge/1', request: 'POST', form: formData}).then( (response) => {
-            //   // this.bralcoresponse(response);
-            // });
-
+                   break;
+                 }
+               }
+             },
+             deep: true
+          },
+          subscription: {
+            handler(val){
+              this.fields.subscription.amount = val.amount;
+            },
+            deep: true
           }
         }
     }

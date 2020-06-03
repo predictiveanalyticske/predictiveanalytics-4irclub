@@ -1,65 +1,81 @@
 <template>
-  <div>
-    <div class="accordion  uk-padding-remove">
-        <div class="accordion-item">
-            <div class="accordion-header">
-                <a href="#" @click.prevent="selectMethod" >
-                    <div class="accordion-header-div"><input value="mpesa" target="accordionmpesa" class="uk-radio" name="paymentmethod" type="radio"> Pay via Mpesa</div>
-                    <div class="accordion-header-div">
-                        <div class="accordion-caret"></div>
+  <transition name="slide-fade">
+   <div v-if="paymentCharge" >
+      <div class="accordion  uk-padding-remove">
+          <div class="accordion-item">
+              <div class="accordion-header">
+                  <a href="#" @click.prevent="selectMethod" >
+                      <div class="accordion-header-div"><input value="mpesa" target="accordionmpesa" class="uk-radio" name="paymentmethod" type="radio"> Pay via Mpesa</div>
+                      <div class="accordion-header-div">
+                          <div class="accordion-caret"></div>
+                      </div>
+                  </a>
+              </div>
+              <div class="accordion-body" ref="accordionmpesa">
+                  <div class="accordion-content">
+                    <div class="uk-width-1-1 uk-padding-large">
+                        <h3>Guide</h3>
+                        <ul class="uk-list uk-list-large">
+                            <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Go to <strong>Safaricom Menu</strong></li>
+                            <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Select <strong>M-PESA</strong></li>
+                            <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Select <strong>Lipa na MPESA</strong></li>
+                            <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Select <strong>Buy Good and Services</strong></li>
+                            <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Enter Paybill No <strong> {{ data.mpesa_paybill }}</strong></li>
+                            <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Enter Amount <strong>{{ total }}</strong></li>
+                        </ul>
+                        <form method="POST">
+                          <div class="uk-margin">
+                            <label>Transation Code</label>
+                            <input type="text" class="uk-input" name="transaction_code" placeholder="e.g ND00OCB6IY"/>
+                          </div>
+                          <vk-button size="large" type="primary" @click="validatePayment">Validate</vk-button>
+                        </form>
                     </div>
-                </a>
-            </div>
-            <div class="accordion-body" ref="accordionmpesa">
-                <div class="accordion-content">
-                  <div class="uk-width-1-1 uk-padding-small">
+              </div>
+          </div>
+      </div>
+      <div class="accordion uk-padding-remove">
+          <div class="accordion-item">
+              <div class="accordion-header">
+                  <a href="#" @click.prevent="selectMethod">
+                      <div class="accordion-header-div"> <input value="creditcard" target="accordioncard" class="uk-radio" name="paymentmethod" type="radio"> Pay via Card</div>
+                      <div class="accordion-header-div">
+                          <div class="accordion-caret"></div>
+                      </div>
+                  </a>
+              </div>
+              <div class="accordion-body" ref="accordioncard">
+                  <div class="accordion-content">
+                    <div class="uk-width-1-1 uk-padding-large">
+                      <h3>Guide</h3>
                       <ul class="uk-list uk-list-large">
-                          <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Go to <strong>Safaricom Menu</strong></li>
-                          <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Select <strong>M-PESA</strong></li>
-                          <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Select <strong>Lipa na MPESA</strong></li>
-                          <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Select <strong>Buy Good and Services</strong></li>
-                          <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Enter Paybill No <strong>{{ $store.state.app.data.global.company.mpesa_paybill }}</strong></li>
-                          <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Enter Amount <strong>{{ fields.amount }}</strong></li>
+                          <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Valid Card</li>
+                          <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Amount Charge is <strong>{{ total }}</strong></li>
                       </ul>
-                  </div>
-            </div>
-        </div>
-    </div>
-    <div class="accordion uk-padding-remove">
-        <div class="accordion-item">
-            <div class="accordion-header">
-                <a href="#" @click.prevent="selectMethod">
-                    <div class="accordion-header-div"> <input value="creditcard" target="accordioncard" class="uk-radio" name="paymentmethod" type="radio"> Pay via Card</div>
-                    <div class="accordion-header-div">
-                        <div class="accordion-caret"></div>
+                      <div id="card-element" class="uk-margin-small uk-padding-small"></div>
+                        <vk-button size="large" class="uk-margin" type="primary" @click="initPayment">Pay {{ total }}</vk-button>
                     </div>
-                </a>
-            </div>
-            <div class="accordion-body" ref="accordioncard">
-                <div class="accordion-content">
-                  <div class="uk-width-1-1 uk-padding-small uk-text-center">
-                    <h3>4IRClub Visa Online Payment</h3>
-                    <p>Your card will be charged <strong>{{ fields.amount }}</strong></p>
-                    <creditcard />
                   </div>
-                </div>
-            </div>
-        </div>
+              </div>
+          </div>
+      </div>
     </div>
   </div>
-</div>
+  <vk-card v-if="showPaymentMessage" class="uk-text-center uk-card-success uk-light">
+    <h2><vk-icon icon="happy" ratio="2"></vk-icon> Payment Successful</h2>
+  </vk-card>
+</transition>
 </template>
 <script>
 import { TweenLite, Bounce, Elastic } from 'gsap/all'
-import creditcard from '@/components/home/layouts/extra/StripeCardComponent'
+import {loadStripe} from '@stripe/stripe-js';
+
 export default {
-  components: {
-    creditcard,
-  },
   name: "paymentmethod",
-  props: ["fields"],
+  props: ["fields","data"],
   data () {
     return {
+      checkout: false,
       mpesa: {
         show: false,
         target: 'accordionmpesa'
@@ -67,13 +83,60 @@ export default {
       creditcard: {
         show: false,
         target: 'accordioncard'
-      }
+      },
+      paymentCharge: true,
+      showPaymentMessage: false,
     }
   },
+  computed: {
+    total () {
+      return this.data.currency + ' ' +this.data.amount;
+    },
+    amount () {
+      return this.data.amount;
+    }
+  },
+  mounted () {
+    loadStripe(this.data.stripeKey).then((s) => {
+        this.stripe = s;
+        const elements = this.stripe.elements();
+        this.cardElement = elements.create('card');
+        this.cardElement.mount('#card-element');
+    });
+  },
   methods: {
+    async initPayment () {
+        const { paymentMethod, error } = await this.stripe.createPaymentMethod(
+            'card', this.cardElement, {
+                billing_details: {
+                  name: 'Card Tester'
+                }
+            }
+        );
+
+        if (error) {
+          console.error(error);
+            // Display "error.message" to the user...
+        } else {
+          let formData = new FormData();
+          formData.append('paymentMethod',JSON.stringify(paymentMethod));
+          this.bralcoaxios({url: this.$store.state.app.env.backend_url + "/api/v1/4irclub/subscribe/pay/card", request: 'POST', form: formData}).then( (response) => {
+            let resolve = this.bralcoresponse(response);
+            if( resolve.data.charged ){
+              this.paymentCharge = false;
+              this.showPaymentMessage = true;
+              this.fields.method = resolve.data.method;
+              this.fields.checkout = resolve.data.checkout;
+            }
+          });
+        }
+    },
     selectMethod () {
       let el = event.target;
       this.selectiveToggle(this.toggleAccordion(el));
+    },
+    validatePayment() {
+
     },
     toggleAccordion(el){
       let input;

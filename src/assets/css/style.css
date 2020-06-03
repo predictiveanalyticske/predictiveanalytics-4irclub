@@ -13,10 +13,24 @@ body::after {
     position: fixed;
     z-index: -1;
 }
+div.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background-color: yellow;
+  padding: 50px;
+  font-size: 20px;
+}
 .bounce-enter-active {
   animation: bounce-in .5s;
 }
-
+.uk-card-success{
+  background-color:	#32CD32 !important;
+  border-radius: 5px !important;
+}
+.__PrivateStripeElement-input{
+  border: 1px solid #2d2d2d !important;
+}
 @keyframes bounce-in {
   0% {
     transform: scale(0);

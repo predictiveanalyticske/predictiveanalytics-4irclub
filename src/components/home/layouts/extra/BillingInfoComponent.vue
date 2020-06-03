@@ -4,7 +4,7 @@
       <div class="accordion-item">
           <div class="accordion-header">
               <a href="#" @click.prevent="selectUser" >
-                  <div class="accordion-header-div"><input value="newuser" target="accordionnew" class="uk-radio" name="account" type="radio"> New Account</div>
+                  <div class="accordion-header-div"><input value="newaccount" target="accordionnew" class="uk-radio" name="account" type="radio"> New Account</div>
                   <div class="accordion-header-div">
                       <div class="accordion-caret"></div>
                   </div>
@@ -14,21 +14,23 @@
               <div class="accordion-content">
                 <div class="uk-width-1-1 uk-padding-small">
                   <h3>Personal Information</h3>
+                  <form ref="newuser">
                   <div class="uk-grid uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-1-2@xl uk-child-width-expand@s">
                       <div>
-                          <div class="uk-margin"><label>First Name</label> <input class="uk-input" name="firstname" placeholder="First Name" required v-model="fields.newaccount.firstname" /></div>
-                          <div class="uk-margin"><label>Last Name</label> <input class="uk-input" name="lastname" placeholder="Last Name" required v-model="fields.newaccount.lastname" /></div>
+                          <div class="uk-margin"><label>First Name</label> <input class="uk-input" name="firstname" placeholder="First Name" required v-model="fields.newaccount.first_name" /></div>
+                          <div class="uk-margin"><label>Email</label> <input class="uk-input" name="email" placeholder="Email Address" required v-model="fields.newaccount.email" /></div>
                       </div>
                       <div>
-                          <div class="uk-margin"><label>Email</label> <input class="uk-input" name="email" placeholder="Email Address" required v-model="fields.newaccount.email" /></div>
+                          <div class="uk-margin"><label>Last Name</label> <input class="uk-input" name="lastname" placeholder="Last Name" required v-model="fields.newaccount.last_name" /></div>
                           <div class="uk-margin"><label>Phone</label> <input class="uk-input" name="text" placeholder="Phone Number" required v-model="fields.newaccount.phone" /></div>
                       </div>
                   </div>
                   <h3>Account Security</h3>
                   <div class="uk-grid uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-1-2@xl uk-child-width-expand@s">
                       <div><label>Password</label> <input class="uk-input" name="password" type="password" placeholder="Password" required v-model="fields.newaccount.password" /></div>
-                      <div><label>Confirm Password</label> <input class="uk-input" name="confirmpassword" type="password" placeholder="Confirm Password" required v-model="fields.newaccount.confirmpassword" /></div>
+                      <div><label>Confirm Password</label> <input class="uk-input" name="password_confirmation" type="password" placeholder="Confirm Password" required v-model="fields.newaccount.password_confirmation" /></div>
                   </div>
+                  </form>
                 </div>
               </div>
           </div>
@@ -38,7 +40,7 @@
       <div class="accordion-item">
           <div class="accordion-header">
               <a href="#" @click.prevent="selectUser">
-                  <div class="accordion-header-div"> <input value="existinguser" target="accordionexisting" class="uk-radio" name="account" type="radio"> Existing User</div>
+                  <div class="accordion-header-div"> <input value="existingaccount" target="accordionexisting" class="uk-radio" name="account" type="radio"> Existing User</div>
                   <div class="accordion-header-div">
                       <div class="accordion-caret"></div>
                   </div>
@@ -49,8 +51,8 @@
                 <div class="uk-width-1-1 uk-padding-small">
                   <h3>Enter Credentials</h3>
                   <div class="uk-grid uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-1-2@xl uk-child-width-expand@s">
-                      <div><label>First Name</label> <input class="uk-input" name="email" placeholder="First Name" required v-model="fields.existingaccount.email" /></div>
-                      <div><label>Last Name</label> <input class="uk-input" name="password" placeholder="Last Name" required v-model="fields.existingaccount.password" /></div>
+                      <div><label>Email Address</label> <input class="uk-input" name="email" placeholder="Email Address" required v-model="fields.existingaccount.email" /></div>
+                      <div><label>Password</label> <input class="uk-input" name="password" placeholder="Password" required v-model="fields.existingaccount.password" /></div>
                   </div>
                 </div>
               </div>
@@ -69,6 +71,7 @@ export default {
   props: ["fields"],
   data () {
     return {
+      fieldsItems: this.fields,
       showNewAccount: {
         show: false,
         target: 'accordionnew'
@@ -103,8 +106,8 @@ export default {
     selectiveToggle(input){
       input.checked = true;
       switch( input.attributes.value.value ){
-        case 'existinguser':
-          this.fields.type = 'existinguser';
+        case 'existingaccount':
+          this.fields.type = "existingaccount";
           this.showExisting.show = true;
           if( this.showNewAccount.show ){
             this.showNewAccount.show = false;
@@ -114,8 +117,8 @@ export default {
             });
           }
         break;
-        case 'newuser':
-          this.fields.type = 'newuser';
+        case 'newaccount':
+          this.fields.type = "newaccount";
           this.showNewAccount.show = true;
           if( this.showExisting.show ){
             this.showExisting.show = false;
@@ -127,6 +130,6 @@ export default {
         break
       }
     }
-  }
+  },
 }
 </script>

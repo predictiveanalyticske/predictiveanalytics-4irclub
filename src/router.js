@@ -16,6 +16,7 @@ import HomeAuth from './components/home/layouts/AuthComponent.vue';
 import HomeSignup from './components/home/layouts/SignupComponent.vue';
 import HomeProfile from './components/home/layouts/ProfileComponent.vue';
 import HomeVerify from './components/home/layouts/VerifyComponent.vue';
+import HomeCheckout from './components/home/layouts/CheckOutComponent.vue';
 import NotFound from './components/global/NotFoundComponent.vue';
 
 Vue.use(Router);
@@ -38,7 +39,7 @@ export default new Router({
                         components: {
                             view: HomeDocumentaries,
                         },
-                        beforeCreate (to,from, next) {
+                        beforeEnter (to,from, next) {
                             if( stored.state.app.auth.isAuthenticated ){
                                 next();
                             } else {
@@ -52,7 +53,7 @@ export default new Router({
                         components: {
                             view: HomeProfile,
                         },
-                        beforeCreate (to,from, next) {
+                        beforeEnter (to,from, next) {
                             if( stored.state.app.auth.isAuthenticated ){
                                 next();
                             } else {
@@ -75,12 +76,26 @@ export default new Router({
                         }
                     },
                     {
+                        name: "checkout",
+                        path: '/payment/:payment',
+                        components: {
+                            view: HomeCheckout,
+                        },
+                        beforeEnter (to,from, next) {
+                            if( stored.state.app.auth.isAuthenticated ){
+                                next();
+                            } else {
+                                next({name: "auth"});
+                            }
+                        }
+                    },
+                    {
                         name: "signup",
                         path: '/signup',
                         components: {
                             view: HomeSignup,
                         },
-                        beforeCreate (to,from, next) {
+                        beforeEnter (to,from, next) {
                             if( stored.state.app.auth.isAuthenticated ){
                               next({name: "home"});
                             } else {

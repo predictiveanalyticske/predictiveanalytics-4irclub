@@ -17,12 +17,11 @@
           <div class="accordion-body" v-bind:ref="'accordion-body-' + i">
               <div class="accordion-content" v-if="content.description != undefined">{{ content.description }}</div>
               <div v-html="content.html"  class="accordion-content" v-if="content.html != undefined"></div>
-              <div v-html="content.template"  class="accordion-content" v-if="content.template != undefined"></div>
           </div>
           <div class="accordion-footer">
                 <div class="accordion-content" v-if="content.footer != undefined">{{ content.footer }}</div>
                 <div class="accordion-content" v-if="content.footerhtml != undefined" v-html="content.footerhtml" ></div>
-          </div> 
+          </div>
       </div>
   </div>
 </template>
@@ -66,7 +65,6 @@
                 });
             }
         }
-        console.log(this.contents.template);
     }
 }
 </script>

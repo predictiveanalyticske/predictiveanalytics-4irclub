@@ -28,6 +28,11 @@ let VuexData = {
         },
         loader: true,
       }
+  },
+  getters: {
+    global: state => {
+      return state.app.data.global;
+    }
   }
 };
 

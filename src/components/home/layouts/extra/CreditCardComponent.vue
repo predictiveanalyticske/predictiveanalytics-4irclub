@@ -25,12 +25,12 @@
                   <transition name="slide-fade-up">
                     <div
                       class="card-item__numberItem"
-                      v-if="$index > 4 && $index < 14 && cardNumber.length > $index && n.trim() !== ''"
+                      v-if="$index > 4 && $index < 14 && data.cardNumber.length > $index && n.trim() !== ''"
                     >*</div>
                     <div class="card-item__numberItem"
                       :class="{ '-active' : n.trim() === '' }"
-                      :key="$index" v-else-if="cardNumber.length > $index">
-                      {{cardNumber[$index]}}
+                      :key="$index" v-else-if="data.cardNumber.length > $index">
+                      {{data.cardNumber[$index]}}
                     </div>
                     <div
                       class="card-item__numberItem"
@@ -47,12 +47,12 @@
                     <transition name="slide-fade-up">
                       <div
                         class="card-item__numberItem"
-                        v-if="$index > 4 && $index < 15 && cardNumber.length > $index && n.trim() !== ''"
+                        v-if="$index > 4 && $index < 15 && data.cardNumber.length > $index && n.trim() !== ''"
                       >*</div>
                       <div class="card-item__numberItem"
                         :class="{ '-active' : n.trim() === '' }"
-                        :key="$index" v-else-if="cardNumber.length > $index">
-                        {{cardNumber[$index]}}
+                        :key="$index" v-else-if="data.cardNumber.length > $index">
+                        {{data.cardNumber[$index]}}
                       </div>
                       <div
                         class="card-item__numberItem"
@@ -68,10 +68,10 @@
                 <label for="cardName" class="card-item__info" ref="cardName">
                   <div class="card-item__holder">Card Holder</div>
                   <transition name="slide-fade-up">
-                    <div class="card-item__name" v-if="cardName.length" key="1">
+                    <div class="card-item__name" v-if="data.cardName.length" key="1">
                       <transition-group name="slide-fade-right">
                         <!-- eslint-disable vue/no-use-v-if-with-v-for,vue/no-confusing-v-for-v-if -->
-                        <span class="card-item__nameItem" v-for="(n, $index) in cardName.replace(/\s\s+/g, ' ')" v-if="$index === $index" v-bind:key="$index + 1">{{n}}</span>
+                        <span class="card-item__nameItem" v-for="(n, $index) in data.cardName.replace(/\s\s+/g, ' ')" v-if="$index === $index" v-bind:key="$index + 1">{{n}}</span>
                       </transition-group>
                     </div>
                     <div class="card-item__name" v-else key="2">Full Name</div>
@@ -81,14 +81,14 @@
                   <label for="cardMonth" class="card-item__dateTitle">Expires</label>
                   <label for="cardMonth" class="card-item__dateItem">
                     <transition name="slide-fade-up">
-                      <span v-if="cardMonth" v-bind:key="cardMonth">{{cardMonth}}</span>
+                      <span v-if="data.cardMonth" v-bind:key="data.cardMonth">{{data.cardMonth}}</span>
                       <span v-else key="2">MM</span>
                     </transition>
                   </label>
                   /
                   <label for="cardYear" class="card-item__dateItem">
                     <transition name="slide-fade-up">
-                      <span v-if="cardYear" v-bind:key="cardYear">{{String(cardYear).slice(2,4)}}</span>
+                      <span v-if="data.cardYear" v-bind:key="data.cardYear">{{String(data.cardYear).slice(2,4)}}</span>
                       <span v-else key="2">YY</span>
                     </transition>
                   </label>
@@ -105,7 +105,7 @@
             <div class="card-item__cvv">
                 <div class="card-item__cvvTitle">CVV</div>
                 <div class="card-item__cvvBand">
-                  <span v-for="(n, $index) in cardCvv" :key="$index">
+                  <span v-for="(n, $index) in data.cardCvv" :key="$index">
                     *
                   </span>
 
@@ -120,23 +120,23 @@
       <div class="card-form__inner">
         <div class="card-input">
           <label for="cardNumber" class="card-input__label">Card Number</label>
-          <input type="text" id="cardNumber" class="card-input__input" v-mask="generateCardNumberMask" v-model="cardNumber" v-on:focus="focusInput" v-on:blur="blurInput" data-ref="cardNumber" autocomplete="off">
+          <input type="text" id="cardNumber" class="card-input__input" v-mask="generateCardNumberMask" v-model="data.cardNumber" v-on:focus="focusInput" v-on:blur="blurInput" maxlength="19" data-ref="cardNumber" autocomplete="off">
         </div>
         <div class="card-input">
           <label for="cardName" class="card-input__label">Card Holders</label>
-          <input type="text" id="cardName" class="card-input__input" v-model="cardName" v-on:focus="focusInput" v-on:blur="blurInput" data-ref="cardName" autocomplete="off">
+          <input type="text" id="cardName" class="card-input__input" v-model="data.cardName" v-on:focus="focusInput" v-on:blur="blurInput" data-ref="cardName" autocomplete="off">
         </div>
         <div class="card-form__row">
           <div class="card-form__col">
             <div class="card-form__group">
               <label for="cardMonth" class="card-input__label">Expiration Date</label>
-              <select class="card-input__input -select" id="cardMonth" v-model="cardMonth" v-on:focus="focusInput" v-on:blur="blurInput" data-ref="cardDate">
+              <select class="card-input__input -select" id="cardMonth" v-model="data.cardMonth" v-on:focus="focusInput" v-on:blur="blurInput" data-ref="cardDate">
                 <option value="" disabled selected>Month</option>
                 <option v-bind:value="n < 10 ? '0' + n : n" v-for="n in 12" v-bind:disabled="n < minCardMonth" v-bind:key="n">
                   {{ monthNum(n) }}
                 </option>
               </select>
-              <select class="card-input__input -select" id="cardYear" v-model="cardYear" v-on:focus="focusInput" v-on:blur="blurInput" data-ref="cardDate">
+              <select class="card-input__input -select" id="cardYear" v-model="data.cardYear" v-on:focus="focusInput" v-on:blur="blurInput" data-ref="cardDate">
                 <option value="" disabled selected>Year</option>
                 <option v-bind:value="$index + minCardYear" v-for="(n, $index) in 12" v-bind:key="n">
                     {{$index + minCardYear}}
@@ -147,7 +147,7 @@
           <div class="card-form__col -cvv">
             <div class="card-input">
               <label for="cardCvv" class="card-input__label">CVV</label>
-              <input type="text" class="card-input__input" id="cardCvv" v-mask="'####'" maxlength="4" v-model="cardCvv" v-on:focus="flipCard(true)" v-on:blur="flipCard(false)" autocomplete="off">
+              <input type="text" class="card-input__input" id="cardCvv" v-mask="'####'" maxlength="4" v-model="data.cardCvv" v-on:focus="flipCard(true)" v-on:blur="flipCard(false)" autocomplete="off">
             </div>
           </div>
         </div>
@@ -158,16 +158,17 @@
 
 <script>
 export default{
+  props: ["data"],
   data() {
     return {
       currentCardBackground: Math.floor(Math.random()* 25 + 1), // just for fun :D
-      cardName: "",
-      cardNumber: "",
-      cardMonth: "",
-      cardYear: "",
-      cardCvv: "",
+      // cardName: "",
+      // cardNumber: "",
+      // cardMonth: "",
+      // cardYear: "",
+      // cardCvv: "",
       minCardYear: new Date().getFullYear(),
-      amexCardMask: "#### ###### #####",
+      amexCardMask: "#### #### #### ####",
       otherCardMask: "#### #### #### ####",
       cardNumberTemp: "",
       isCardFlipped: false,
@@ -181,7 +182,7 @@ export default{
   },
   computed: {
     getCardType () {
-      let number = this.cardNumber;
+      let number = this.data.cardNumber;
       let re = new RegExp("^4");
       if (number.match(re) != null) return "visa";
 
@@ -203,16 +204,24 @@ export default{
 			return this.getCardType === "amex" ? this.amexCardMask : this.otherCardMask;
     },
     minCardMonth () {
-      if (this.cardYear === this.minCardYear) return new Date().getMonth() + 1;
+      if (this.data.cardYear === this.minCardYear) return new Date().getMonth() + 1;
       return 1;
     }
   },
   watch: {
-    cardYear () {
-      if (this.cardMonth < this.minCardMonth) {
-        this.cardMonth = "";
-      }
-    }
+    data: {
+      handler(val){
+        if (val.cardMonth < val.minCardMonth) {
+          val.cardYear = "";
+        }
+      },
+      deep: true
+    },
+    // cardYear () {
+    //   if (this.data.cardMonth < this.minCardMonth) {
+    //     this.data.cardMonth = "";
+    //   }
+    // }
   },
   methods: {
     monthNum(n){

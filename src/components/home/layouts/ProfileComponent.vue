@@ -60,7 +60,19 @@
                     </form>
                 </vk-tabs-item>
                 <vk-tabs-item title="Subscription">
-                    
+                      <legend class="uk-legend">Subscriptions</legend><hr>
+                    <div v-if="data.length > 0" class="uk-width-1-2@xl uk-width-1-2@l uk-width-1-2@m uk-width-expand@s">
+                      <vk-grid class="uk-child-width-1-2" v-for="(value, index) in data" :key="index">
+                        <div>
+                          <vk-card padding="small" type="secondary">
+                            <vk-label slot="badge" v-if="value.payment.active">Active</vk-label>
+                            <vk-card-title>{{ value.name }}</vk-card-title>
+                            <h5 class="uk-margin-small">{{ value.category }}</h5>
+                            <vk-label>{{ value.payment.currency }} {{ value.payment.amount.toString() }}</vk-label>
+                          </vk-card>
+                        </div>
+                      </vk-grid>
+                    </div>
                 </vk-tabs-item>
                 <vk-tabs-item title="Security">
 
@@ -80,28 +92,18 @@
         },
         data () {
             return {
+                data: [],
                 fields: {
-                    subscription: null,
                     user: null,
                 }
             }
         },
         name: "profile",
-        methods: {
-            attemptLogin (event) {
-                let el = event.target
-                let formData = new FormData(el);
-
-                this.bralcoaxios({ url: el.attributes.action.value, request:el.attributes.method.value, form: formData }).then( (response) => {
-                    this.bralcoresponse(response);
-                });
-            }
-        }, 
-        created () {
+        mounted () {
             this.bralcoaxios({ url: this.$store.state.app.env.backend_url + '/api/v1/4irclub/profile', request: 'GET' }).then( (response) => {
                 let resolve = this.bralcoresponse(response);
-                this.fields.subscription = resolve.data.subscription;
-                this.fields.user         = resolve.data.user;
+                this.data = resolve.data.subscriptions;
+                this.fields.user = resolve.data.user;
             });
         }
     }
