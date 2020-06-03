@@ -32,6 +32,26 @@ let VuexData = {
   getters: {
     global: state => {
       return state.app.data.global;
+    },
+    isAuthenticated: state => {
+      return state.app.auth.isAuthenticated;
+    }
+  },
+  mutations: {
+    access_token (state, val){
+      state.app.auth.access_token = val
+    },
+    expires_in (state, val){
+      state.app.auth.expires_in = val
+    },
+    isAuthenticated (state, val){
+      state.app.auth.isAuthenticated = val
+    },
+    isAuthorized (state, val){
+      state.app.auth.isAuthorized = val
+    },
+    token_type (state, val){
+      state.app.auth.access_token = val
     }
   }
 };

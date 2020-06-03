@@ -81,8 +81,8 @@ export default new Router({
                         components: {
                             view: HomeCheckout,
                         },
-                        beforeEnter (to,from, next) {
-                            if( stored.state.app.auth.isAuthenticated ){
+                        beforeEnter (to, from, next) {
+                            if( stored.getters.isAuthenticated ){
                                 next();
                             } else {
                                 next({name: "auth"});

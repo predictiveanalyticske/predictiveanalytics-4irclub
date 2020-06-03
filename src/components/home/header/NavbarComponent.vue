@@ -29,8 +29,12 @@
         props: ['data'],
         data () {
             return {
-                authenticated: this.$store.state.app.auth.isAuthenticated,
                 links: []
+            }
+        },
+        computed: {
+            autheticated () {
+              return this.$store.getters.isAuthenticated;
             }
         },
         watch: {

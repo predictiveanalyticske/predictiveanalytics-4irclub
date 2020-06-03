@@ -113,10 +113,10 @@
               localStorage.setItem('access_token',resolve.data.token.access_token);
               localStorage.setItem('token_type',resolve.data.token.type);
               localStorage.setItem('expires_in',resolve.data.token.expires_at);
-              this.$store.state.app.auth.access_token      = resolve.data.token.access_token;
-              this.$store.state.app.auth.expires_in        = resolve.data.token.expires_in;
-              this.$store.state.app.auth.token_type        = resolve.data.token.token_type;
-              this.$store.state.app.auth.isAuthenticated   = true;
+              this.$store.commit('access_token',resolve.data.token.access_token);
+              this.$store.commit('expires_in',resolve.data.token.expires_in);
+              this.$store.commit('token_type',resolve.data.token.token_type);
+              this.$store.commit('isAuthenticated',true);
               this.$router.push( { name:"checkout",params:{ payment: resolve.data.payment.id } } );
             });
           }
