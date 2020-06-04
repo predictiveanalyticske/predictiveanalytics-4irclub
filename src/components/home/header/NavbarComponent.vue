@@ -33,8 +33,13 @@
             }
         },
         computed: {
-            autheticated () {
-              return this.$store.getters.isAuthenticated;
+            authenticated:{
+              get(){
+                return this.$store.getters.isAuthenticated;
+              },
+              set(val){
+                return val;
+              }
             }
         },
         watch: {
