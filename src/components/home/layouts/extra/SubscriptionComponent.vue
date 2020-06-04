@@ -27,6 +27,7 @@
   </div>
 </template>
 <script>
+  import gsap from "gsap";
   import { TweenLite, Elastic } from 'gsap/all'
   export default {
     methods: {
@@ -34,6 +35,10 @@
         let el = event.target;
         this.fields.subscription_type = el.attributes['data-target'].value;
       }
+    },
+    beforeCreate(){
+      // don't forget to register plugins
+      gsap.registerPlugin(TweenLite, Elastic); 
     },
     mounted () {
       let el = this.$refs.accordionbody;

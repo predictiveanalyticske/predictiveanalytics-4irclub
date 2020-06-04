@@ -23,12 +23,12 @@
                             <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Enter Paybill No <strong> {{ data.mpesa_paybill }}</strong></li>
                             <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Enter Amount <strong>{{ total }}</strong></li>
                         </ul>
-                        <form method="POST">
+                        <form method="POST" @submit.prevent="validatePayment" :action="this.$store.state.app.env.backend_url+'/api/v1/4irclub/subscribe/pay/mpesa'">
                           <div class="uk-margin">
-                            <label>Transation Code</label>
-                            <input type="text" class="uk-input" name="transaction_code" placeholder="e.g ND00OCB6IY"/>
+                            <label>Phone Number</label>
+                            <input type="text" class="uk-input" name="phone" placeholder="e.g 0712345678"/>
                           </div>
-                          <vk-button size="large" type="primary" @click="validatePayment">Validate</vk-button>
+                          <vk-button size="large" type="primary" htmlType="submit" >Pay</vk-button>
                         </form>
                     </div>
               </div>
@@ -67,6 +67,7 @@
 </transition>
 </template>
 <script>
+import gsap from "gsap";
 import { TweenLite, Bounce, Elastic } from 'gsap/all'
 import {loadStripe} from '@stripe/stripe-js';
 
@@ -95,6 +96,10 @@ export default {
     amount () {
       return this.data.amount;
     }
+  },
+  beforeCreate(){
+    // don't forget to register plugins
+    gsap.registerPlugin(TweenLite, Bounce, Elastic); 
   },
   mounted () {
     loadStripe(this.data.stripeKey).then((s) => {
@@ -136,7 +141,13 @@ export default {
       this.selectiveToggle(this.toggleAccordion(el));
     },
     validatePayment() {
-
+      let el = event.target;
+      let formData = new FormData(el);
+      formData.append('amount',this.data.amount);
+      this.bralcoaxios({url: el.attributes.action.value, request: el.attributes.method.value, form: formData}).then( (response) => {
+        let resolve = this.bralcoresponse(response);
+        console.log(resolve);
+      });
     },
     toggleAccordion(el){
       let input;

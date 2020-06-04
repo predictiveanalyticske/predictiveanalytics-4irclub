@@ -62,8 +62,8 @@
 </div>
 </template>
 
-
 <script>
+import gsap from "gsap";
 import { TweenLite, Bounce, Elastic } from 'gsap/all'
 
 export default {
@@ -81,6 +81,10 @@ export default {
         target: 'accordionexisting'
       }
     }
+  },
+  beforeCreate(){
+    // don't forget to register plugins
+    gsap.registerPlugin(TweenLite, Elastic); 
   },
   methods: {
     selectUser () {
