@@ -96,10 +96,6 @@
             this.showbuy = false;
             this.showpurchasediv = true;
           },
-          selectPayment () {
-            let el = event.target;
-            console.log(el);
-          },
           submitForm () {
             let formData = new FormData();
 

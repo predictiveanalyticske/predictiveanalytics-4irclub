@@ -47,9 +47,10 @@
             switch(this.authenticated){
               case true:
                 this.links = [
-                  { title: "Home",          icon: "home",    to: this.$router.resolve({name:"home"}).href,  },
-                  { title: "Documentaries", icon: "play", to: this.$router.resolve({name:"documentaries"}).href},
-                  { title: "Profile",       icon: "user", to: this.$router.resolve({name:"profile"}).href},
+                  { title: "Home",          icon: "home",     to: this.$router.resolve({name:"home"}).href,          },
+                  { title: "Documentaries", icon: "play",     to: this.$router.resolve({name:"documentaries"}).href  },
+                  { title: "Resources",     icon: "bookmark", to: this.$router.resolve({name:"resources"}).href      },
+                  { title: "Profile",       icon: "user",     to: this.$router.resolve({name:"profile"}).href         },
                 ];
               break;
               case false:
@@ -69,6 +70,7 @@
               this.links = [
                 { title: "Home",          icon: "home",    to: this.$router.resolve({name:"home"}).href,  },
                 { title: "Documentaries", icon: "play", to: this.$router.resolve({name:"documentaries"}).href},
+                { title: "Resources",     icon: "bookmark", to: this.$router.resolve({name:"resources"}).href      },
                 { title: "Profile",       icon: "user", to: this.$router.resolve({name:"profile"}).href},
               ]
               break;

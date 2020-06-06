@@ -24,7 +24,7 @@
                       <h1 class="uk-article-title">Account Login</h1>
                       <p>This is a secure system and you will need to provide your login details to access other features in this website.</p>
                   </article>
-                  <form @submit.prevent="attemptLogin" :action="$store.state.app.env.backend_url + '/api/v1/auth/login'" method="POST">
+                  <form @submit.prevent="attemptLogin" :action="$store.state.app.env.backend_url + '/api/v1/4irclub/auth/login'" method="POST">
                       <fieldset class="uk-fieldset">
                           <div class="uk-margin">
                               <label>Email</label>
@@ -62,7 +62,11 @@
             attemptLogin (event) {
                 let el = event.target
                 let formData = new FormData(el);
-                formData.append('role', btoa(process.env.VUE_APP_USER_ROLE) );
+                
+                formData.append('client_id',     process.env.VUE_APP_PASSPORT_KEY);
+                formData.append('client_secret', process.env.VUE_APP_PASSPORT_SECRET);
+                formData.append('provider', 'clubusers');
+                
                 this.bralcoaxios({ url: el.attributes.action.value, request:el.attributes.method.value, form: formData }).then( (response) => {
                     this.bralcoresponse(response);
                 });

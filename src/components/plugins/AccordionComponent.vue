@@ -27,6 +27,7 @@
 </template>
 
 <script>
+ import gsap from "gsap";
  import { TweenLite, Bounce, Elastic } from 'gsap/all'
  export default {
     props: ['contents'],
@@ -54,6 +55,10 @@
                 });
             }
         }
+    },
+    beforeCreate(){
+      // don't forget to register plugins
+      gsap.registerPlugin(TweenLite, Elastic); 
     },
     mounted (){
         for(let value in this.contents){

@@ -15,7 +15,7 @@
                 <vk-tabs-item title="Profile">
                     <form>
                         <fieldset class="uk-fieldset">
-                            <legend class="uk-legend">Profile</legend><hr>
+                            <h2 class="uk-legend">Account Details</h2><hr>
                             <div class="uk-width-1-2" v-if="fields.user != null">
                                 <div class="uk-margin">
                                     <label>Avatar</label>
@@ -60,22 +60,38 @@
                     </form>
                 </vk-tabs-item>
                 <vk-tabs-item title="Subscription">
-                      <legend class="uk-legend">Subscriptions</legend><hr>
-                    <div v-if="data.length > 0" class="uk-width-1-2@xl uk-width-1-2@l uk-width-1-2@m uk-width-expand@s">
-                      <vk-grid class="uk-child-width-1-2" v-for="(value, index) in data" :key="index">
-                        <div>
-                          <vk-card padding="small" type="secondary">
-                            <vk-label slot="badge" v-if="value.payment.active">Active</vk-label>
-                            <vk-card-title>{{ value.name }}</vk-card-title>
-                            <h5 class="uk-margin-small">{{ value.category }}</h5>
-                            <vk-label>{{ value.payment.currency }} {{ value.payment.amount.toString() }}</vk-label>
-                          </vk-card>
-                        </div>
-                      </vk-grid>
-                    </div>
+                  <h2 class="uk-legend">Subscriptions</h2><hr>
+                  <div class="uk-width-1-2" >
+                    <p class="uk-text-break">You have an active subscription. See more details below. To check more information about the package, click <a :href="$router.resolve({name:'plans'}).href">here</a> to view more packages to subscribe.</p>
+                    <accordion :contents="subscription" />
+                  </div>
                 </vk-tabs-item>
                 <vk-tabs-item title="Security">
+                        <form action="" method="POST" @click.prevent="submitForm">
+                            <fieldset class="uk-fieldset">
+                                <h2 class="uk-legend">Account Details</h2><hr>
+                                <div class="uk-width-1-2" >
+                                    <div class="uk-margin">
+                                        <label>Current Password</label>
+                                        <input class="uk-input" type="text" name="currentpassword" placeholder="First Name">
+                                    </div>
 
+                                    <div class="uk-margin">
+                                        <label>New Password</label>
+                                        <input class="uk-input" type="text" name="newpassword" placeholder="New Password">
+                                    </div>
+
+                                    <div class="uk-margin">
+                                        <label>Confirm New Password</label>
+                                        <input class="uk-input" type="text" name="newpassword_confirmation" placeholder="Confirm New Password">
+                                    </div>
+
+                                    <div class="uk-margin">
+                                        <vk-button htmlType="submit" :class="'uk-button uk-button-primary'"> Update </vk-button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>                  
                 </vk-tabs-item>
             </vk-tabs-vertical>
           </vk-card>
@@ -84,15 +100,29 @@
 </template>
 
 <script>
-    import dropify from "@/components/plugins/DropifyComponent.vue";
+    import dropify from "@/components/plugins/DropifyComponent";
+    import accordion from "@/components/plugins/AccordionComponent"
 
-    export default {
+export default {
         components: {
+            accordion,
             dropify
+        },
+        computed: {
+            subscription () {
+                if( this.fields.user != null ){
+                    return [{
+                        active: true,
+                        title: this.fields.user.subscription.subscription.name,
+                        html: '<div class="uk-padding-small"><h3 class="uk-margin-remove">'+this.fields.user.subscription.subscription.details+'</h4><h5 class="uk-margin-small">'+this.fields.user.subscription.subscription.summary+'</h5></div>'
+                    }];
+                } else {
+                    return [];
+                }
+            }
         },
         data () {
             return {
-                data: [],
                 fields: {
                     user: null,
                 }
@@ -102,8 +132,7 @@
         mounted () {
             this.bralcoaxios({ url: this.$store.state.app.env.backend_url + '/api/v1/4irclub/profile', request: 'GET' }).then( (response) => {
                 let resolve = this.bralcoresponse(response);
-                this.data = resolve.data.subscriptions;
-                this.fields.user = resolve.data.user;
+                this.fields.user = resolve.data;
             });
         }
     }

@@ -27,7 +27,7 @@
                   <form @submit.prevent="attemptLogin" :action="$store.state.app.env.backend_url + '/api/v1/4irclub/signup'" method="POST">
                       <fieldset class="uk-fieldset">
                           <div class="uk-margin">
-                              <label>First noscriptame</label>
+                              <label>First Name</label>
                               <input class="uk-input uk-form-large" required name="firstname" type="text" placeholder="First Name">
                           </div>
 
@@ -71,6 +71,15 @@
             attemptLogin (event) {
                 let el = event.target
                 let formData = new FormData(el);
+
+                formData.append('client_key',    btoa(process.env.VUE_APP_PASSPORT_KEY));
+                formData.append('client_secret', btoa(process.env.VUE_APP_PASSPORT_SECRET));
+
+                if( this.$router.mode == "hash"){
+                    formData.append('base_url', window.location.origin + '/#/');
+                } else {
+                    formData.append('base_url', window.location.origins);
+                }
 
                 this.bralcoaxios({ url: el.attributes.action.value, request:el.attributes.method.value, form: formData }).then( (response) => {
                     this.bralcoresponse(response);

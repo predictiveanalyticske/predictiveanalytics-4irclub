@@ -11,20 +11,19 @@
             </vk-card>
         </div>
         <div class="uk-padding-remove uk-margin-remove" v-if="count > 0">
-          <vk-grid class="uk-child-width-1-1 uk-padding-large">
-            <div v-for="(value,key) in data" :key="key">
-              <h1 class="uk-text-center">{{ key }}</h1>
-              <vk-grid gutter="small" :class="'uk-child-width-1-' + value.length">
-                <div v-for="(item,index) in value" :key="index">
-                  <vk-card class="uk-card-100 uk-padding-small">
-                    <h4 class="uk-margin-remove-bottom">{{ item.name }}</h4>
-                    <div v-html="item.summary"></div>
-                    <a :href="$router.resolve({name:'plan',params:{ item: item.id}}).href" class="uk-button uk-button-default">View More</a>
-                  </vk-card>
-                </div>
-              </vk-grid>
-            </div>
-          </vk-grid>
+          <vk-card>
+            <vk-grid class="uk-child-width-1-1 uk-padding-large">
+              <div v-for="(value,key) in cards" :key="key">
+                <h1 class="uk-text-center">{{ key }}</h1>
+                <vk-grid gutter="small" :class="'uk-child-width-1-3'">
+                  <div v-for="(item,index) in value" :key="index">
+                    <accordion :contents="item" />
+
+                  </div>
+                </vk-grid>
+              </div>
+            </vk-grid>
+          </vk-card>
         </div>
 
         <div class="uk-padding-remove uk-margin-remove" v-else-if="count == 0">
@@ -43,11 +42,16 @@
 </template>
 
 <script>
+    import accordion from '@/components/plugins/AccordionComponent'
     export default {
+        components: {
+          accordion
+        },
         name: 'plans',
         data () {
           return {
             data: {},
+            cards: {},
             count: 0,
           }
         },
@@ -56,6 +60,17 @@
                 var resolve = this.bralcoresponse(response);
                 this.data   = resolve.data.subscriptions;
                 this.count = Object.values(this.data).length;
+                let items = [];
+                for(let index in this.data){
+                  for(let value of this.data[index]){
+                    items.push([{
+                      active: true,
+                      title: value.name,
+                      html: value.summary + '<a href="'+window.location.origin+"/"+this.$router.resolve({name:'plan',params:{ item: value.id}}).href+'" class="uk-button uk-button-default">View More</a>'
+                    }]);
+                  }
+                  this.cards[index] = items; 
+                }
             });
         }
     }

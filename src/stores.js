@@ -1,16 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-Vue.use(Vuex);
-
 let storage = window.localStorage;
-let env     = process.env;
+
+Vue.use(Vuex);
 
 let VuexData = {
   state: {
       app: {
         auth: {
           access_token:    null,
+          refresh_token:   null,
           expires_in:      null,
           isAuthenticated: false,
           isAuthorized:    false,
@@ -35,11 +35,17 @@ let VuexData = {
     },
     isAuthenticated: state => {
       return state.app.auth.isAuthenticated;
+    },
+    backendurl: state => {
+      return state.app.env.backend_url;
     }
   },
   mutations: {
     access_token (state, val){
       state.app.auth.access_token = val
+    },
+    refresh_token (state, val){
+      state.app.auth.refresh_token = val
     },
     expires_in (state, val){
       state.app.auth.expires_in = val
@@ -51,14 +57,12 @@ let VuexData = {
       state.app.auth.isAuthorized = val
     },
     token_type (state, val){
-      state.app.auth.access_token = val
+      state.app.auth.token_type = val
     }
   }
 };
 
 authenticate();
-
-environment();
 
 export default new Vuex.Store(VuexData);
 
@@ -74,14 +78,4 @@ function authenticate(){
   }
 
 
-}
-
-function environment() {
-
-  if( process.env.length > 0 ){
-
-    VuexData.state.app.env.state = env.MIX_APP_ENV;
-    VuexData.state.app.env.url   = env.MIX_APP_URL;
-
-  }
 }

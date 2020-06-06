@@ -45,9 +45,15 @@ BralcoHelpers.install = function (Vue,) {
                 switch( this.$route.name ){
                     case "auth":
                         localStorage.setItem('access_token',response.data.data.access_token);
-                        localStorage.setItem('token_type',response.data.data.type);
-                        localStorage.setItem('expires_in',response.data.data.expires_at);
-                        Vue.prototype.bralcoswal({t:"success",m:response.data.m,h:response.data.h});
+                        localStorage.setItem('token_type',response.data.data.token_type);
+                        localStorage.setItem('expires_in',response.data.data.expires_in);
+                        localStorage.setItem('refresh_token',response.data.data.refresh_token);
+                        stored.commit('access_token',response.data.data.access_token);
+                        stored.commit('token_type', response.data.data.token_type);
+                        stored.commit('expires_in',response.data.data.expires_in);
+                        stored.commit('refresh_token',response.data.data.refresh_token);
+                        stored.commit('isAuthenticated',true);
+                        this.$router.push({name:"home"});
                     break;
                     default:
                         Vue.prototype.bralcoswal({t:"success",m:response.data.m,h:response.data.h});

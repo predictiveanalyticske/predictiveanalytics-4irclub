@@ -14,35 +14,27 @@
           <vk-card padding="large">
             <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-padding-large">
               <div>
-                <div class="uk-flex uk-flex-left uk-flex-middle">
+                <div class="uk-flex uk-flex-center uk-flex-middle uk-padding-large">
                   <div>
+                    <img src="@/assets/images/verify.png" width="400" /> 
                   </div>
                 </div>
               </div>
               <div>
-                <vk-card padding="large" type="blank">
-                  <article class="uk-article uk-margin">
-                      <h1 class="uk-article-title">Set Account Password</h1>
-                  </article>
-                  <form @submit.prevent="submitForm" :action="$store.state.app.env.backend_url + '/api/v1/auth/password/set/' + user" method="POST">
-                      <fieldset class="uk-fieldset">
-
-                          <div class="uk-margin">
-                              <label>Password</label>
-                              <input class="uk-input uk-form-large" required name="password" type="password" placeholder="Password">
-                          </div>
-
-                          <div class="uk-margin">
-                              <label>Confirm Password</label>
-                              <input class="uk-input uk-form-large" required name="password_confirmation" type="password" placeholder="Password">
-                          </div>
-
-                          <div class="uk-margin">
-                            <vk-button htmlType="submit" class="uk-button-red" size="large">Activate</vk-button>
-                          </div>
-                      </fieldset>
-                  </form>
-                </vk-card>
+                <div class="uk-width-1-1 uk-text-center">
+                  <h1>Activating Your Account.</h1>
+                  <div v-if="loading">
+                    <vk-spinner ratio="3"></vk-spinner>
+                  </div>
+                  <transition name="slide-fade">
+                    <vk-card class="uk-card-success uk-light" v-if="verified">
+                      <h3>
+                        <vk-icon icon="happy"></vk-icon>
+                        Your account is now active.
+                      </h3>
+                    </vk-card>
+                  </transition>
+                </div>
               </div>
             </vk-grid>
           </vk-card>
@@ -55,24 +47,17 @@
         name: "verify",
         data () {
           return {
-            user: null
-          }
-        },
-        methods: {
-          submitForm() {
-            let el = event.target;
-            let formData = new FormData(el);
-            formData.append( 'return_url', this.$router.resolve({name:"login"}).href );
-            this.bralcoaxios({ url: el.attributes.action.value , request: el.attributes.method.value, form: formData}).then( (response) => {
-                this.bralcoresponse(response);
-            });
+            loading: true,
+            verified: false
           }
         },
         created () {
-          this.bralcoaxios({ url: this.$store.state.app.env.backend_url+'/api/v1/auth/email/verify' , request: 'POST', form: { '_method': 'PUT', 'token': this.$route.params.token } }).then( (response) => {
-              let resolve = this.bralcoresponse(response);
-              this.user = resolve.user;
+          this.bralcoaxios({ url: this.$store.state.app.env.backend_url+'/api/v1/4irclub/auth/email/verify' , request: 'POST', form: { '_method': 'PUT', 'token': this.$route.params.token } }).then( (response) => {
+              let resolve   = this.bralcoresponse(response);
+              this.loading  = false;
+              this.verified = resolve.verified;
+              this.$router.push({name:'home'});
           });
-        },
+        }
     }
 </script>

@@ -28,9 +28,6 @@ div.sticky {
   background-color:	#32CD32 !important;
   border-radius: 5px !important;
 }
-.__PrivateStripeElement-input{
-  border: 1px solid #2d2d2d !important;
-}
 @keyframes bounce-in {
   0% {
     transform: scale(0);

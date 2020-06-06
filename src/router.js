@@ -17,6 +17,7 @@ import HomeSignup from './components/home/layouts/SignupComponent.vue';
 import HomeProfile from './components/home/layouts/ProfileComponent.vue';
 import HomeVerify from './components/home/layouts/VerifyComponent.vue';
 import HomeCheckout from './components/home/layouts/CheckOutComponent.vue';
+import HomeResources from './components/home/layouts/ResourcesComponent.vue';
 import NotFound from './components/global/NotFoundComponent.vue';
 
 Vue.use(Router);
@@ -76,6 +77,20 @@ export default new Router({
                         }
                     },
                     {
+                        name: "resources",
+                        path: '/resources',
+                        components: {
+                            view: HomeResources,
+                        },
+                        beforeEnter (to, from, next) {
+                            if( stored.getters.isAuthenticated ){
+                                next();
+                            } else {
+                                next({name: "auth"});
+                            }
+                        }
+                    },
+                    {
                         name: "checkout",
                         path: '/payment/:payment',
                         components: {
@@ -105,7 +120,7 @@ export default new Router({
                     },
                     {
                         name: "verify",
-                        path: '/verify/email/:token',
+                        path: '/email/verify/:token',
                         components: {
                             view: HomeVerify,
                         }
