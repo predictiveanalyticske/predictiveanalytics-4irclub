@@ -83,17 +83,14 @@
             });
         },
         methods: {
-          selectPayment () {
-            let el = event.target;
-            console.log(el);
-          },
           initCheckout () {
             let formData = new FormData();
             formData.append('method', this.paymentFields.method);
-            formData.append('redirect', window.location.origin + '/' + this.$router.resolve({name:'profile'}).href );
 
             this.bralcoaxios({ url: this.$store.state.app.env.backend_url + "/api/v1/4irclub/subscribe/challenge/checkout", request: "POST", form: formData }).then( (response) => {
-               this.bralcoresponse(response)
+               let resolve = this.bralcoresponse(response);
+               this.bralcoswal({t:"success",m: resolve.data.m, h:resolve.data.h});
+               this.$router.push({name:"profile"});
             });
           },
           submitForm () {

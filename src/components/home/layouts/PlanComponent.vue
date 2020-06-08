@@ -103,17 +103,30 @@
               formData.append(value,this.fields[value]);
             }
             formData.append('plan', this.$route.params.item);
+            formData.append('client_key',    btoa(process.env.VUE_APP_PASSPORT_KEY));
+            formData.append('client_secret', btoa(process.env.VUE_APP_PASSPORT_SECRET));
+
+            if( this.$router.mode == "hash"){
+                formData.append('base_url', window.location.origin + '/#/');
+            } else {
+                formData.append('base_url', window.location.origin);
+            }
 
             this.bralcoaxios({url: this.$store.state.app.env.backend_url + "/api/v1/4irclub/subscribe/challenge/1", request: 'POST', form: formData}).then( (response) => {
               let resolve = this.bralcoresponse(response);
-              localStorage.setItem('access_token',resolve.data.token.access_token);
-              localStorage.setItem('token_type',resolve.data.token.type);
-              localStorage.setItem('expires_in',resolve.data.token.expires_at);
-              this.$store.commit('access_token',resolve.data.token.access_token);
-              this.$store.commit('expires_in',resolve.data.token.expires_in);
-              this.$store.commit('token_type',resolve.data.token.token_type);
-              this.$store.commit('isAuthenticated',true);
-              this.$router.push( { name:"checkout",params:{ payment: resolve.data.payment.id } } );
+              if( Object.keys(resolve.data).length > 0 ){
+                localStorage.setItem('access_token',resolve.data.token.access_token);
+                localStorage.setItem('token_type',resolve.data.token.token_type);
+                localStorage.setItem('expires_in',resolve.data.token.expires_in);
+                this.$store.commit('access_token',resolve.data.token.access_token);
+                this.$store.commit('expires_in',resolve.data.token.expires_in);
+                this.$store.commit('token_type',resolve.data.token.token_type);
+                this.$store.commit('isAuthenticated',true);
+                this.$router.push( { name:"checkout",params:{ payment: resolve.data.payment.id } } );
+              } else {
+                  this.bralcoswal({t:"error",m:'Something went wrong. Please try again.',h:'Error'});
+              }
+
             });
           }
         },

@@ -1,11 +1,7 @@
 <template>
     <nav class="uk-navbar uk-navbar-container">
 
-        <div class="uk-navbar-left">
-
-        </div>
-
-        <div class="uk-navbar-right">
+        <div class="uk-navbar-center">
 
             <ul class="uk-navbar-nav">
                 <li v-for="(item,index) in this.links" :key="index">
@@ -48,6 +44,7 @@
               case true:
                 this.links = [
                   { title: "Home",          icon: "home",     to: this.$router.resolve({name:"home"}).href,          },
+                  { title: "About",         icon: "users",   to: this.$router.resolve({name:"about"}).href,  },                  
                   { title: "Documentaries", icon: "play",     to: this.$router.resolve({name:"documentaries"}).href  },
                   { title: "Resources",     icon: "bookmark", to: this.$router.resolve({name:"resources"}).href      },
                   { title: "Profile",       icon: "user",     to: this.$router.resolve({name:"profile"}).href         },
@@ -56,6 +53,7 @@
               case false:
                 this.links = [
                   { title: "Home",          icon: "home",    to: this.$router.resolve({name:"home"}).href,  },
+                  { title: "About",         icon: "users",   to: this.$router.resolve({name:"about"}).href,  },
                   { title: "Plans",         icon: "star",    to: this.$router.resolve({name:"plans"}).href, },
                   { title: "Login",         icon: "sign-in", to: this.$router.resolve({name:"auth"}).href,  },
                   { title: "Signup",        icon: "lock",    to: this.$router.resolve({name:"signup"}).href},
@@ -69,6 +67,7 @@
             case true:
               this.links = [
                 { title: "Home",          icon: "home",    to: this.$router.resolve({name:"home"}).href,  },
+                { title: "About",         icon: "users",   to: this.$router.resolve({name:"about"}).href,  },                
                 { title: "Documentaries", icon: "play", to: this.$router.resolve({name:"documentaries"}).href},
                 { title: "Resources",     icon: "bookmark", to: this.$router.resolve({name:"resources"}).href      },
                 { title: "Profile",       icon: "user", to: this.$router.resolve({name:"profile"}).href},
@@ -77,6 +76,7 @@
             case false:
               this.links = [
                 { title: "Home",          icon: "home",    to: this.$router.resolve({name:"home"}).href,  },
+                { title: "About",         icon: "users",   to: this.$router.resolve({name:"about"}).href,  },
                 { title: "Plans",         icon: "star",    to: this.$router.resolve({name:"plans"}).href, },
                 { title: "Login",         icon: "sign-in", to: this.$router.resolve({name:"auth"}).href,  },
                 { title: "Signup",        icon: "lock",    to: this.$router.resolve({name:"signup"}).href},

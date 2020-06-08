@@ -9,6 +9,7 @@ import App from './App.vue';
 // Home Landing View
 import Home from './components/global/HomeComponent.vue';
 import HomeIndex from './components/home/layouts/LandingComponent.vue';
+import HomeAbout from './components/home/layouts/AboutusComponent.vue';
 import HomeDocumentaries from './components/home/layouts/DocumentariesComponent.vue';
 import HomePlans from './components/home/layouts/PlansComponent.vue';
 import HomePlan from './components/home/layouts/PlanComponent.vue';
@@ -35,6 +36,13 @@ export default new Router({
                         }
                     },
                     {
+                        name:"about",
+                        path: '/aboutus',
+                        components: {
+                            view: HomeAbout,
+                        }
+                    },
+                    {
                         name: "documentaries",
                         path: '/documentaries',
                         components: {
@@ -54,8 +62,8 @@ export default new Router({
                         components: {
                             view: HomeProfile,
                         },
-                        beforeEnter (to,from, next) {
-                            if( stored.state.app.auth.isAuthenticated ){
+                        beforeEnter (to, from, next) {
+                            if( stored.getters.isAuthenticated ){
                                 next();
                             } else {
                                 next({name: "auth"});

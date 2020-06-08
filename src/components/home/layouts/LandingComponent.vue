@@ -1,117 +1,101 @@
 <template>
     <vk-grid class="uk-child-width-1-1 uk-margin-remove">
         <div class="uk-padding-remove uk-margin-remove">
-            <vk-card class=" uk-width-1-1 uk-light uk-padding-large br-banner">
-                <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-expand@s">
+            <vk-card class=" uk-width-1-1 uk-light br-banner uk-padding-large">
+                <vk-grid class="uk-child-width-expand uk-text-center uk-padding-large">
                     <div>
-                        <h1>4th Industrial Revolution Club</h1>
+                        <h1>4th INDUSTRIAL REVOLUTION CLUB</h1>
                         <h4 class="uk-text-break uk-margin-remove">
                             Life Long Learning to re-engineer your career and business to 
                             be adaptive to the demands of the emerging 4th Industrial Revolution.
                         </h4>
                     </div>
                 </vk-grid>
+                <div class='box'>
+                    <div class='wave -one'></div>
+                    <div class='wave -two'></div>
+                </div>
             </vk-card>
         </div>
         <div class="uk-padding-remove uk-margin-remove">
-            <vk-card class="uk-width-1-1 uk-padding-small" type="blank">
-                <h3 class="uk-text-center">This is a subscription based platform with a lifelong learning package that includes:</h3>
-                <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-expand@s uk-padding-small">
-                    <div class="uk-text-center uk-visible@m uk-visible@l">
-                        <img src="@/assets/images/projections.png" width="70%"/>
-                    </div>
+            <vk-card class="uk-width-1-1">
+                <vk-grid class="uk-child-width-1-1">
                     <div>
-                        <table class="uk-table uk-margin-medium-top">
-                            <tbody>
-                                <tr><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Monthly Topical Webinairs.</h5></tr>
-                                <tr><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Free online courses.</h5></tr>
-                                <tr><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Job Openings and Job Placement for Data Science Talent.</h5></tr>
-                                <tr><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Business Consulting Opportunities.</h5></tr>
-                                <tr><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Free documentaries.</h5></tr>
-                            </tbody>
-                        </table>
+                        <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-expand@s uk-padding-large">
+                            <div>
+                                <h2 class="uk-margin-remove">ABOUT 4TH INDUSTRIAL REVOLUTION CLUB</h2>
+                                <h4 class="uk-margin">
+                                    Lifelong learning is the "ongoing, voluntary, and self-motivated" pursuit of knowledge for either personal or professional reasons. 
+                                    Therefore, it not only enhances social inclusion, active citizenship, and personal development, but also self-sustainability, as well as competitiveness and employability.
+                                </h4>
+                                <h4 class="uk-margin"> 
+                                    This is necessitated by the drive towards the 4th industrial revolution. The fourth industrial revolution is the current and developing environment in which disruptive technologies and trends such as the Internet of Things (IoT), robotics, virtual reality (VR) and artificial intelligence (AI) are changing the way we live and work. 
+                                    Reskilling – the process of learning new skills so you can do a different job, or of training people to do a different job.
+                                </h4>
+                                <a class="uk-button uk-button-red uk-button-large" :href="$router.resolve({name:'aboutus'}).href"> Learn More </a>
+                            </div>
+                            <div class="uk-text-center uk-visible@m uk-visible@l">
+                            </div>
+                        </vk-grid>
                     </div>
-                </vk-grid>
-            </vk-card>
-        </div>
-        <div class="uk-padding-remove uk-margin-remove">
-            <vk-card class="uk-width-1-1 uk-padding-small">
-                <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-expand@s uk-padding-small">
-                    <div>
-                        <table class="uk-table">
-                            <tbody>
-                                <tr><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Free events</h5></tr>
-                                <tr><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Dicsounted Rate for Analytics Masterclass.</h5></tr>
-                                <tr><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Free monthly group  coaching (Career or Business)</h5></tr>
-                                <tr><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Exam / Quiz Platform to test your knowledge.</h5></tr>
-                                <tr><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Discounted access to Accredited Courses.</h5></tr>
-                                <tr><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Access to Data Science Community Database ( ideal for Consultants, Recruiters and Vendors) </h5></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="uk-text-center uk-visible@m uk-visible@l">
-                        <vk-icon icon="users" ratio="11"></vk-icon>
-                    </div>
-                </vk-grid>
-            </vk-card>
-        </div>
-        <div class="uk-padding-remove uk-margin-remove">
-            <vk-card class="uk-width-1-1 uk-padding-small" type="blank">
-                <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-expand@s uk-padding-small">
-                    <div class="uk-text-center uk-visible@m uk-visible@l">
-                        <vk-icon icon="users" ratio="11"></vk-icon>
-                    </div>
-                    <div>
-                        <table class="uk-table">
-                            <tbody>
-                              <tr><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Free Access to Diagnostics tools:</h5>
-                                  <ul class="uk-list uk-list-large uk-list-bullet">
-                                      <li><h5>Career disruption diagnostic</h5></li>
-                                      <li><h5>Data Science career fitness diagnosis</h5></li>
-                                      <li><h5>Procurement Sandbox Toolkit for Big Data Tools</h5></li>
-                                      <li><h5>Data Science Trainers Toolkit</h5></li>
-                                      <li><h5>Data Science Talent Interviewers Framework</h5></li>
-                                      <li><h5>Data Science Toolkit for Leaders </h5></li>
-                                  </ul>
-                              </tr>
-                              <tr><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Dicsounted Rate for Analytics Masterclass.</h5></tr>
-                              <tr><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Virtual/Physical Office Space</h5></tr>
-                              <tr><h5><vk-icon icon="check" class="uk-text-success"></vk-icon>  Access to living book title Big Data Principle and Practice authored by <b>Timothy Oriedo</b></h5></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </vk-grid>
-            </vk-card>
-        </div>
-
-        <div class="uk-inline uk-padding-remove uk-margin-remove">
-
-            <img src="@/assets/images/global.jpg" alt="">
-
-            <div class="uk-position-cover uk-overlay uk-overlay-default uk-flex uk-flex-center uk-flex-middle">
-                <vk-card class="uk-width-1-1 uk-dark uk-padding-large" type="blank">
-                    <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-expand@s uk-padding-large">
-                        <div>
-                            <h2>This is necessitated by the drive towards the 4th industrial revolution.</h2>
-                            <ul class="uk-list uk-list-large">
-                                <li><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> The fourth industrial revolution is the current and developing environment in which disruptive technologies and trends such as the Internet of Things (IoT), robotics, virtual reality (VR) and artificial intelligence (AI) are changing the way we live and work.</h5></li>
-                                <li><h5><vk-icon icon="check" class="uk-text-success"></vk-icon> Reskilling – the process of learning new skills so you can do a different job, or of training people to do a different job. While upskilling points out the same, it focuses more on improving worker's skills so they can work within the same job.</h5></li>
-                            </ul>
-                            <a class="uk-button uk-button-primary uk-button-large" :href="plansLink">View Plans</a>
+                    <div class="uk-text-center">
+                        <h2 class="uk-margin-remove">MEMBERS ACCESS FEATURES</h2>
+                        <div class="uk-padding-small">
+                            <vueper-slides
+                                class="no-shadow"
+                                :visible-slides="2"
+                                :slide-ratio="1 / 3"
+                                :gap="5"
+                                :dragging-distance="70">
+                                <vueper-slide v-for="(slide, i) in slides" :key="i" :image="slide.image" :title="slide.title" :loading="true"  />
+                            </vueper-slides>
+                            <a class="uk-button uk-button-red uk-button-large" :href="$router.resolve({name:'aboutus'}).href"> View More </a>
                         </div>
-                    </vk-grid>
-                </vk-card>
-            </div>
+                    </div>
+                    <div class="uk-inline">
+
+                        <img src="@/assets/images/people.png" width="100%" alt="">
+
+                        <div class="uk-position-small uk-position-cover uk-overlay uk-overlay-default uk-flex uk-flex-center">
+                            <div class="uk-padding-large uk-text-center">
+                                <h2 class="uk-margin-remove">SIMPLE, AFFORDABLE PLANS</h2>
+                                <h4 class="uk-margin-small">
+                                    We offer a wide range of afforable plans for users to get plugged in to the community.
+                                    To learn more about these plans, click the link below.
+                                </h4>  
+                            </div>
+                        </div>
+
+                    </div>
+                </vk-grid>
+            </vk-card>
+        </div>
+
+        <div>
+
         </div>
     </vk-grid>
 </template>
 
 <script>
+    // In your Vue.js component.
+    import { VueperSlides, VueperSlide } from 'vueperslides'
+    import 'vueperslides/dist/vueperslides.css'
+
     export default {
         name: 'landing',
+        components: {
+            VueperSlides, VueperSlide 
+        },
         data () {
             return {
-                plansLink:this.$router.resolve({name:"plans"}).href
+                plansLink:this.$router.resolve({name:"plans"}).href,
+                slides: [
+                    { image: "/../assets/images/webinars.png", title: " Monthly Topical Webinairs." },                
+                    { image: "/../assets/images/business-coach.jpg", title: " Business Consulting Opportunities." },                
+                    { image: "/../assets/images/coach.png", title: "Free monthly group coaching (Career or Business)" },                
+                    { image: "/../assets/images/code.png", title: " Free online courses." },                
+                ]
             }
         }
     }

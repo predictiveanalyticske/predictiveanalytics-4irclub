@@ -1,13 +1,17 @@
 <template>
     <vk-grid class="uk-child-width-1-1 uk-margin-remove">
         <div class="uk-padding-remove uk-margin-remove">
-            <vk-card class="br-banner uk-width-1-1 uk-light uk-padding-large">
-                <vk-grid class="uk-child-width-1-2">
+            <vk-card class="br-banner uk-light uk-padding-large">
+                <vk-grid class="uk-child-width-1-1 uk-text-center">
                     <div>
                         <h1>Signup</h1>
-                        <h4 class="uk-margin-remove">Registered account can be able to access the services.</h4>
                     </div>
                 </vk-grid>
+                <div class='box'>
+                    <div class='wave -one'></div>
+                    <div class='wave -two'></div>
+                    <div class='wave -three'></div>
+                </div>
             </vk-card>
         </div>
         <div class="uk-padding-remove uk-margin-remove">
@@ -78,7 +82,7 @@
                 if( this.$router.mode == "hash"){
                     formData.append('base_url', window.location.origin + '/#/');
                 } else {
-                    formData.append('base_url', window.location.origins);
+                    formData.append('base_url', window.location.origin);
                 }
 
                 this.bralcoaxios({ url: el.attributes.action.value, request:el.attributes.method.value, form: formData }).then( (response) => {

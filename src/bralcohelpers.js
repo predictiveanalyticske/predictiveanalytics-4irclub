@@ -36,7 +36,7 @@ BralcoHelpers.install = function (Vue,) {
         stored.state.app.loader = false;
 
         let data               = response.data;
-        var response_container = {t:"error",h:response.statusText};
+        var response_container = {t:"error",h:response.statusText,m:response.data.m != undefined ? response.data.m : null};
 
         switch( response.status ){
             case 200:
@@ -63,13 +63,17 @@ BralcoHelpers.install = function (Vue,) {
                 window.location.reload();
             break;
             case 401:
-                switch(this.$route.name){
-                    case "auth":
-                        response_container.m = data.m;
-                        return Vue.prototype.bralcoswal(response_container);
-                    default:
-                        window.localStorage.clear();
-                        window.location.reload();
+                if( response.data.show){
+                    return Vue.prototype.bralcoswal(response_container);
+                } else {
+                    switch(this.$route.name){
+                        case "auth":
+                            response_container.m = data.m;
+                            return Vue.prototype.bralcoswal(response_container);
+                        default:
+                            window.localStorage.clear();
+                            window.location.reload();
+                    }
                 }
             break;
             case 402:

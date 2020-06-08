@@ -2,11 +2,16 @@
     <vk-grid class="uk-child-width-1-1 uk-margin-remove">
         <div class="uk-padding-remove uk-margin-remove">
             <vk-card class="br-banner uk-width-1-1 uk-light uk-padding-large">
-                <vk-grid class="uk-child-width-1-2">
+                <vk-grid class="uk-child-width-1-1 uk-text-center">
                     <div>
                         <h1>Profile</h1>
                     </div>
                 </vk-grid>
+                <div class='box'>
+                    <div class='wave -one'></div>
+                    <div class='wave -two'></div>
+                    <div class='wave -three'></div>
+                </div>
             </vk-card>
         </div>
         <div class="uk-padding-remove uk-margin-remove">
@@ -61,7 +66,7 @@
                 </vk-tabs-item>
                 <vk-tabs-item title="Subscription">
                   <h2 class="uk-legend">Subscriptions</h2><hr>
-                  <div class="uk-width-1-2" >
+                  <div class="uk-width-2-3" >
                     <p class="uk-text-break">You have an active subscription. See more details below. To check more information about the package, click <a :href="$router.resolve({name:'plans'}).href">here</a> to view more packages to subscribe.</p>
                     <accordion :contents="subscription" />
                   </div>
@@ -112,9 +117,9 @@ export default {
             subscription () {
                 if( this.fields.user != null ){
                     return [{
-                        active: true,
-                        title: this.fields.user.subscription.subscription.name,
-                        html: '<div class="uk-padding-small"><h3 class="uk-margin-remove">'+this.fields.user.subscription.subscription.details+'</h4><h5 class="uk-margin-small">'+this.fields.user.subscription.subscription.summary+'</h5></div>'
+                        active: false,
+                        title:  this.fields.user.subscription.subscription.category,
+                        html:   '<div class="uk-padding-small"><h3>Features</h3><hr><h4>'+this.fields.user.subscription.subscription.name+'</h4><h$<p class="uk-margin-remove">'+this.fields.user.subscription.subscription.details+'</p></div>'
                     }];
                 } else {
                     return [];

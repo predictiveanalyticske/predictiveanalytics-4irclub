@@ -2,12 +2,16 @@
     <vk-grid class="uk-child-width-1-1 uk-margin-remove" v-if="$route.params.item == undefined">
         <div class="uk-padding-remove uk-margin-remove">
             <vk-card class="br-banner uk-width-1-1 uk-light uk-padding-large">
-                <vk-grid class="uk-child-width-1-2">
+                <vk-grid class="uk-child-width-1-1 uk-text-center">
                     <div>
                         <h1>Resources</h1>
-                        <h4>We provide useful content for our users to read through.</h4>
                     </div>
                 </vk-grid>
+                <div class='box'>
+                    <div class='wave -one'></div>
+                    <div class='wave -two'></div>
+                    <div class='wave -three'></div>
+                </div>
             </vk-card>
         </div>
         <div class="uk-padding-remove uk-margin-remove">

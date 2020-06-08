@@ -51,8 +51,8 @@
                 <div class="uk-width-1-1 uk-padding-small">
                   <h3>Enter Credentials</h3>
                   <div class="uk-grid uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-1-2@xl uk-child-width-expand@s">
-                      <div><label>Email Address</label> <input class="uk-input" name="email" placeholder="Email Address" required v-model="fields.existingaccount.email" /></div>
-                      <div><label>Password</label> <input class="uk-input" name="password" placeholder="Password" required v-model="fields.existingaccount.password" /></div>
+                      <div><label>Email Address</label> <input class="uk-input" name="email" type="text" placeholder="Email Address" required v-model="fields.existingaccount.email" /></div>
+                      <div><label>Password</label> <input class="uk-input" type="password" name="password" placeholder="Password" required v-model="fields.existingaccount.password" /></div>
                   </div>
                 </div>
               </div>
