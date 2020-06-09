@@ -23,7 +23,7 @@
                   <div v-for="(item,index) in value" :key="index" class="uk-padding-remove">
                     <vk-card class="br-plans" padding="small">
                       <vk-card-title>{{ item.name }}</vk-card-title>
-                      <vk-label type="success" class="uk-margin-small uk-width-1-1 uk-text-center">{{ item.monthly_cost }} per month</vk-label>
+                      <h3 class="uk-margin-small uk-width-1-1 uk-text-center uk-text-success">{{ item.monthly_cost }} per month</h3>
                       <a class="uk-button uk-button-medium uk-width-1-1 uk-button-red" :href="$router.resolve({name:'plan',params:{ item: item.id }}).href">Buy Now</a>
                       <p v-for="(value, key) in JSON.parse(item.features)" :key="key"><vk-icon icon="check"></vk-icon>{{ value }}</p>
                     </vk-card>
