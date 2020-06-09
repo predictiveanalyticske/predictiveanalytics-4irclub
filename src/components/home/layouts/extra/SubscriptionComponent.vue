@@ -10,17 +10,23 @@
             </a>
         </div>
         <div class="accordion-body" ref="accordionbody">
-          <div class="accordion-content uk-padding">
-             <label><h6 class="uk-margin-remove"><input @click="selectSubscription" class="uk-radio" name="subscription" type="radio" v-model="fields.amount" data-target="monthly" :value="data.monthly_cost"> Monthly Subscription</h6></label>
-             <div class="uk-padding-small uk-grid uk-grid-small">
-                 <div class="uk-leader-fill-content uk-width-expand">Total</div>
-                 <div>{{ data.monthly_cost }}</div>
-             </div>
-             <label><h6 class="uk-margin-remove"><input class="uk-radio" @click="selectSubscription" name="subscription" type="radio" v-model="fields.amount" data-target="annual" :value="data.annual_cost"> Annual Subscription</h6></label>
-             <div class="uk-padding-small uk-grid uk-grid-small">
-                 <div class="uk-leader-fill-content uk-width-expand">Total</div>
-                 <div>{{ data.annual_cost }}</div>
-             </div>
+          <div class="accordion-content uk-padding-large">
+            <vk-grid class="uk-child-width-1-2">
+              <div>
+                <vk-card class="br-plans uk-text-center" padding="small">
+                  <label><h6 class="uk-margin-remove"><input @click="selectSubscription" class="uk-radio" name="subscription" type="radio" v-model="fields.amount" data-target="monthly" :value="data.monthly_cost"> Monthly Subscription</h6></label>
+                  <h4 class="uk-text-muted uk-margin-remove">Monthly</h4>
+                  <vk-card-title class="uk-margin-small">{{ data.monthly_cost }}</vk-card-title>
+                </vk-card>
+              </div>
+              <div>
+                <vk-card class="br-plans uk-text-center" padding="small">
+                  <label><h6 class="uk-margin-remove"><input class="uk-radio" @click="selectSubscription" name="subscription" type="radio" v-model="fields.amount" data-target="annual" :value="data.annual_cost"> Annual Subscription</h6></label>
+                  <h4 class="uk-text-muted uk-margin-remove">Annually</h4>
+                  <vk-card-title class="uk-margin-small">{{ data.annual_cost }}</vk-card-title>
+                </vk-card>
+              </div>
+            </vk-grid>
           </div>
         </div>
     </div>

@@ -2,39 +2,69 @@
       <vk-grid class="uk-child-width-1-1 uk-margin-remove">
           <div class="uk-padding-remove uk-margin-remove">
               <vk-card class="br-banner uk-width-1-1 uk-light uk-padding-large">
-                  <vk-grid class="uk-child-width-1-2">
+                  <vk-grid class="uk-child-width-1-1 uk-text-center">
                       <div>
                         <h1>{{ data.name }}</h1>
                         <h4 class="uk-margin-remove">{{ data.category }}</h4>
                       </div>
                   </vk-grid>
+                  <div class='box'>
+                    <div class='wave -one'></div>
+                    <div class='wave -two'></div>
+                    <div class='wave -three'></div>
+                </div>
               </vk-card>
           </div>
           <div class="uk-margin-remove uk-padding-remove">
             <vk-card class="uk-padding-small">
               <div class="uk-flex uk-flex-center">
-                <vk-card type="blank" class="uk-width-2-3 uk-padding-remove">
-                  <h2>View Product</h2>
-                  <accordion v-if="items.length > 0" :contents="items" class="uk-width-1-1 uk-padding-remove-bottom uk-padding-remove-top"/>
-                  <vk-button class="uk-button-red uk-margin" size="large" @click="showpurchase" v-if="showbuy">Buy</vk-button>
-                  <transition name="slideDown">
-                    <vk-grid class="uk-child-width-1-1 uk-margin" v-if="showpurchasediv">
-                      <div>
-                        <h3>Review & Checkout</h3>
-                      </div>
-                      <div>
-                        <h4 class="uk-margin-small">Billing Details</h4>
-                        <billinginfo :fields="billing" class="uk-width-1-1 uk-padding-remove-top"/>
-                      </div>
-                      <div>
-                        <h4>Subscription details</h4>
-                        <subscriptions :fields="fields" :data="{'monthly_cost':data.monthly_cost,'annual_cost':data.annual_cost}" class="uk-width-1-1 uk-padding-remove-top"/>
-                      </div>
-                      <div>
-                        <vk-button class="uk-button-red uk-light" @click="submitForm" size="large">Next</vk-button>
-                      </div>
-                    </vk-grid>
-                  </transition>
+                <vk-card type="blank" class="uk-width-1-1 uk-padding-remove">
+                  <h2>Select your plan</h2>
+                  <vk-grid class="uk-child-width-expand">
+                    <div class="uk-width-2-3">
+                      <subscriptions :fields="fields" :data="{'monthly_cost':data.monthly_cost,'annual_cost':data.annual_cost}" class="uk-width-1-1 uk-padding-remove-top"/>
+                      <vk-button class="uk-button-red uk-margin" size="large" @click="showpurchase" v-if="showbuy">Next</vk-button>
+                      <transition name="slideDown">
+                        <vk-grid class="uk-child-width-1-1 uk-margin" v-if="showpurchasediv">
+                          <div>
+                            <h4 class="uk-margin-small">Billing Details</h4>
+                            <billinginfo :fields="billing" class="uk-width-1-1 uk-padding-remove-top"/>
+                          </div>
+                          <div>
+                            <h4>Subscription details</h4>
+                          </div>
+                          <div>
+                            <vk-button class="uk-button-red uk-light" @click="submitForm" size="large">Next</vk-button>
+                          </div>
+                        </vk-grid>
+                      </transition>
+                    </div>
+                    <div class="uk-with-1-3">
+                        <vk-card class="br-plans" padding="small">
+                            <div slot="header">
+                              <h3 class="uk-margin-remove">Order Summary</h3>
+                            </div>
+                            <vk-grid class="uk-child-width-expand">
+                              <div>
+                                 <p class="uk-margin-remove"> {{ data.name }}</p>
+                                 <p class="uk-margin-remove">{{ data.category }}</p>
+                              </div>
+                              <div>
+                                  <p class="uk-margin-remove"> {{ fields.amount }}</p>
+                                  <p class="uk-margin-remove"> {{ fields.subscription_type }}</p>
+                              </div>
+                            </vk-grid><hr>
+                            <vk-grid class="uk-child-width-expand">
+                              <div>
+                                 <h5 class="uk-margin-remove"> Today's Charge</h5>
+                              </div>
+                              <div>
+                                  <h3 class="uk-margin-remove"> {{ fields.amount }}</h3>
+                              </div>
+                            </vk-grid><hr>
+                        </vk-card>
+                    </div>
+                  </vk-grid>
                 </vk-card>
               </div>
             </vk-card>
@@ -43,12 +73,10 @@
 </template>
 
 <script>
-    import accordion from '@/components/plugins/AccordionComponent'
     import billinginfo from '@/components/home/layouts/extra/BillingInfoComponent'
     import subscriptions from '@/components/home/layouts/extra/SubscriptionComponent'
     export default {
         components: {
-          accordion,
           billinginfo,
           subscriptions
         },
@@ -87,7 +115,7 @@
             this.bralcoaxios({ url: this.$store.state.app.env.backend_url + "/api/v1/subscriptions/fetch/view/" + this.$route.params.item, request: "GET" }).then( (response) => {
                 let resolve = this.bralcoresponse(response);
                 this.data   = resolve.data;
-                this.items.push({title:"What's in the package ?", active: true, html: this.data.details});
+                this.items.push({title:"What's in the package ?", active: true, description: this.data.features});
                 this.$store.state.app.loader = false;
             });
         },

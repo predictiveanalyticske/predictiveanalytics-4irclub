@@ -16,13 +16,17 @@
         </div>
         <div class="uk-padding-remove uk-margin-remove" v-if="count > 0">
           <vk-card>
-            <vk-grid class="uk-child-width-1-1 uk-padding-large">
-              <div v-for="(value,key) in cards" :key="key">
+            <vk-grid class="uk-child-width-1-1 uk-padding-large" matched>
+              <div v-for="(value,key) in data" :key="key">
                 <h1 class="uk-text-center">{{ key }}</h1>
-                <vk-grid gutter="small" :class="'uk-child-width-1-3'">
-                  <div v-for="(item,index) in value" :key="index">
-                    <accordion :contents="item" />
-
+                <vk-grid gutter="small" :class="'uk-child-width-1-4'">
+                  <div v-for="(item,index) in value" :key="index" class="uk-padding-remove">
+                    <vk-card class="br-plans" padding="small">
+                      <vk-card-title>{{ item.name }}</vk-card-title>
+                      <vk-label type="success" class="uk-margin-small uk-width-1-1 uk-text-center">{{ item.monthly_cost }} per month</vk-label>
+                      <a class="uk-button uk-button-medium uk-width-1-1 uk-button-red" :href="$router.resolve({name:'plan',params:{ item: item.id }}).href">Buy Now</a>
+                      <p v-for="(value, key) in JSON.parse(item.features)" :key="key"><vk-icon icon="check"></vk-icon>{{ value }}</p>
+                    </vk-card>
                   </div>
                 </vk-grid>
               </div>
@@ -46,11 +50,7 @@
 </template>
 
 <script>
-    import accordion from '@/components/plugins/AccordionComponent'
     export default {
-        components: {
-          accordion
-        },
         name: 'plans',
         data () {
           return {
@@ -64,17 +64,6 @@
                 var resolve = this.bralcoresponse(response);
                 this.data   = resolve.data.subscriptions;
                 this.count = Object.values(this.data).length;
-                let items = [];
-                for(let index in this.data){
-                  for(let value of this.data[index]){
-                    items.push([{
-                      active: true,
-                      title: value.name,
-                      html: value.summary + '<a href="'+window.location.origin+"/"+this.$router.resolve({name:'plan',params:{ item: value.id}}).href+'" class="uk-button uk-button-default">View More</a>'
-                    }]);
-                  }
-                  this.cards[index] = items; 
-                }
             });
         }
     }

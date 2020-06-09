@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
 h1,h2,h3,h4,h5,h6,p,a,input,text,select,label,button{
-    font-family: 'Dosis', sans-serif !important;
+  font-family: 'Quicksand', sans-serif;
 }
 *,*::before,*::after {
   box-sizing: inherit;
@@ -34,12 +34,13 @@ body::after {
   }
 }
 .br-banner{
-  background-image: linear-gradient(to right,#bf040f ,#e95905) !important;
+    background-image: linear-gradient(to right,#bf040f ,#e95905) !important;
     box-shadow: none !important;
     position: relative;
 }
-.br-banner .uk-grid {
-  z-index:200;
+.br-plans{
+  border: 1px solid #ededed;
+  box-shadow: 0 0 2px 2px #ededed !important;
 }
 .box {
   position: fixed;
@@ -208,18 +209,13 @@ body::after {
     box-shadow: none !important;
 }
 .uk-card-red {
-    background-color:#bf040f !important;
-    border-radius: 5px !important;
+  background-image: linear-gradient(to right,#bf040f ,#e95905) !important;
+  border-radius: 5px !important;
     color: #fff !important;
 }
 .uk-button-red {
-    background-color:#bf040f !important;
-    color: #fff !important;
-}
-.uk-button-red:hover {
-  background-color:#fff !important;
-  border: 2px solid #bf040f !important;
-  color: #bf040f !important;
+  background-image: linear-gradient(to right,#bf040f ,#e95905) !important;
+  color: #fff !important;
 }
 .uk-navbar, .uk-navbar-dropdown {
   background-image: linear-gradient(to right,#bf040f ,#e95905) !important;

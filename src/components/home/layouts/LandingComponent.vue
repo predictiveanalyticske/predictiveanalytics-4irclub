@@ -2,7 +2,7 @@
     <vk-grid class="uk-child-width-1-1 uk-margin-remove">
         <div class="uk-padding-remove uk-margin-remove">
             <vk-card class=" uk-width-1-1 uk-light br-banner uk-padding-large">
-                <vk-grid class="uk-child-width-expand uk-text-center uk-padding-large">
+                <vk-grid class="uk-child-width-expand uk-text-center">
                     <div>
                         <h1>4th INDUSTRIAL REVOLUTION CLUB</h1>
                         <h4 class="uk-text-break uk-margin-remove">
@@ -14,6 +14,7 @@
                 <div class='box'>
                     <div class='wave -one'></div>
                     <div class='wave -two'></div>
+                    <div class='wave -three'></div>
                 </div>
             </vk-card>
         </div>
@@ -52,21 +53,7 @@
                             <a class="uk-button uk-button-red uk-button-large" :href="$router.resolve({name:'aboutus'}).href"> View More </a>
                         </div>
                     </div>
-                    <div class="uk-inline">
-
-                        <img src="@/assets/images/people.png" width="100%" alt="">
-
-                        <div class="uk-position-small uk-position-cover uk-overlay uk-overlay-default uk-flex uk-flex-center">
-                            <div class="uk-padding-large uk-text-center">
-                                <h2 class="uk-margin-remove">SIMPLE, AFFORDABLE PLANS</h2>
-                                <h4 class="uk-margin-small">
-                                    We offer a wide range of afforable plans for users to get plugged in to the community.
-                                    To learn more about these plans, click the link below.
-                                </h4>  
-                            </div>
-                        </div>
-
-                    </div>
+                 
                 </vk-grid>
             </vk-card>
         </div>
