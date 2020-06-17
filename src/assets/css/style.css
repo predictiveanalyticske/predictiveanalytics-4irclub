@@ -2,9 +2,13 @@
 h1,h2,h3,h4,h5,h6,p,a,input,text,select,label,button{
   font-family: 'Quicksand', sans-serif;
 }
+html, body {
+  scroll-behavior: smooth;
+}
 *,*::before,*::after {
   box-sizing: inherit;
 }
+
 body::after {
     content: "";
     opacity: 0.3;
@@ -18,10 +22,7 @@ body::after {
 .bounce-enter-active {
   animation: bounce-in .5s;
 }
-.uk-card-success{
-  background-color:	#32CD32 !important;
-  border-radius: 5px !important;
-}
+
 @keyframes bounce-in {
   0% {
     transform: scale(0);
@@ -33,66 +34,47 @@ body::after {
     transform: scale(1);
   }
 }
+
 .br-banner{
-    background-image: linear-gradient(to right,#bf040f ,#e95905) !important;
+    background-image: linear-gradient(to right,#bf040f ,#ff6c3f) !important;
     box-shadow: none !important;
     position: relative;
 }
+
+.br-parallax img{
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  position: relative !important;
+}
+
+.br-navbar{
+  z-index:1;
+}
+
+.br-sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index:100;
+  margin-bottom: 40px !important;
+}
+
+.br-footer {
+  background: #121921;
+}
+
 .br-plans{
   border: 1px solid #ededed;
   box-shadow: 0 0 2px 2px #ededed !important;
-}
-.box {
-  position: fixed;
-  top: 0;
-  transform: rotate(100deg); 
-  right: 0;
-}
-
-.wave {
-  position: absolute;
-  opacity: .3;
-  width: 1500px;
-  height: 1300px;
-  margin-right: -250px;
-  margin-left: -100px;
-  margin-top: -900px;
-  margin-bottom: 0px;
-  border-radius: 100%;
-}
-@keyframes rotate {
-  from { transform: rotate(0deg); }
-  from { transform: rotate(360deg); }
-}
-.wave.-one {
-  animation: rotate 10000ms infinite linear;
-  opacity: .3;
-  background: rgb(200, 76, 76);
-}
-
-.wave.-two {
-  animation: rotate 5000ms infinite linear;
-  opacity: .1;
-  background: rgb(141, 141, 141);
-}
-
-.wave.-three {
-  animation: rotate 7500ms infinite linear;
-  background-color: #ec4f4f;
 }
 
 .hidden {
   display: none;
 }
 
-.vueperslide__content-wrapper{
-  background: #1d1d1d !important;
-  opacity: .9;
-}
-.vueperslide__title {
-  color: #fff;
-  font-size: 150%;
-}
 .overlay{
     top: 0;
     left: 0;
@@ -191,7 +173,6 @@ body::after {
   }
 }
 
-
 /* Enter and leave animations can use different */
 /* durations and timing functions.              */
 .slide-fade-enter-active {
@@ -205,20 +186,38 @@ body::after {
   transform: translateX(10px);
   opacity: 0;
 }
-.uk-card-no-shadow {
-    box-shadow: none !important;
+
+/* 
+Svg
+*/
+.shape {
+  width:100%;
+  height:200px;
 }
-.uk-card-red {
-  background-image: linear-gradient(to right,#bf040f ,#e95905) !important;
-  border-radius: 5px !important;
-    color: #fff !important;
+
+.shape .gradient-bg {
+  fill: url(#header-shape-gradient) #fff;
 }
+
+rect{
+  fill: url(#header-shape-gradient) #fff;
+}
+
+#header-shape-gradient {
+  --color-stop: #bf040f;
+  --color-bot: #e95905;
+}
+
+/* 
+UI KIT Overrides
+*/
+
 .uk-button-red {
   background-image: linear-gradient(to right,#bf040f ,#e95905) !important;
   color: #fff !important;
 }
 .uk-navbar, .uk-navbar-dropdown {
-  background-image: linear-gradient(to right,#bf040f ,#e95905) !important;
+  background-color:#bf040f !important;
 }
 .uk-navbar a {
     color: #ffffff !important;
@@ -226,4 +225,33 @@ body::after {
 .uk-card-alerts {
   background: #2d2d2d !important;
   color: #fff !important;
+}
+.uk-card-no-shadow {
+  box-shadow: none !important;
+}
+.uk-card-red {
+background-image: linear-gradient(to right,rgb(191, 4, 15) ,#e95905) !important;
+border-radius: 5px !important;
+  color: #fff !important;
+}
+.uk-card-success{
+  background-color:	#32CD32 !important;
+  border-radius: 5px !important;
+}
+.uk-overlay-default{
+  background: rgba(191, 4, 15, 0.5)!important;
+  color: #fff;
+}
+
+/* 
+Vue Slides Override
+*/
+
+.vueperslide__content-wrapper{
+  background: #1d1d1d !important;
+  opacity: .9;
+}
+.vueperslide__title {
+  color: #fff;
+  font-size: 150%;
 }
