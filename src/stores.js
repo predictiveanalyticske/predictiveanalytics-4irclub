@@ -16,6 +16,13 @@ let VuexData = {
           isAuthorized:    false,
           token_type:      null
         },
+        banner: {
+          show: false,
+          content: {
+            title: null,
+            message: null
+          }
+        },
         env: {
           state: process.env.MIX_APP_ENV,
           backend_url: process.env.VUE_APP_ENDPOINT_URL,
@@ -38,11 +45,29 @@ let VuexData = {
     },
     backendurl: state => {
       return state.app.env.backend_url;
-    }
+    },
+    banner_title: state => {
+      return state.app.banner.content.title;
+    },
+    banner_message: state => {
+      return state.app.banner.content.message;
+    },
+    banner_show: state => {
+      return state.app.banner.show;
+    },
   },
   mutations: {
     access_token (state, val){
       state.app.auth.access_token = val
+    },
+    banner_title (state, val){
+      state.app.banner.content.title = val
+    },
+    banner_content (state, val){
+      state.app.banner.content.message = val
+    },
+    banner_show (state, val){
+      state.app.banner.show = val
     },
     refresh_token (state, val){
       state.app.auth.refresh_token = val
