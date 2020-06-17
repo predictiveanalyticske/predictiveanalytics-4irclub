@@ -23,7 +23,7 @@ import NotFound from './components/global/NotFoundComponent.vue';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
    routes: [
             {
             path: '/',
@@ -163,3 +163,11 @@ export default new Router({
    ]
 
 });
+
+router.beforeEach((to,from, ...next) => {
+    stored.commit('loader',true);
+    // console.log(next);
+    next[0]();
+});
+
+export default router;
