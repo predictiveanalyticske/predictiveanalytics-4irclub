@@ -1,20 +1,6 @@
 <template>
     <vk-grid class="uk-child-width-1-1 uk-margin-remove">
         <div class="uk-padding-remove uk-margin-remove">
-            <vk-card class="br-banner uk-light uk-padding-large">
-                <vk-grid class="uk-child-width-1-1 uk-text-center">
-                    <div>
-                        <h1>Account Login</h1>
-                    </div>
-                </vk-grid>
-                <div class='box'>
-                    <div class='wave -one'></div>
-                    <div class='wave -two'></div>
-                    <div class='wave -three'></div>
-                </div>
-            </vk-card>
-        </div>
-        <div class="uk-padding-remove uk-margin-remove">
           <vk-card padding="large">
             <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m">
               <div>
@@ -76,5 +62,13 @@
                 });
             }
         },
+        beforeMount(){
+             this.$store.commit('banner_title','Account Login')
+             this.$store.commit('banner_content','');
+        },
+        mounted () {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
     }
 </script>

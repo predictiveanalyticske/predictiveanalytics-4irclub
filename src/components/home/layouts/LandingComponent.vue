@@ -1,27 +1,9 @@
 <template>
-    <vk-grid class="uk-child-width-1-1 uk-margin-remove">
-        <div class="uk-padding-remove uk-margin-remove">
-            <vk-card class=" uk-width-1-1 uk-light br-banner uk-padding-large">
-                <vk-grid class="uk-child-width-expand uk-text-center">
-                    <div>
-                        <h1>4th INDUSTRIAL REVOLUTION CLUB</h1>
-                        <h4 class="uk-text-break uk-margin-remove">
-                            Life Long Learning to re-engineer your career and business to 
-                            be adaptive to the demands of the emerging 4th Industrial Revolution.
-                        </h4>
-                    </div>
-                </vk-grid>
-                <div class='box'>
-                    <div class='wave -one'></div>
-                    <div class='wave -two'></div>
-                    <div class='wave -three'></div>
-                </div>
-            </vk-card>
-        </div>
+    <vk-grid class="uk-child-width-1-1 uk-margin-large-top">
         <div class="uk-padding-remove uk-margin-remove">
             <vk-card class="uk-width-1-1">
                 <vk-grid class="uk-child-width-1-1">
-                    <div>
+                    <div id="about">
                         <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-expand@s uk-padding-large">
                             <div>
                                 <h2>About 4th Industrial Revolution Club</h2>
@@ -33,7 +15,7 @@
                                     This is necessitated by the drive towards the 4th industrial revolution. The fourth industrial revolution is the current and developing environment in which disruptive technologies and trends such as the Internet of Things (IoT), robotics, virtual reality (VR) and artificial intelligence (AI) are changing the way we live and work. 
                                     Reskilling – the process of learning new skills so you can do a different job, or of training people to do a different job.
                                 </h5>
-                                <a class="uk-button uk-button-red" :href="$router.resolve({name:'aboutus'}).href"> Learn More </a>
+                                <a class="uk-button uk-button-red" :href="$router.resolve({name:'about098765432'}).href"> Learn More </a>
                             </div>
                             <div>
                                 <div class="uk-flex uk-flex-center uk-flex-middle">
@@ -86,6 +68,18 @@
                     { image: "/../assets/images/code.png", title: " Free online courses." },                
                 ]
             }
+        },
+        beforeMount(){
+             this.$store.commit('banner_show',true);
+             this.$store.commit('banner_title','4th Industrial Revolution Club')
+             this.$store.commit('banner_content','Life Long Learning to re-engineer your career and business to be adaptive to the demands of the emerging 4th Industrial Revolution.');
+        },
+        beforeDestroy(){
+            this.$store.commit('banner_show',false);
+        },
+        mounted () {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
         }
     }
 </script>
