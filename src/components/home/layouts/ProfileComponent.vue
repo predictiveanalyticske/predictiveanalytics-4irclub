@@ -1,75 +1,71 @@
 <template>
     <vk-grid class="uk-child-width-1-1 uk-margin-remove">
         <div class="uk-padding-remove uk-margin-remove">
-            <vk-card class="br-banner uk-width-1-1 uk-light uk-padding-large">
-                <vk-grid class="uk-child-width-1-1 uk-text-center">
-                    <div>
-                        <h1>Profile</h1>
-                    </div>
-                </vk-grid>
-                <div class='box'>
-                    <div class='wave -one'></div>
-                    <div class='wave -two'></div>
-                    <div class='wave -three'></div>
-                </div>
-            </vk-card>
-        </div>
-        <div class="uk-padding-remove uk-margin-remove">
           <vk-card padding="large">
-            <vk-tabs-vertical align="left" animation="fade" class="uk-padding-large">
+            <vk-tabs align="center" animation="fade" class="uk-padding-large">
                 <vk-tabs-item title="Profile">
-                    <form>
-                        <fieldset class="uk-fieldset">
-                            <h2 class="uk-legend">Account Details</h2><hr>
-                            <div class="uk-width-1-2" v-if="fields.user != null">
-                                <div class="uk-margin">
-                                    <label>Avatar</label>
-                                    <dropify
-                                        :accept="'images/*'"
-                                        :message="'Upload Avatar Image'"
-                                        :files="[fields.user.avatar != null ? fields.user.avatar : '']"
-                                        :itemFile.sync="fields.user.avatar"
-                                        @click.native="initUpload"
-                                        >
-                                    </dropify>
-                                </div>
+                    <div class="uk-flex uk-flex-center">
+                        <div class="uk-width-1-2">
+                            <form>
+                                <fieldset class="uk-fieldset">
+                                    <h2 class="uk-legend">Account Details</h2><hr>
+                                    <div class="uk-width-1-1" v-if="fields.user != null">
+                                        <div class="uk-margin">
+                                            <label>Avatar</label>
+                                            <dropify
+                                                :accept="'images/*'"
+                                                :message="'Upload Avatar Image'"
+                                                :files="[fields.user.avatar != null ? fields.user.avatar : '']"
+                                                :itemFile.sync="fields.user.avatar"
+                                                @click.native="initUpload"
+                                                >
+                                            </dropify>
+                                        </div>
 
-                                <div class="uk-margin">
-                                    <label>First Name</label>
-                                    <input class="uk-input" type="text" v-model="fields.user.first_name" placeholder="First Name">
-                                </div>
+                                        <div class="uk-margin">
+                                            <label>First Name</label>
+                                            <input class="uk-input" type="text" v-model="fields.user.first_name" placeholder="First Name">
+                                        </div>
 
-                                <div class="uk-margin">
-                                    <label>Surname Name</label>
-                                    <input class="uk-input" type="text" v-model="fields.user.last_name" placeholder="Surname Name">
-                                </div>
+                                        <div class="uk-margin">
+                                            <label>Surname Name</label>
+                                            <input class="uk-input" type="text" v-model="fields.user.last_name" placeholder="Surname Name">
+                                        </div>
 
-                                <div class="uk-margin">
-                                    <label>Email Address</label>
-                                    <input class="uk-input" disabled type="text" v-model="fields.user.email" placeholder="Email Address">
-                                </div>
+                                        <div class="uk-margin">
+                                            <label>Email Address</label>
+                                            <input class="uk-input" disabled type="text" v-model="fields.user.email" placeholder="Email Address">
+                                        </div>
 
-                                <div class="uk-margin">
-                                    <label>Phone Number</label>
-                                    <input class="uk-input" type="text" v-model="fields.user.phone" placeholder="Phone Number">
-                                </div>
+                                        <div class="uk-margin">
+                                            <label>Phone Number</label>
+                                            <input class="uk-input" type="text" v-model="fields.user.phone" placeholder="Phone Number">
+                                        </div>
 
-                                <div class="uk-margin">
-                                    <vk-button htmlType="submit" :class="'uk-button uk-button-primary'"> Save Changes </vk-button>
-                                </div>
-                            </div>
-                            <div class="uk-width-1-2 uk-padding-large" v-else>
-                                <vk-spinner ratio="3"></vk-spinner>
-                            </div>
-                        </fieldset>
-                    </form>
+                                        <div class="uk-margin">
+                                            <vk-button htmlType="submit" :class="'uk-button uk-button-primary'"> Save Changes </vk-button>
+                                        </div>
+                                    </div>
+                                    <div class="uk-width-1-2 uk-padding-large" v-else>
+                                        <vk-spinner ratio="3"></vk-spinner>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
                 </vk-tabs-item>
                 <vk-tabs-item title="Subscription">
-                  <h2 class="uk-legend">Subscriptions</h2><hr>
-                  <div class="uk-width-2-3" >
-                    <p class="uk-text-break">You have an active subscription. See more details below. To check more information about the package, click <a :href="$router.resolve({name:'plans'}).href">here</a> to view more packages to subscribe.</p>
-                    <accordion :contents="subscription" />
-                  </div>
+                    <div class="uk-flex uk-flex-center">
+                        <div class="uk-width-1-2">
+                            <h2 class="uk-legend">Subscriptions</h2><hr>
+                             <div class="uk-flex uk-flex-center">
+                            <div class="uk-width-1-1" >
+                                <p class="uk-text-break">You have an active subscription. See more details below. To check more information about the package, click <a :href="$router.resolve({name:'plans'}).href">here</a> to view more packages to subscribe.</p>
+                                <accordion :contents="subscription" />
+                            </div>
+                            </div>
+                        </div>
+                    </div>
                 </vk-tabs-item>
                 <vk-tabs-item title="Security">
                         <form action="" method="POST" @click.prevent="submitForm">
@@ -98,7 +94,7 @@
                             </fieldset>
                         </form>                  
                 </vk-tabs-item>
-            </vk-tabs-vertical>
+            </vk-tabs>
           </vk-card>
         </div>
     </vk-grid>
@@ -133,12 +129,22 @@ export default {
                 }
             }
         },
-        name: "profile",
-        mounted () {
-            this.bralcoaxios({ url: this.$store.state.app.env.backend_url + '/api/v1/4irclub/profile', request: 'GET' }).then( (response) => {
-                let resolve = this.bralcoresponse(response);
-                this.fields.user = resolve.data;
+        beforeRouteEnter(to,from,next){
+            next( vm => {
+                vm.initData(),
+                next()
             });
+        },
+        name: "profile",
+        methods: {
+            initData(){
+                this.bralcoaxios({ url: this.$store.state.app.env.backend_url + '/api/v1/4irclub/profile', request: 'GET' }).then( (response) => {
+                    let resolve = this.bralcoresponse(response);
+                    this.fields.user = resolve.data;
+                });
+                this.$store.commit('banner_title','Profile');
+                this.$store.commit('banner_content','');
+            }
         }
     }
 </script>

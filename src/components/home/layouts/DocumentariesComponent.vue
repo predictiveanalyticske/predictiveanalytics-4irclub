@@ -1,41 +1,23 @@
 <template>
     <vk-grid class="uk-child-width-1-1 uk-margin-remove">
-        <div class="uk-padding-remove">
-            <vk-card class="br-banner uk-light uk-padding-large">
-                <vk-grid class="uk-child-width-1-1 uk-text-center">
-                    <div>
-                        <h1>Documentaries</h1>                  
-                    </div>
-                </vk-grid>
-                <div class='box'>
-                    <div class='wave -one'></div>
-                    <div class='wave -two'></div>
-                    <div class='wave -three'></div>
-                </div>
-            </vk-card>
-        </div>
         <div class="uk-padding-remove uk-margin-remove">
             <vk-card>
                 <div v-if="posts.length > 0">
-                    <div class="uk-padding-small uk-flex uk-flex-center">
-                    <vk-button-group class="uk-padding">
+                    <vk-grid class="uk-flex-center uk-margin">
                         <div v-for="(value,index) in postChunk.length" :key="index">
-                        <vk-button class="uk-margin-small-right uk-button-red" :target="(parseInt(value) - 1)" v-if="activePage == (parseInt(value) - 1)"  @click="gotToPage">{{ value }}</vk-button>
-                        <vk-button class="uk-margin-small-right" v-else @click="gotToPage" :target="(parseInt(value) - 1)">{{ value }}</vk-button>
+                            <vk-button class="uk-margin-small-right uk-button-red" :target="(parseInt(value) - 1)" v-if="activePage == (parseInt(value) - 1)"  @click="gotToPage">{{ value }}</vk-button>
+                            <vk-button class="uk-margin-small-right" v-else @click="gotToPage" :target="(parseInt(value) - 1)">{{ value }}</vk-button>
                         </div>
-                    </vk-button-group>
-                    </div>
+                    </vk-grid>
                     <div class="uk-flex uk-flex-center" >
                         <Posts :data="activePostChunk" />
                     </div>
-                    <div class="uk-padding-small uk-flex uk-flex-center">
-                    <vk-button-group class="uk-padding">
+                    <vk-grid class="uk-flex-center uk-margin">
                         <div v-for="(value,index) in postChunk.length" :key="index">
-                        <vk-button class="uk-margin-small-right uk-button-red" :target="(parseInt(value) - 1)" v-if="activePage == (parseInt(value) - 1)"  @click="gotToPage">{{ value }}</vk-button>
-                        <vk-button class="uk-margin-small-right" v-else @click="gotToPage" :target="(parseInt(value) - 1)">{{ value }}</vk-button>
+                            <vk-button class="uk-margin-small-right uk-button-red" :target="(parseInt(value) - 1)" v-if="activePage == (parseInt(value) - 1)"  @click="gotToPage">{{ value }}</vk-button>
+                            <vk-button class="uk-margin-small-right" v-else @click="gotToPage" :target="(parseInt(value) - 1)">{{ value }}</vk-button>
                         </div>
-                    </vk-button-group>
-                    </div>
+                    </vk-grid>
                 </div>
                 <div v-else-if="posts.length == 0" class="uk-text-center">
                     <h3 class="uk-text-warning"><vk-icon icon="info"></vk-icon> Nothing Found Here</h3>
@@ -84,16 +66,24 @@
                 return this.posts.length;
             }
         },
-        created () {
-            this.bralcoaxios({ url: this.$store.state.app.env.backend_url + "/api/v1/home/posts", request: "GET" }).then( (response) => {
-                var resolve = this.bralcoresponse(response);
-                this.posts = resolve.data.posts;
-                this.posts = Object.entries(this.posts).map( ([, value]) => {return value;});
-                this.postChunk = chunk(this.posts, this.perPage);
-                this.activePostChunk = this.postChunk[0];
+        beforeRouteEnter (to,from,next) {
+            next( vm => {
+                vm.initData(),
+                next()
             });
         },
         methods: {
+            initData() {
+                this.bralcoaxios({ url: this.$store.state.app.env.backend_url + "/api/v1/home/posts", request: "GET" }).then( (response) => {
+                    var resolve = this.bralcoresponse(response);
+                    this.posts = resolve.data.posts;
+                    this.posts = Object.entries(this.posts).map( ([, value]) => {return value;});
+                    this.postChunk = chunk(this.posts, this.perPage);
+                    this.activePostChunk = this.postChunk[0];
+                });
+                this.$store.commit('banner_title','Documentaries');
+                this.$store.commit('banner_content','');
+            },
             gotToPage (event) {
                 let el = event.target;
                 this.activePage = parseInt(el.attributes.target.value);

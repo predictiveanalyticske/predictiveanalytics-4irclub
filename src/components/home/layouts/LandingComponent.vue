@@ -69,17 +69,29 @@
                 ]
             }
         },
-        beforeMount(){
-             this.$store.commit('banner_show',true);
-             this.$store.commit('banner_title','4th Industrial Revolution Club')
-             this.$store.commit('banner_content','Life Long Learning to re-engineer your career and business to be adaptive to the demands of the emerging 4th Industrial Revolution.');
+        beforeRouteEnter (to,from,next) {
+            next( vm => {
+                vm.initData(),
+                next()
+            });
+        },
+        beforeRouteUpdate () {
+            this.$store.commit('loader',true);
         },
         beforeDestroy(){
             this.$store.commit('banner_show',false);
         },
         mounted () {
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
+            this.$store.commit('loader',false);
+        },
+        methods: {
+            initData(){
+                this.$store.commit('banner_show',true);
+                this.$store.commit('banner_title','4th Industrial Revolution Club')
+                this.$store.commit('banner_content','Life Long Learning to re-engineer your career and business to be adaptive to the demands of the emerging 4th Industrial Revolution.');
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            }
         }
     }
 </script>

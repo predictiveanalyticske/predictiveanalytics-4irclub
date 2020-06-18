@@ -1,20 +1,5 @@
 <template>
       <vk-grid class="uk-child-width-1-1 uk-margin-remove">
-          <div class="uk-padding-remove uk-margin-remove">
-              <vk-card class="br-banner uk-width-1-1 uk-light uk-padding-large">
-                  <vk-grid class="uk-child-width-1-1 uk-text-center">
-                      <div>
-                        <h1>{{ data.name }}</h1>
-                        <h4 class="uk-margin-remove">{{ data.category }}</h4>
-                      </div>
-                  </vk-grid>
-                  <div class='box'>
-                    <div class='wave -one'></div>
-                    <div class='wave -two'></div>
-                    <div class='wave -three'></div>
-                </div>
-              </vk-card>
-          </div>
           <div class="uk-margin-remove uk-padding-remove">
             <vk-card class="uk-padding-small">
               <div class="uk-flex uk-flex-center">
@@ -39,7 +24,7 @@
                         </vk-grid>
                       </transition>
                     </div>
-                    <div class="uk-with-1-3">
+                    <div class="uk-width-1-3">
                         <vk-card class="br-plans" padding="small">
                             <div slot="header">
                               <h3 class="uk-margin-remove">Order Summary</h3>
@@ -111,15 +96,23 @@
             },
           }
         },
-        beforeCreate () {
+        beforeRouteEnter (to,from,next) {
+          next( vm => {
+            vm.initData(),
+            next()
+          });
+        },
+        methods: {
+          initData(){
             this.bralcoaxios({ url: this.$store.state.app.env.backend_url + "/api/v1/subscriptions/fetch/view/" + this.$route.params.item, request: "GET" }).then( (response) => {
                 let resolve = this.bralcoresponse(response);
                 this.data   = resolve.data;
                 this.items.push({title:"What's in the package ?", active: true, description: this.data.features});
-                this.$store.state.app.loader = false;
+                this.$store.commit('loader',false);
+                this.$store.commit('banner_title',this.data.name);
+                this.$store.commit('banner_content',this.data.category);
             });
-        },
-        methods: {
+          },
           showpurchase(){
             this.showbuy = false;
             this.showpurchasediv = true;

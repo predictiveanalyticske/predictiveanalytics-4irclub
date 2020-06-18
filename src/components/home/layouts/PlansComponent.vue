@@ -1,19 +1,5 @@
 <template>
     <vk-grid class="uk-child-width-1-1 uk-margin-remove" v-if="$route.params.item == undefined">
-        <div class="uk-padding-remove uk-margin-remove">
-            <vk-card class="br-banner uk-light uk-padding-large">
-                <vk-grid class="uk-child-width-1-1 uk-text-center">
-                    <div>
-                        <h1>Package Plans</h1>
-                    </div>
-                </vk-grid>
-                <div class='box'>
-                    <div class='wave -one'></div>
-                    <div class='wave -two'></div>
-                    <div class='wave -three'></div>
-                </div>
-            </vk-card>
-        </div>
         <div class="uk-padding-remove uk-margin-remove" v-if="count > 0">
           <vk-card>
             <vk-grid class="uk-child-width-1-1 uk-padding-large" matched>
@@ -65,7 +51,14 @@
                 this.data   = resolve.data.subscriptions;
                 this.count = Object.values(this.data).length;
             });
-        }
+        },
+        beforeMount(){
+             this.$store.commit('banner_title','Package Plans')
+             this.$store.commit('banner_content','List of available plans.');
+        },
+        mounted () {
+            this.$store.commit('loader',false);
+        },
     }
 </script>
 

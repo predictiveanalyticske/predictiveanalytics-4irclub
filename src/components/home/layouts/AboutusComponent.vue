@@ -1,20 +1,6 @@
 <template>
     <vk-grid class="uk-child-width-1-1 uk-margin-remove">
         <div class="uk-padding-remove uk-margin-remove">
-            <vk-card class=" uk-width-1-1 uk-light uk-padding-large br-banner">
-                <vk-grid class="uk-child-width-1-1 uk-text-center">
-                    <div>
-                        <h1>What it's all about.</h1>
-                    </div>
-                </vk-grid>
-                <div class='box'>
-                    <div class='wave -one'></div>
-                    <div class='wave -two'></div>
-                    <div class='wave -three'></div>
-                </div>
-            </vk-card>
-        </div>
-        <div class="uk-padding-remove uk-margin-remove">
             <vk-card class="uk-width-1-1 uk-padding-small">
                   <vk-grid class="uk-child-width-1-1">
                         <div>
@@ -60,5 +46,12 @@
 <script>
     export default {
         name: 'about',
+        beforeMount(){
+             this.$store.commit('banner_title','About Us')
+             this.$store.commit('banner_content','');
+        },
+        mounted (){
+             this.$store.commit('loader',false);
+        }
     }
 </script>
