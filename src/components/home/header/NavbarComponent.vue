@@ -1,39 +1,38 @@
 <template>
 <div class="uk-position-relative br-parallax">
+    <vk-navbar transparent class="uk-hidden@xl uk-hidden@l uk-hidden@m">
+        <vk-navbar-toggle title="Menu" @click="$store.commit('sidebar',true)"></vk-navbar-toggle>
+        <vk-navbar-logo slot="center">
+            <img src="@/assets/images/logo-full-white.png" width="50%"/>
+        </vk-navbar-logo>
+    </vk-navbar>
+    <vk-navbar transparent class="br-navbar uk-visible@s uk-visible@m">
+        <vk-navbar-logo slot="left">
+            <img src="@/assets/images/logo-full-white.png" width="70%"/>
+        </vk-navbar-logo>
+        <vk-navbar-nav slot="right">
+            <vk-nav-item 
+                v-for="(value,index) in this.links" 
+                :key="index" 
+                :title="value.title"
+                :href="value.to"
+            ></vk-nav-item>
+            <vk-nav-item href="#" title="Logout" @click.prevent="logout" v-if="$store.getters.isAuthenticated"></vk-nav-item>
+        </vk-navbar-nav>
+    </vk-navbar>
     <div class="uk-width-1-1 uk-inline" id="banner">
       <img src="@/assets/images/banner-full.png" v-if="banner"/>
       <img src="@/assets/images/banner-small.png" v-else/>
-      <div class="uk-position-cover uk-overlay uk-overlay-default uk-flex uk-flex-center uk-text-center uk-light uk-flex-middle">
-        <div class="uk-width-1-2">
-           <img src="@/assets/images/logo-full-white.png" v-if="banner"/>
-           <h1 class="uk-text-bolder uk-text-italic ">{{ title }}</h1>
-           <blockquote>
-           <h2 class="uk-heading-large	uk-text-break">{{ message }}</h2>
-           </blockquote>
-           <a @click.prevent="scrollToAbout" v-if="banner" href="#" size="large"><vk-icon icon="chevron-down" ratio="6"></vk-icon></a>
+      <div class="uk-position-cover uk-overlay uk-overlay-default uk-flex uk-text-center uk-flex-center uk-light uk-flex-middle uk-padding-large">
+        <div class="uk-width-2-3">
+           <h1 class="uk-text-bolder br-banner-title uk-visible@s uk-visible@m">{{ title }}</h1>
+           <h4 class="uk-hidden@xl uk-hidden@l uk-hidden@m uk-margin-remove">{{ title }}</h4>
+           <h2 class="uk-heading-large br-banner-sub_title uk-visible@s uk-visible@m">{{ message }}</h2>
+           <h5 class="uk-hidden@xl uk-hidden@l uk-hidden@m uk-margin-remove">{{ message }}</h5>
+           <a v-if="banner" :href="$router.resolve({name:'about'}).href" class="uk-button uk-visible@s uk-visible@m uk-button-default uk-button-large">Read More</a>
+           <a v-if="banner" :href="$router.resolve({name:'about'}).href" class="uk-margin uk-button uk-hidden@xl uk-hidden@l uk-hidden@m uk-button-default uk-button-small">Read More</a>
        </div>
       </div>
-    </div>
-    <div id="navbar" class="uk-height-1-2">
-      <vk-navbar transparent class="uk-hidden@xl uk-hidden@l uk-hidden@m">
-          <vk-navbar-toggle title="Menu" @click="$store.commit('sidebar',true)"></vk-navbar-toggle>
-          <vk-navbar-logo slot="center">
-              <img src="@/assets/images/logo-full-white.png" width="50%"/>
-          </vk-navbar-logo>
-      </vk-navbar>
-      <vk-navbar transparent class="br-navbar uk-visible@s uk-visible@m">
-          <vk-navbar-logo slot="left">
-              <img src="@/assets/images/logo-full-white.png" width="70%"/>
-          </vk-navbar-logo>
-          <vk-navbar-nav slot="right">
-              <vk-nav-item 
-                  v-for="(value,index) in this.links" 
-                  :key="index" 
-                  :title="value.title"
-                  :href="value.to"
-              ></vk-nav-item>
-          </vk-navbar-nav>
-      </vk-navbar>
     </div>
 </div>
 </template>
@@ -128,19 +127,19 @@
         },
         mounted () {
           // Scroll Sticky
-          window.onscroll = function () {
-            let navbar = document.getElementById("navbar");
-            let banner = document.getElementById("banner");
-            let content = document.getElementById("content");
-            let sticky = banner.offsetHeight;
-            if (window.pageYOffset >= sticky) {
-              navbar.classList.add("br-sticky");
-              content.classList.add("uk-padding-top")
-            } else {
-              navbar.classList.remove("br-sticky");
-              content.classList.remove("uk-padding-top");
-            }
-          };
+          // window.onscroll = function () {
+          //   let navbar = document.getElementById("navbar");
+          //   let banner = document.getElementById("banner");
+          //   let content = document.getElementById("content");
+          //   let sticky = banner.offsetHeight;
+          //   if (window.pageYOffset >= sticky) {
+          //     navbar.classList.add("br-sticky");
+          //     content.classList.add("uk-padding-top")
+          //   } else {
+          //     navbar.classList.remove("br-sticky");
+          //     content.classList.remove("uk-padding-top");
+          //   }
+          // };
         }
     }
 </script>
