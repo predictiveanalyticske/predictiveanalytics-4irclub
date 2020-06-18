@@ -47,6 +47,8 @@
             this.bralcoaxios({ url: this.$store.state.app.env.backend_url + "/api/v1/subscriptions/fetch", request: "GET" }).then( (response) => {
                 var resolve = this.bralcoresponse(response);
                 this.data   = resolve.data.subscriptions;
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
             });
           }
         },

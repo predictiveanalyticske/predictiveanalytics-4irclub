@@ -31,6 +31,19 @@
 
 <script>
     export default {
+        beforeRouteEnter (to,from,next) {
+          next( vm => {
+            vm.initData(),
+            next()
+          });
+        },
+        methods: {
+          initData(){
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+            this.$store.commit('loader',false);
+          }
+        },
         name: "verify",
     }
 </script>
