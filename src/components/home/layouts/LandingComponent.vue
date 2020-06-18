@@ -1,33 +1,51 @@
 <template>
-    <vk-grid class="uk-child-width-1-1 uk-margin-large-top">
-        <div class="uk-padding-remove uk-margin-remove">
-            <vk-card class="uk-width-1-1">
-                <vk-grid class="uk-child-width-1-1">
-                    <div id="about">
-                        <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-expand@s uk-padding-large">
-                            <div>
-                                <h2>About 4th Industrial Revolution Club</h2>
-                                <h5 class="uk-margin">
-                                    Lifelong learning is the "ongoing, voluntary, and self-motivated" pursuit of knowledge for either personal or professional reasons. 
-                                    Therefore, it not only enhances social inclusion, active citizenship, and personal development, but also self-sustainability, as well as competitiveness and employability.
-                                </h5>
-                                <h5>
-                                    This is necessitated by the drive towards the 4th industrial revolution. The fourth industrial revolution is the current and developing environment in which disruptive technologies and trends such as the Internet of Things (IoT), robotics, virtual reality (VR) and artificial intelligence (AI) are changing the way we live and work. 
-                                    Reskilling – the process of learning new skills so you can do a different job, or of training people to do a different job.
-                                </h5>
-                                <a class="uk-button uk-button-red" :href="$router.resolve({name:'about098765432'}).href"> Learn More </a>
-                            </div>
-                            <div>
-                                <div class="uk-flex uk-flex-center uk-flex-middle">
-                                    <div>
-                                      <img src="/../assets/images/starters.png" width="80%">
-                                    </div>
-                                </div>
-                            </div>
-                        </vk-grid>
+    <vk-grid class="uk-child-width-1-1 uk-margin-remove">
+        <div class="uk-padding-remove">
+         <vk-card type="secondary" padding="large">
+            <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-expand@s">
+                <div>
+                    <h1 class="br-heading">Are you looking for a career rejuvenation ?</h1>
+                    <h4>
+                        Technology is growing very fast. 
+                        So much so we are not able to catch up with emerging issues of the current world.
+                        The 4th Industrial Revolution Club, provides scopes such as resources, documentaries and glossary items
+                        to help you be up-to-date with the current and developing environment in which disruptive technologies and trends such as the Internet of Things (IoT), robotics, virtual reality (VR) and artificial intelligence (AI) are changing the way we live and work.
+                    </h4>
+                    <a :href="$router.resolve({name:'signup'}).href" class="uk-button uk-button-red uk-button-large">Become A Member</a>
+                </div>
+                <div>
+                    <div class="uk-flex uk-flex-center uk-flex-middle uk-text-center">
+                        <div>
+                            <img src="@/assets/images/bar-chart.gif">
+                        </div>
                     </div>
-                </vk-grid>
-            </vk-card>
+                </div>
+            </vk-grid>
+            <div class="uk-width-1-1 uk-text-center uk-margin">
+                <vk-button type="link" class="animated bounce"><vk-icon icon="chevron-down" ratio="5"></vk-icon></vk-button>
+            </div>
+         </vk-card>
+        </div>
+        <div class="uk-padding-remove uk-margin-remove">
+         <vk-card>
+            <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-expand@s uk-padding-large">
+                <div class="uk-padding-small">
+                    <div class="uk-flex uk-flex-center uk-flex-middle uk-text-center">
+                        <div>
+                            <img src="@/assets/images/analyze.gif" width="90%">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h1 class="br-heading">Amazing Package Plans</h1>
+                    <h2 class="uk-margin">
+                        Starting from a free account and trial period, the club members get access to various resource features based on their package plan
+                        allowing individual to business accounts participate in interacting with the content provided by us.
+                    </h2>
+                    <a class="uk-button uk-button-red uk-button-large" :href="$router.resolve({name:'plans'}).href"> View More </a>
+                </div>
+            </vk-grid>
+         </vk-card>
         </div>
         <div class="uk-margin-remove uk-padding-large">
             <div class="uk-text-center uk-width-1-1">
