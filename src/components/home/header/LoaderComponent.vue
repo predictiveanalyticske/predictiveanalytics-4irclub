@@ -7,10 +7,14 @@
 <script>
     export default {
         name: "loader",
-        props: ["isActive"],
         computed: {
-            styling (){
-                return !this.isActive ? "hidden" : "";
+            styling: {
+                get () {
+                    return !this.getters.loader ? "hidden" : "";
+                },
+                set (val){
+                    return val;
+                }
             }
         }
     }
