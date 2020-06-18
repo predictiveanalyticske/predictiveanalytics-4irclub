@@ -23,7 +23,8 @@ import NotFound from './components/global/NotFoundComponent.vue';
 
 Vue.use(Router);
 
-const router = new Router({
+const router = new Router({ 
+   mode: "history",
    routes: [
             {
             path: '/',
