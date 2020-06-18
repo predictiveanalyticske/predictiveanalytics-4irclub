@@ -67,6 +67,7 @@
              this.$store.commit('banner_content','');
         },
         mounted () {
+            this.$store.commit('loader',false);
             document.body.scrollTop = 0;
             document.documentElement.scrollTop = 0;
         }
