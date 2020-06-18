@@ -48,19 +48,23 @@
          </vk-card>
         </div>
         <div class="uk-margin-remove uk-padding-large">
-            <div class="uk-text-center uk-width-1-1">
-                <h2 class="uk-margin-remove">Members Access Features</h2>
-                <div class="uk-padding-small">
-                    <vueper-slides
-                        class="no-shadow"
-                        :visible-slides="2"
-                        :slide-ratio="1 / 3"
-                        :gap="5"
-                        :dragging-distance="70">
-                        <vueper-slide v-for="(slide, i) in slides" :key="i" :image="slide.image" :title="slide.title" :loading="true"  />
-                    </vueper-slides>
-                    <a class="uk-button uk-button-red uk-button-large" :href="$router.resolve({name:'aboutus'}).href"> View More </a>
-                </div>
+            <div class="uk-width-1-1 uk-padding-small">
+                <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-margin">
+                    <div>
+                        <h1 class="br-heading uk-heading-line">Members Access Features</h1>
+                    </div>
+                    <div class="uk-text-right">
+                        <a class="uk-text-bottom " :href="$router.resolve({name:'aboutus'}).href"> View More <vk-icon icon="arrow-right"></vk-icon></a>
+                    </div>
+                </vk-grid>
+                <vueper-slides
+                    class="no-shadow"
+                    :visible-slides="2"
+                    :slide-ratio="1 / 3"
+                    :gap="5"
+                    :dragging-distance="70">
+                    <vueper-slide v-for="(slide, i) in slides" :key="i" :image="slide.image" :title="slide.title" :loading="true"  />
+                </vueper-slides>
             </div>
         </div>
     </vk-grid>
@@ -99,9 +103,6 @@
         beforeDestroy(){
             this.$store.commit('banner_show',false);
         },
-        mounted () {
-            this.$store.commit('loader',false);
-        },
         methods: {
             initData(){
                 this.$store.commit('banner_show',true);
@@ -109,6 +110,7 @@
                 this.$store.commit('banner_content','Life Long Learning to re-engineer your career and business to be adaptive to the demands of the emerging 4th Industrial Revolution.');
                 document.body.scrollTop = 0;
                 document.documentElement.scrollTop = 0;
+                this.$store.commit('loader',false);
             }
         }
     }
