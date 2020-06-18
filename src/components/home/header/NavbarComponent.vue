@@ -48,7 +48,6 @@
         props: ['data'],
         data () {
             return {
-                alert: false,
                 count: {
                   type: Number,
                   value: 4
@@ -57,6 +56,14 @@
             }
         },
         computed: {
+            alert:{
+              get(){
+                return false;
+              },
+              set(val){
+                return val;
+              }
+            },
             authenticated:{
               get(){
                 return this.$store.getters.isAuthenticated;
@@ -101,19 +108,12 @@
         watch: {
           authenticated () {
            this.calculateLinks();
+           switch(this.subscribed){
+              case false:
+                this.countDownTimer();
+              break;
+            }
           },
-          subscribed:{
-            handler(val){
-              if( this.authenticated){
-                switch(val){
-                  case false:
-                    this.countDownTimer();
-                  break;
-                }
-              }
-            }, 
-            immediate:true
-          }
         },
         beforeMount(){
           this.calculateLinks();
@@ -121,11 +121,12 @@
         methods: {
           logout (){
               this.bralcoaxios({ url: this.$store.state.app.env.backend_url + '/api/v1/auth/logout', request:'POST' }).then( () => {
-                this.$store.state.app.auth.isAuthenticated = false;
+                this.$store.commit('isAuthenticated',false);
                 this.authenticated = false;
+                this.alert = false;
                 window.localStorage.clear();
                 this.$router.push({name:"auth"});
-                this.$store.state.app.loader = false;
+                this.$store.commit('loader',false);
               });
           },
           calculateLinks(){
