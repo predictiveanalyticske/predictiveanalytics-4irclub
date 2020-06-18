@@ -74,15 +74,23 @@
                 this.bralcoaxios({ url: el.attributes.action.value, request:el.attributes.method.value, form: formData }).then( (response) => {
                     this.bralcoresponse(response);
                 });
+            },
+            initData(){
+                if( !this.$store.getters.loader){
+                    this.$store.commit('loader',true);
+                }
+                this.$store.commit('banner_title','Account Registration')
+                this.$store.commit('banner_content','');                
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
             }
         },
         beforeMount(){
              this.$store.commit('banner_title','Account Registration')
              this.$store.commit('banner_content','');
         },
-        mounted () {
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
+        mounted (){
+             this.$store.commit('loader',false);
         }
     }
 </script>
