@@ -28,7 +28,7 @@
                             <label>Phone Number</label>
                             <input type="text" class="uk-input" name="phone" placeholder="e.g 0712345678"/>
                           </div>
-                          <vk-button size="large" type="primary" htmlType="submit" >Pay</vk-button>
+                          <vk-button size="large" class="uk-button-red" htmlType="submit" >Pay {{ total }}</vk-button>
                         </form>
                     </div>
               </div>
@@ -53,7 +53,7 @@
                           <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Amount Charge is <strong>{{ total }}</strong></li>
                       </ul>
                       <div id="card-element" class="uk-margin-small uk-padding-small"></div>
-                        <vk-button size="large" class="uk-margin" type="primary" @click="initPayment">Pay {{ total }}</vk-button>
+                        <vk-button size="large" class="uk-margin uk-button-red" @click="initPayment">Pay {{ total }}</vk-button>
                     </div>
                   </div>
               </div>
