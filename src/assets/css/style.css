@@ -39,6 +39,10 @@ body::after {
   }
 }
 
+.br-footer {
+  background: #121921;
+}
+
 .br-banner{
     background-image: linear-gradient(to right,#bf040f ,#ff6c3f) !important;
     box-shadow: none !important;
@@ -52,11 +56,6 @@ body::after {
 
 .br-heading{
   font-family: 'Dosis', sans-serif;
-}
-
-.br-banner-sub_title{
-  font-family: 'Dosis', sans-serif;
-  font-size: 22pt;
 }
 
 .br-parallax img{
@@ -204,7 +203,6 @@ body::after {
   transform: translateX(10px);
   opacity: 0;
 }
-
 /* 
 Animate 
 */
