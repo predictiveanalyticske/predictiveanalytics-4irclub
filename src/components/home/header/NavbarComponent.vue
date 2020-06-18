@@ -104,10 +104,12 @@
           },
           subscribed:{
             handler(val){
-              switch(val){
-                case false:
-                  this.countDownTimer();
-                break;
+              if( this.authenticated){
+                switch(val){
+                  case false:
+                    this.countDownTimer();
+                  break;
+                }
               }
             }, 
             immediate:true
