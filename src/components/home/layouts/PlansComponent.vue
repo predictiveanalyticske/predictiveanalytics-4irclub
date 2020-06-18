@@ -1,6 +1,6 @@
 <template>
     <vk-grid class="uk-child-width-1-1 uk-margin-remove" v-if="$route.params.item == undefined">
-        <div class="uk-padding-remove uk-margin-remove" v-if="count > 0">
+        <div class="uk-padding-remove uk-margin-remove">
           <vk-card>
             <vk-grid class="uk-child-width-1-1 uk-padding-large" matched>
               <div v-for="(value,key) in data" :key="key">
@@ -19,18 +19,6 @@
             </vk-grid>
           </vk-card>
         </div>
-
-        <div class="uk-padding-remove uk-margin-remove" v-else-if="count == 0">
-          <vk-card type="blank" class="uk-padding-large uk-text-center">
-            <h2><vk-icon icon="info" ratio="2"></vk-icon> Nothing Found Here</h2>
-          </vk-card>
-        </div>
-
-        <div class="uk-padding-remove uk-margin-remove" v-else>
-          <vk-card type="blank" class="uk-padding-large uk-text-center">
-            <vk-spinner ratio="8"></vk-spinner>
-          </vk-card>
-        </div>
     </vk-grid>
     <router-view v-else></router-view>
 </template>
@@ -42,19 +30,25 @@
           return {
             data: {},
             cards: {},
-            count: 0,
           }
         },
-        beforeCreate () {
-            this.bralcoaxios({ url: this.$store.state.app.env.backend_url + "/api/v1/subscriptions/fetch", request: "GET" }).then( (response) => {
-                var resolve = this.bralcoresponse(response);
-                this.data   = resolve.data.subscriptions;
-                this.count = Object.values(this.data).length;
-            });
+        beforeRouteEnter (to,from,next) {
+          next( vm => {
+            vm.initData(),
+            next()
+          });
         },
         beforeMount(){
              this.$store.commit('banner_title','Package Plans')
              this.$store.commit('banner_content','List of available plans.');
+        },
+        methods:{
+          initData(){
+            this.bralcoaxios({ url: this.$store.state.app.env.backend_url + "/api/v1/subscriptions/fetch", request: "GET" }).then( (response) => {
+                var resolve = this.bralcoresponse(response);
+                this.data   = resolve.data.subscriptions;
+            });
+          }
         },
         mounted () {
             this.$store.commit('loader',false);
