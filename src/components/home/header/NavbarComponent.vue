@@ -1,5 +1,10 @@
 <template>
 <div class="uk-position-relative br-parallax">
+    <transition name="slide-fade">
+      <vk-card type="blank" padding="small" class="br-footer uk-text-center uk-light" v-if="alert">
+        <h5><vk-icon icon="info"></vk-icon> Kindly select a package plan to get full access to the member's experience. Click <a class="uk-text-danger" :href="$router.resolve({name:'plans'}).href">here</a> to purchase a plan</h5>
+      </vk-card>
+    </transition>
     <vk-navbar transparent class="uk-hidden@xl uk-hidden@l uk-hidden@m">
         <vk-navbar-toggle title="Menu" @click="$store.commit('sidebar',true)"></vk-navbar-toggle>
         <vk-navbar-logo slot="center">
@@ -43,6 +48,11 @@
         props: ['data'],
         data () {
             return {
+                alert: false,
+                count: {
+                  type: Number,
+                  value: 4
+                },
                 links: []
             }
         },
@@ -58,6 +68,14 @@
             banner:{
               get(){
                 return this.$store.getters.banner_show;
+              },
+              set(val){
+                return val;
+              }
+            },
+            subscribed:{
+              get(){
+                return this.$store.getters.isSubscribed;
               },
               set(val){
                 return val;
@@ -83,6 +101,16 @@
         watch: {
           authenticated () {
            this.calculateLinks();
+          },
+          subscribed:{
+            handler(val){
+              switch(val){
+                case false:
+                  this.countDownTimer();
+                break;
+              }
+            }, 
+            immediate:true
           }
         },
         beforeMount(){
@@ -101,13 +129,25 @@
           calculateLinks(){
             switch(this.authenticated){
               case true:
-                this.links = [
-                  { title: "Home",          icon: "home",    to: this.$router.resolve({name:"home"}).href,  },
-                  { title: "About",         icon: "users",   to: this.$router.resolve({name:"about"}).href,  },                
-                  { title: "Documentaries", icon: "play", to: this.$router.resolve({name:"documentaries"}).href},
-                  { title: "Resources",     icon: "bookmark", to: this.$router.resolve({name:"resources"}).href      },
-                  { title: "Profile",       icon: "user", to: this.$router.resolve({name:"profile"}).href},
-                ]
+                switch(this.subscribed){
+                  case true:
+                    this.links = [
+                      { title: "Home",          icon: "home",    to: this.$router.resolve({name:"home"}).href,  },
+                      { title: "About",         icon: "users",   to: this.$router.resolve({name:"about"}).href,  },                
+                      { title: "Documentaries", icon: "play", to: this.$router.resolve({name:"documentaries"}).href},
+                      { title: "Resources",     icon: "bookmark", to: this.$router.resolve({name:"resources"}).href      },
+                      { title: "Profile",       icon: "user", to: this.$router.resolve({name:"profile"}).href},
+                    ]
+                  break;
+                  case false:
+                      this.links = [
+                        { title: "Home",          icon: "home",    to: this.$router.resolve({name:"home"}).href,  },
+                        { title: "About",         icon: "users",   to: this.$router.resolve({name:"about"}).href,  },                
+                        { title: "Plans",         icon: "star",    to: this.$router.resolve({name:"plans"}).href, },
+                        { title: "Profile",       icon: "user", to: this.$router.resolve({name:"profile"}).href},
+                      ]
+                  break;
+                }
                 break;
               case false:
                 this.links = [
@@ -118,6 +158,19 @@
                   { title: "Signup",        icon: "lock",    to: this.$router.resolve({name:"signup"}).href},
                 ]
                 break;
+            }
+          },
+          countDownTimer() {
+            let self = this;
+            if(this.count.value > 0) {
+                setTimeout(function() {
+                    self.count.value -= 1;
+                    self.countDownTimer()
+                }, 1000)
+            } else {
+              this.alert = true;
+              document.body.scrollTop = 0;
+              document.documentElement.scrollTop = 0;
             }
           },
           scrollToAbout (){
