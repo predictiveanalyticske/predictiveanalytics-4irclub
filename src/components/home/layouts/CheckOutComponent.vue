@@ -1,55 +1,44 @@
 <template>
       <vk-grid class="uk-child-width-1-1 uk-margin-remove">
-          <div class="uk-padding-remove uk-margin-remove">
-              <vk-card class="br-banner uk-width-1-1 uk-light uk-padding-large">
-                  <vk-grid class="uk-child-width-1-2">
-                      <div>
-                        <h1>Plan Checkout</h1>
-                        <h4 class="uk-margin-remove">Choose how to pay the amount.</h4>
-                      </div>
-                  </vk-grid>
-              </vk-card>
-          </div>
           <div class="uk-margin-remove uk-padding-remove">
             <vk-card class="uk-padding-large">
               <div class="uk-flex uk-flex-center">
-                <vk-grid class="uk-child-width-2-3">
-                  <div>
-                    <h2>Review & Checkout</h2><hr>
-
-                    <h3>Product details</h3>
-                    <vk-card class="uk-padding-small uk-card-red uk-light">
-                      <h4 class="uk-margin-remove">Title</h4><hr class="uk-margin-small">
-                      <p>{{ data.subscription.category }}</p>
-                      <h4 class="uk-margin-remove">Category</h4><hr class="uk-margin-small">
-                      <p>{{ data.subscription.category }}</p>
-                      <h4 class="uk-margin-remove">Features</h4><hr class="uk-margin-small">
-                      <div v-html="data.subscription.details"></div>
-                    </vk-card>
-
-                  </div>
-                  <div>
-                    <h3>Payment Method</h3>
-                    <payment :fields="paymentFields" :data="{mpesa_paybill:global.mpesa_paybill,stripeKey:global.stripe_key,amount:data.payment.amount,currency:global.currency}"/>
-                  </div>
-                </vk-grid>
+                <vk-card type="blank" class="uk-width-1-1 uk-padding-remove">
+                  <h2>Review & Checkout</h2><hr>
+                  <h3>Product details</h3>
+                  <vk-grid class="uk-child-width-expand">
+                    <div class="uk-width-2-3@xl uk-width-2-3@l uk-width-2-3@m uk-width-1-1@s">
+                      <payment :fields="paymentFields" :data="paymentInit"/>
+                    </div>
+                    <div class="uk-width-1-3@xl uk-width-1-3@l uk-width-1-3@m uk-width-1-1@s">
+                      <vk-card class="br-plans" padding="small">
+                        <h5 class="uk-margin-small">Name</h5>
+                        <h4 class="uk-margin-small">{{ data.subscription.name }}</h4><hr class="uk-margin-small">
+                        <h5 class="uk-margin-small">Category</h5>
+                        <h4 class="uk-margin-small">{{ data.subscription.category }}</h4><hr class="uk-margin-small">
+                        <h4 class="uk-margin-small">Features</h4>
+                        <div v-html="data.subscription.details"></div>
+                      </vk-card>
+                    </div>
+                  </vk-grid>
+                </vk-card>
               </div>
             </vk-card>
-            <div class="uk-width-1-1 br-banner uk-light">
-              <vk-card type="blank">
-                <div class="uk-flex uk-padding-small">
-                  <div class="uk-flex-left">
-                    <vk-button size="large">Cancel</vk-button>
-                  </div>
-                  <div class="uk-flex-center uk-width-1-1 uk-text-center"></div>
-                  <div class="uk-flex-right">
-                    <transition name="slide-fade">
-                      <vk-button size="large" @click="initCheckout" v-if="paymentFields.checkout" >Checkout</vk-button>
-                    </transition>
-                  </div>
+          </div>
+          <div class="uk-width-1-1 br-banner uk-light uk-margin-remove uk-padding-remove">
+            <vk-card type="blank">
+              <div class="uk-flex uk-padding-small">
+                <div class="uk-flex-left">
+                  <vk-button size="large">Cancel</vk-button>
                 </div>
-              </vk-card>
-            </div>
+                <div class="uk-flex-center uk-width-1-1 uk-text-center"></div>
+                <div class="uk-flex-right">
+                  <transition name="slide-fade">
+                    <vk-button size="large" @click="initCheckout" v-if="paymentFields.checkout" >Checkout</vk-button>
+                  </transition>
+                </div>
+              </div>
+            </vk-card>
           </div>
       </vk-grid>
 </template>
@@ -72,17 +61,44 @@
             }
           }
         },
-        created () {
+        computed: {
+          paymentInit(){
+            if( Object.keys(this.data).length > 0){
+              return {
+                mpesa_paybill:this.data.mpesa.paybill,
+                stripeKey:    this.data.stripe.key,
+                amount:       this.data.payment.amount,
+                currency:     this.global.currency
+              }
+            } else {
+              return {};
+            }
+          },
+        },
+        beforeRouteEnter (to,from,next) {
+          next( vm => {
+            vm.initData(),
+            next()
+          });
+        },
+        methods: {
+          initData(){
             this.bralcoaxios({ url: this.$store.state.app.env.backend_url + "/api/v1/4irclub/subscription/payment/" + this.$route.params.payment, request: "GET" }).then( (response) => {
                 let resolve = this.bralcoresponse(response);
                 this.data   = resolve.data;
+                this.data.subscription.details = '<ol>';
+                JSON.parse(this.data.subscription.features).forEach( (item,) => {
+                  this.data.subscription.details += '<li>'+item+'</li>';
+                });
+                this.data.subscription.details += '</ol>';
+                this.$store.commit('banner_title','Plan Review and Checkout');
+                this.$store.commit('banner_content',this.data.subscription.name);
             });
             this.bralcoaxios({ url: this.$store.state.app.env.backend_url + "/api/v1/home", request: "GET" }).then( (response) => {
                 let resolve = this.bralcoresponse(response)
                 this.global = resolve.data.company;
             });
-        },
-        methods: {
+          },
           initCheckout () {
             let formData = new FormData();
             formData.append('method', this.paymentFields.method);
