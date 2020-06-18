@@ -43,18 +43,18 @@
                       company: this.company.index
                 }
             },
-            isLoading () {
-                return this.$store.state.app.loader;
+            isLoading:{
+              get(){
+                return this.$store.getters.loader;
+              },
+              set(val){
+                return val;
+              }
             },
             isSubscribe () {
                 return false;
             }
-        },
-        beforeCreate () {
-            this.bralcoaxios({ url: this.$store.state.app.env.backend_url + "/api/v1/home", request: "GET" }).then( (response) => {
-                let resolve = this.bralcoresponse(response)
-                this.company = resolve.data.company;
-            });
         }
+        
     }
 </script>
