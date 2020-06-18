@@ -106,6 +106,7 @@
             this.bralcoaxios({ url: this.$store.state.app.env.backend_url + "/api/v1/4irclub/subscribe/challenge/checkout", request: "POST", form: formData }).then( (response) => {
                let resolve = this.bralcoresponse(response);
                this.bralcoswal({t:"success",m: resolve.data.m, h:resolve.data.h});
+               this.$store.commit('isSubscribed',true);
                this.$router.push({name:"profile"});
             });
           },
