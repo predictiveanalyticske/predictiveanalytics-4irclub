@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@800&display=swap');
+
 h1,h2,h3,h4,h5,h6,p,a,input,text,select,label,button{
   font-family: 'Quicksand', sans-serif;
 }
@@ -19,6 +21,7 @@ body::after {
     position: fixed;
     z-index: -1;
 }
+
 .bounce-enter-active {
   animation: bounce-in .5s;
 }
@@ -39,6 +42,16 @@ body::after {
     background-image: linear-gradient(to right,#bf040f ,#ff6c3f) !important;
     box-shadow: none !important;
     position: relative;
+}
+
+.br-banner-title{
+  font-family: 'Dosis', sans-serif;
+  font-size: 48pt;
+}
+
+.br-banner-sub_title{
+  font-family: 'Dosis', sans-serif;
+  font-size: 22pt;
 }
 
 .br-parallax img{
@@ -230,8 +243,8 @@ UI KIT Overrides
   box-shadow: none !important;
 }
 .uk-card-red {
-background-image: linear-gradient(to right,rgb(191, 4, 15) ,#e95905) !important;
-border-radius: 5px !important;
+  background-image: linear-gradient(to right,rgb(191, 4, 15) ,#e95905) !important;
+  border-radius: 5px !important;
   color: #fff !important;
 }
 .uk-card-success{
@@ -239,7 +252,7 @@ border-radius: 5px !important;
   border-radius: 5px !important;
 }
 .uk-overlay-default{
-  background: rgba(191, 4, 15, 0.5)!important;
+  background: rgba(0, 0, 0, 0.7)!important;
   color: #fff;
 }
 
