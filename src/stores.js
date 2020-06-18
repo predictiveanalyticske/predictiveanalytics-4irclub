@@ -14,6 +14,7 @@ let VuexData = {
           expires_in:      null,
           isAuthenticated: false,
           isAuthorized:    false,
+          isSubscribed:    false,
           token_type:      null
         },
         banner: {
@@ -42,6 +43,9 @@ let VuexData = {
     },
     isAuthenticated: state => {
       return state.app.auth.isAuthenticated;
+    },
+    isSubscribed: state => {
+      return state.app.auth.isSubscribed;
     },
     backendurl: state => {
       return state.app.env.backend_url;
@@ -86,6 +90,9 @@ let VuexData = {
     },
     isAuthorized (state, val){
       state.app.auth.isAuthorized = val
+    },
+    isSubscribed (state, val){
+      state.app.auth.isSubscribed = val
     },
     token_type (state, val){
       state.app.auth.token_type = val
