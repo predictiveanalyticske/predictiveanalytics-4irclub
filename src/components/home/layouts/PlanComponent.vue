@@ -8,7 +8,8 @@
                   <vk-grid class="uk-child-width-expand">
                     <div class="uk-width-2-3">
                       <subscriptions :fields="fields" :data="{'monthly_cost':data.monthly_cost,'annual_cost':data.annual_cost}" class="uk-width-1-1 uk-padding-remove-top"/>
-                      <vk-button class="uk-button-red uk-margin" size="large" @click="showpurchase" v-if="showbuy">Next</vk-button>
+                      <vk-button class="uk-button-red uk-margin" size="large" @click="showpurchase" v-if="showbuy && !$store.getters.isAuthenticated">Next</vk-button>
+                      <vk-button class="uk-button-red uk-margin" size="large" @click="goToCheckout" v-if="$store.getters.isAuthenticated">Next</vk-button>
                       <transition name="slideDown">
                         <vk-grid class="uk-child-width-1-1 uk-margin" v-if="showpurchasediv">
                           <div>
@@ -103,6 +104,18 @@
           });
         },
         methods: {
+          goToCheckout(){
+            let formData = new FormData();
+
+            for( let value in this.fields ){
+              formData.append(value,this.fields[value]);
+            }
+            formData.append('plan', this.$route.params.item);
+            this.bralcoaxios({ url: this.$store.state.app.env.backend_url + "/api/v1/4irclub/subscribe/challenge/subscription/store", request: "POST", form: formData }).then( (response) => {
+                let resolve = this.bralcoresponse(response);
+                this.$router.push( { name:"checkout",params:{ payment: resolve.data.payment.id } } );
+            });
+          },
           initData(){
             this.bralcoaxios({ url: this.$store.state.app.env.backend_url + "/api/v1/subscriptions/fetch/view/" + this.$route.params.item, request: "GET" }).then( (response) => {
                 let resolve = this.bralcoresponse(response);
