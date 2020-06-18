@@ -55,6 +55,9 @@ let VuexData = {
     banner_show: state => {
       return state.app.banner.show;
     },
+    loader: state => {
+      return state.app.loader;
+    },
   },
   mutations: {
     access_token (state, val){
@@ -68,6 +71,9 @@ let VuexData = {
     },
     banner_show (state, val){
       state.app.banner.show = val
+    },
+    loader (state, val){
+      state.app.loader = val
     },
     refresh_token (state, val){
       state.app.auth.refresh_token = val
