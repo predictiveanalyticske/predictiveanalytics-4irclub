@@ -44,16 +44,24 @@ BralcoHelpers.install = function (Vue,) {
             case 201:
                 switch( this.$route.name ){
                     case "auth":
-                        localStorage.setItem('access_token',response.data.data.access_token);
-                        localStorage.setItem('token_type',response.data.data.token_type);
-                        localStorage.setItem('expires_in',response.data.data.expires_in);
-                        localStorage.setItem('refresh_token',response.data.data.refresh_token);
-                        stored.commit('access_token',response.data.data.access_token);
-                        stored.commit('token_type', response.data.data.token_type);
-                        stored.commit('expires_in',response.data.data.expires_in);
-                        stored.commit('refresh_token',response.data.data.refresh_token);
+                        localStorage.setItem('access_token',response.data.data.token.access_token);
+                        localStorage.setItem('token_type',response.data.data.token.token_type);
+                        localStorage.setItem('expires_in',response.data.data.token.expires_in);
+                        localStorage.setItem('refresh_token',response.data.data.token.refresh_token);
+                        stored.commit('access_token',response.data.data.token.access_token);
+                        stored.commit('token_type', response.data.data.token.token_type);
+                        stored.commit('expires_in',response.data.data.token.expires_in);
+                        stored.commit('refresh_token',response.data.data.token.refresh_token);
                         stored.commit('isAuthenticated',true);
-                        this.$router.push({name:"home"});
+                        stored.commit('isSubscribed',response.data.data.isSubscribed);
+                        switch(response.data.data.isSubscribed){
+                           case true:
+                              this.$router.push({name:"home"});
+                           break;
+                           case false:
+                              this.$router.push({name:"plans"});
+                           break; 
+                        }
                     break;
                     default:
                         Vue.prototype.bralcoswal({t:"success",m:response.data.m,h:response.data.h});
