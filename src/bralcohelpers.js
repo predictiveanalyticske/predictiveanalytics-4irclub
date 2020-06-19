@@ -96,9 +96,17 @@ BralcoHelpers.install = function (Vue,) {
             case 409:
                 return response.data;
             case 422:
-                var array            = toArray(data.errors);
-                var string           = arrayToString(array);
-                response_container.m = string;
+                var type = typeof data.errors;
+                switch( type ){
+                    case 'string':
+                        response_container.m = data.errors;
+                    break;
+                    case 'array':
+                        var array            = toArray(data.errors);
+                        var string           = arrayToString(array);
+                        response_container.m = string;
+                    break;
+                }
 
                 Vue.prototype.bralcoswal(response_container);
             break;
