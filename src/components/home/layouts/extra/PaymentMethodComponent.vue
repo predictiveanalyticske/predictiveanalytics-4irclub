@@ -23,10 +23,11 @@
                             <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Enter Paybill No <strong> {{ data.mpesa_paybill }}</strong></li>
                             <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Enter Amount <strong>{{ total }}</strong></li>
                         </ul>
-                        <form method="POST" @submit.prevent="validatePayment" :action="this.$store.state.app.env.backend_url+'/api/v1/4irclub/subscribe/pay/mpesa'">
+                        <form method="POST" @submit.prevent="validatePayment" :action="this.$store.state.app.env.backend_url+'/api/v1/4irclub/subscribe/pay/mpesa/'+data.payment">
                           <div class="uk-margin">
                             <label>Phone Number</label>
-                            <input type="text" class="uk-input" name="phone" placeholder="e.g 0712345678"/>
+                            <vue-phone-number-input @update="getPhoneNumber" :onlyCountries="['KE']" :required="true" :size="'10'" v-model="phoneNumber" :defaultCountryCode="'KE'"/>
+                            <input type="hidden" class="uk-input" name="phone" v-model="formatedNumber"/>
                           </div>
                           <vk-button size="large" class="uk-button-red" htmlType="submit" >Pay {{ total }}</vk-button>
                         </form>
@@ -86,6 +87,8 @@ export default {
         target: 'accordioncard'
       },
       paymentCharge: true,
+      phoneNumber: '',
+      formatedNumber: '',
       showPaymentMessage: false,
     }
   },
@@ -135,6 +138,12 @@ export default {
             }
           });
         }
+    },
+    getPhoneNumber (val) {
+      // console.log(val.formatNational);
+      if( val.formatNational != undefined && val.formatNational.length == 11){
+        this.formatedNumber = val.countryCallingCode + val.nationalNumber;
+      }
     },
     selectMethod () {
       let el = event.target;
