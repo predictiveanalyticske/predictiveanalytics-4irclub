@@ -19,6 +19,7 @@ import HomeProfile from './components/home/layouts/ProfileComponent.vue';
 import HomeVerify from './components/home/layouts/VerifyComponent.vue';
 import HomeCheckout from './components/home/layouts/CheckOutComponent.vue';
 import HomeResources from './components/home/layouts/ResourcesComponent.vue';
+import HomeGlossary from './components/home/layouts/GlossaryComponent.vue';
 import NotFound from './components/global/NotFoundComponent.vue';
 
 Vue.use(Router);
@@ -90,6 +91,20 @@ const router = new Router({
                         path: '/resources',
                         components: {
                             view: HomeResources,
+                        },
+                        beforeEnter (to, from, next) {
+                            if( stored.getters.isAuthenticated ){
+                                next();
+                            } else {
+                                next({name: "auth"});
+                            }
+                        }
+                    },
+                    {
+                        name: "glossary",
+                        path: '/glossary',
+                        components: {
+                            view: HomeGlossary,
                         },
                         beforeEnter (to, from, next) {
                             if( stored.getters.isAuthenticated ){
