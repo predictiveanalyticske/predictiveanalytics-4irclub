@@ -68,7 +68,8 @@
                 mpesa_paybill:this.data.mpesa.paybill,
                 stripeKey:    this.data.stripe.key,
                 amount:       this.data.payment.amount,
-                currency:     this.global.currency
+                currency:     this.global.currency,
+                payment:      this.data.payment.id
               }
             } else {
               return {};
