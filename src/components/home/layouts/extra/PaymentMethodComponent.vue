@@ -155,7 +155,12 @@ export default {
       formData.append('amount',this.data.amount);
       this.bralcoaxios({url: el.attributes.action.value, request: el.attributes.method.value, form: formData}).then( (response) => {
         let resolve = this.bralcoresponse(response);
-        console.log(resolve);
+        if( resolve.data.charged ){
+          this.paymentCharge = false;
+          this.showPaymentMessage = true;
+          this.fields.method = resolve.data.method;
+          this.fields.checkout = resolve.data.checkout;
+        }
       });
     },
     toggleAccordion(el){
