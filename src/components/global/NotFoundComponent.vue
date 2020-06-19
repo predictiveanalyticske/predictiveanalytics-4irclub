@@ -1,16 +1,6 @@
 <template>
     <vk-grid class="uk-child-width-1-1 uk-margin-remove">
         <div class="uk-padding-remove uk-margin-remove">
-            <vk-card class="br-banner uk-width-1-1 uk-light uk-padding-large">
-                <vk-grid class="uk-child-width-1-2">
-                    <div>
-                        <h1>Resource Not Found</h1>
-                        <h4 class="uk-margin-remove">Verify and set account password to allow user to access the account and its services.</h4>
-                    </div>
-                </vk-grid>
-            </vk-card>
-        </div>
-        <div class="uk-padding-remove uk-margin-remove">
           <vk-card padding="large">
             <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-padding-large">
               <div>
@@ -20,8 +10,7 @@
                 </div>
               </div>
               <div>
-                <h1>Oops!!!</h1>
-                <p> We could not find what you looking for. </p>
+                <h1 class="br-heading">We were unable to find to find the resource you were looking for.</h1>
               </div>
             </vk-grid>
           </vk-card>
@@ -31,6 +20,10 @@
 
 <script>
     export default {
+        beforeMount(){
+             this.$store.commit('banner_title','Oops!!')
+             this.$store.commit('banner_content','Nothing was found.');
+        },
         beforeRouteEnter (to,from,next) {
           next( vm => {
             vm.initData(),
