@@ -139,6 +139,7 @@
                       { title: "About",         icon: "users",   to: this.$router.resolve({name:"about"}).href,  },                
                       { title: "Documentaries", icon: "play", to: this.$router.resolve({name:"documentaries"}).href},
                       { title: "Resources",     icon: "bookmark", to: this.$router.resolve({name:"resources"}).href      },
+                      { title: "Glossary",      icon: "bookmark", to: this.$router.resolve({name:"glossary"}).href   },
                       { title: "Profile",       icon: "user", to: this.$router.resolve({name:"profile"}).href},
                     ]
                   break;
