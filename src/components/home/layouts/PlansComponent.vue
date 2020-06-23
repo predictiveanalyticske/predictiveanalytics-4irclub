@@ -61,7 +61,7 @@
                   plans.forEach( function(item) {
                     var body = item.getElementsByClassName('uk-card-body');
                     body[0].setAttribute('style','height: 530px !important');
-                    var content = body[0].getElementsByClassName('br-plans-content');
+                    // var content = body[0].getElementsByClassName('br-plans-content');
                     body[0].innerHTML = body[0].innerHTML + '<a href="#" class="uk-button uk-button-red uk-button-medium uk-width-1-1" style="position:absolute !important; bottom: 0 !important; right:0 !important;">Show More</a>'
                     // console.log(content[0].innerHTML);
                   });
