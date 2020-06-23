@@ -56,9 +56,9 @@
                 this.data   = resolve.data.subscriptions;
                 document.body.scrollTop = 0;
                 document.documentElement.scrollTop = 0;
-                this.$nextTick((fallback) => {
+                this.$nextTick(() => {
                   let plans = document.getElementsByClassName('br-plans');
-                  plans.forEach( function(item, key) {
+                  plans.forEach( function(item) {
                     var body = item.getElementsByClassName('uk-card-body');
                     body[0].setAttribute('style','height: 530px !important');
                     var content = body[0].getElementsByClassName('br-plans-content');
@@ -67,10 +67,6 @@
                   });
                 });
             });
-          },
-          plansClosed(){
-
-            
           }
         },
         mounted () {
