@@ -12,7 +12,7 @@ html, body {
   box-sizing: inherit;
 }
 
-body::after {
+/* body::after {
     content: "";
     opacity: 0.3;
     top: 0;
@@ -21,7 +21,7 @@ body::after {
     right: 0;
     position: fixed;
     z-index: -1;
-}
+} */
 
 .bounce-enter-active {
   animation: bounce-in .5s;
@@ -87,6 +87,7 @@ body::after {
   border: 1px solid #ededed;
   box-shadow: 0 0 2px 2px #ededed !important;
 }
+
 
 .hidden {
   display: none;
