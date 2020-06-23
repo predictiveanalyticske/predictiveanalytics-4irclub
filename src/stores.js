@@ -35,6 +35,7 @@ let VuexData = {
           popups: false
         },
         loader: true,
+        sidebar: false
       }
   },
   getters: {
@@ -61,6 +62,9 @@ let VuexData = {
     },
     loader: state => {
       return state.app.loader;
+    },
+    sidebar: state => {
+      return state.app.sidebar;
     },
   },
   mutations: {
@@ -93,6 +97,9 @@ let VuexData = {
     },
     isSubscribed (state, val){
       state.app.auth.isSubscribed = val
+    },
+    sidebar (state, val){
+      state.app.sidebar = val
     },
     token_type (state, val){
       state.app.auth.token_type = val
