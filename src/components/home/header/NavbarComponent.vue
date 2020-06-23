@@ -47,7 +47,7 @@
        </div>
       </div>
     </div>
-    <vk-modal-full :show.sync="show" class="br-modal-fixed">
+    <vk-modal-full :show.sync="show" class="br-modal-fixed uk-hidden@xl uk-hidden@l">
       <vk-modal-full-close large @click="$store.commit('sidebar',false)"></vk-modal-full-close>
         <div>
         <vk-nav class="uk-margin-vertical uk-padding-large">
@@ -56,6 +56,7 @@
                 :key="index" 
                 :title="value.title"
                 :href="value.to"
+                :class="$route.fullPath == value.route.resolved.fullPath ? 'uk-active' : false"
             ></vk-nav-item>
             <vk-nav-item href="#" title="Logout" @click.prevent="logout" v-if="$store.getters.isAuthenticated"></vk-nav-item>
         </vk-nav>
@@ -165,31 +166,31 @@
                 switch(this.subscribed){
                   case true:
                     this.links = [
-                      { title: "Home",          icon: "home",    to: this.$router.resolve({name:"home"}).href,  },
-                      { title: "About",         icon: "users",   to: this.$router.resolve({name:"about"}).href,  },                
-                      { title: "Documentaries", icon: "play", to: this.$router.resolve({name:"documentaries"}).href},
-                      { title: "Resources",     icon: "bookmark", to: this.$router.resolve({name:"resources"}).href      },
-                      { title: "Glossary",      icon: "bookmark", to: this.$router.resolve({name:"glossary"}).href   },
-                      { title: "Profile",       icon: "user", to: this.$router.resolve({name:"profile"}).href},
+                      { title: "Home",          icon: "home",    to: this.$router.resolve({name:"home"}).href,       route:this.$router.resolve({name:"home"})   },
+                      { title: "About",         icon: "users",   to: this.$router.resolve({name:"about"}).href,      route:this.$router.resolve({name:"about"})   },                
+                      { title: "Documentaries", icon: "play", to: this.$router.resolve({name:"documentaries"}).href, route:this.$router.resolve({name:"documentaries"})   },
+                      { title: "Resources",     icon: "bookmark", to: this.$router.resolve({name:"resources"}).href, route:this.$router.resolve({name:"resources"})   },
+                      { title: "Glossary",      icon: "bookmark", to: this.$router.resolve({name:"glossary"}).href,  route:this.$router.resolve({name:"glossary"})   },
+                      { title: "Profile",       icon: "user", to: this.$router.resolve({name:"profile"}).href,       route:this.$router.resolve({name:"profile"})   },
                     ]
                   break;
                   case false:
                       this.links = [
-                        { title: "Home",          icon: "home",    to: this.$router.resolve({name:"home"}).href,  },
-                        { title: "About",         icon: "users",   to: this.$router.resolve({name:"about"}).href,  },                
-                        { title: "Plans",         icon: "star",    to: this.$router.resolve({name:"plans"}).href, },
-                        { title: "Profile",       icon: "user", to: this.$router.resolve({name:"profile"}).href},
+                        { title: "Home",          icon: "home",    to: this.$router.resolve({name:"home"}).href,       route:this.$router.resolve({name:"home"})   },
+                        { title: "About",         icon: "users",   to: this.$router.resolve({name:"about"}).href,      route:this.$router.resolve({name:"about"})   },                
+                        { title: "Plans",         icon: "star",    to: this.$router.resolve({name:"plans"}).href,      route:this.$router.resolve({name:"plans"})  },
+                        { title: "Profile",       icon: "user", to: this.$router.resolve({name:"profile"}).href,       route:this.$router.resolve({name:"profile"})   },
                       ]
                   break;
                 }
                 break;
               case false:
                 this.links = [
-                  { title: "Home",          icon: "home",    to: this.$router.resolve({name:"home"}).href,  },
-                  { title: "About",         icon: "users",   to: this.$router.resolve({name:"about"}).href,  },
-                  { title: "Plans",         icon: "star",    to: this.$router.resolve({name:"plans"}).href, },
-                  { title: "Login",         icon: "sign-in", to: this.$router.resolve({name:"auth"}).href,  },
-                  { title: "Signup",        icon: "lock",    to: this.$router.resolve({name:"signup"}).href},
+                  { title: "Home",          icon: "home",    to: this.$router.resolve({name:"home"}).href,       route:this.$router.resolve({name:"home"})   },
+                  { title: "About",         icon: "users",   to: this.$router.resolve({name:"about"}).href,      route:this.$router.resolve({name:"about"})   },                
+                  { title: "Plans",         icon: "star",    to: this.$router.resolve({name:"plans"}).href,      route:this.$router.resolve({name:"plans"})  },
+                  { title: "Login",         icon: "sign-in", to: this.$router.resolve({name:"auth"}).href,       route:this.$router.resolve({name:"auth"})    },
+                  { title: "Signup",        icon: "lock",    to: this.$router.resolve({name:"signup"}).href,     route:this.$router.resolve({name:"signup"}) },
                 ]
                 break;
             }
@@ -241,6 +242,11 @@
         align-items: center !important;
         justify-content: center;
         display: flex;
+
+        .uk-nav > li > a{
+          font-size: 20pt;
+          font-family: 'Dosis', sans-serif !important;
+        }
       }
 
   }
