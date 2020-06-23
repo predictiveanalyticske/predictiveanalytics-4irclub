@@ -4,12 +4,13 @@
           <vk-card>
             <vk-grid class="uk-child-width-1-1 uk-padding-large" matched>
               <div v-for="(value,key) in data" :key="key">
-                <h1 class="uk-text-center">{{ key }}</h1>
-                <vk-grid gutter="small" :class="'uk-child-width-1-4'">
+                <h1 class="uk-text-center br-heading">{{ key }}</h1>
+                <vk-grid gutter="small" class="uk-child-width-1-4@xl uk-child-width-1-4@l uk-child-width-1-2@m uk-child-width-1-1@s uk-margin-remove uk-padding-remove">
                   <div v-for="(item,index) in value" :key="index" class="uk-padding-remove">
                     <vk-card class="br-plans" padding="small">
-                      <vk-card-title>{{ item.name }}</vk-card-title>
+                      <vk-card-title class="br-heading">{{ item.name }}</vk-card-title>
                       <h3 class="uk-margin-small uk-width-1-1 uk-text-center uk-text-success">{{ item.monthly_cost }} per month</h3>
+                      <h3 class="uk-margin-small uk-width-1-1 uk-text-center uk-text-success">{{ item.annual_cost }} per year</h3>
                       <a class="uk-button uk-button-medium uk-width-1-1 uk-button-red" :href="$router.resolve({name:'plan',params:{ item: item.id }}).href">Buy Now</a>
                       <p v-for="(value, key) in JSON.parse(item.features)" :key="key"><vk-icon icon="check"></vk-icon>{{ value }}</p>
                     </vk-card>
@@ -41,6 +42,9 @@
         beforeMount(){
              this.$store.commit('banner_title','Package Plans')
              this.$store.commit('banner_content','List of available plans.');
+             if( this.$store.getters.sidebar ){
+                this.$store.commit('sidebar',false);
+             }
         },
         methods:{
           initData(){

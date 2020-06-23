@@ -11,7 +11,7 @@
         </div>
         <div class="accordion-body" ref="accordionbody">
           <div class="accordion-content uk-padding-large">
-            <vk-grid class="uk-child-width-1-2">
+            <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-1-1@s">
               <div>
                 <vk-card class="br-plans uk-text-center" padding="small">
                   <label><h6 class="uk-margin-remove"><input @click="selectSubscription" class="uk-radio" name="subscription" type="radio" v-model="fields.amount" data-target="monthly" :value="data.monthly_cost"> Monthly Subscription</h6></label>

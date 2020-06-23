@@ -99,6 +99,9 @@
                 let resolve = this.bralcoresponse(response)
                 this.global = resolve.data.company;
             });
+             if( this.$store.getters.sidebar ){
+                this.$store.commit('sidebar',false);
+             }
           },
           initCheckout () {
             let formData = new FormData();

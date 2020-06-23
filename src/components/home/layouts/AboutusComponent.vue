@@ -3,10 +3,10 @@
         <div class="uk-padding-remove uk-margin-remove" id="content">
             <vk-card>
                 <div class="uk-flex uk-flex-center">
-                  <div class="uk-width-2-3">
+                  <div class="uk-width-2-3@xl uk-width-2-3@l uk-width-1-2@m uk-width-1-1@s">
                     <vk-grid class="uk-child-width-1-1">
-                            <div>
-                                <h1>Platform Objective</h1><hr>
+                            <div class="uk-text-center@s">
+                                <h1 class="br-heading">Platform Objective</h1><hr>
                                 <h4 class="br-heading-title">
                                     Life Long Learning to re-engineer your career, institution and business to be adaptive to the demands of the emerging 4th Industrial Revolution.
                                     Lifelong learning is the "ongoing, voluntary, and self-motivated" pursuit of knowledge for either personal or professional reasons. Therefore, it not only enhances social inclusion, active citizenship, and personal development, but also self-sustainability, as well as competitiveness and employability.
@@ -16,8 +16,8 @@
                                     Reskilling – the process of learning new skills so you can do a different job, or of training people to do a different job. ... While upskilling points out the same, it focuses more on improving worker's skills so they can work within the same job.
                                 </h4>
                             </div>
-                            <div>
-                                <h1>Post Covid Business Recovery</h1><hr>
+                            <div class="uk-text-center@s">
+                                <h1 class="br-heading">Post Covid Business Recovery</h1><hr>
                                 <blockquote>
                                 <h5>An excerpt from Mckinsey Report by David Fine, Julia Klier et Al on How to Rebuild and reimagine Jobs amid the coronavirus crisis. </h5>
                                 </blockquote>
@@ -44,6 +44,9 @@
         beforeMount(){
              this.$store.commit('banner_title','About Us')
              this.$store.commit('banner_content','');
+             if( this.$store.getters.sidebar ){
+                this.$store.commit('sidebar',false);
+             }
         },
         mounted (){
              this.$store.commit('loader',false);

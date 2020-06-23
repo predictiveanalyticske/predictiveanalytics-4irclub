@@ -2,8 +2,8 @@
     <vk-grid class="uk-child-width-1-1 uk-margin-remove">
         <div class="uk-padding-remove uk-margin-remove">
           <vk-card padding="large">
-            <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m">
-              <div>
+            <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-1-1@s">
+              <div class="uk-visible@s">
                 <vk-card padding="large" type="blank">
                 <img src="@/assets/images/login.png" alt="">
                 </vk-card>
@@ -63,8 +63,11 @@
             }
         },
         beforeMount(){
-             this.$store.commit('banner_title','Account Login')
+             this.$store.commit('banner_title','Signin')
              this.$store.commit('banner_content','');
+             if( this.$store.getters.sidebar ){
+                this.$store.commit('sidebar',false);
+             }
         },
         mounted () {
             this.$store.commit('loader',false);

@@ -83,6 +83,9 @@
                 });
                 this.$store.commit('banner_title','Documentaries');
                 this.$store.commit('banner_content','');
+                if( this.$store.getters.sidebar ){
+                    this.$store.commit('sidebar',false);
+                }
             },
             gotToPage (event) {
                 let el = event.target;

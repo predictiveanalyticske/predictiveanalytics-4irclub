@@ -111,6 +111,9 @@
                 document.body.scrollTop = 0;
                 document.documentElement.scrollTop = 0;
                 this.$store.commit('loader',false);
+                if( this.$store.getters.sidebar ){
+                    this.$store.commit('sidebar',false);
+                }
             }
         }
     }

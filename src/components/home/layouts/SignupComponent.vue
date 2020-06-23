@@ -4,7 +4,7 @@
           <vk-card padding="small">
             <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m">
               <div class="uk-flex uk-flex-left uk-flex-middle">
-                <div>
+                <div class="uk-visible@s">
                     <img src="@/assets/images/signup.png"/>
                 </div>
               </div>
@@ -88,6 +88,9 @@
         beforeMount(){
              this.$store.commit('banner_title','Account Registration')
              this.$store.commit('banner_content','');
+             if( this.$store.getters.sidebar ){
+                this.$store.commit('sidebar',false);
+             }
         },
         mounted (){
              document.body.scrollTop = 0;

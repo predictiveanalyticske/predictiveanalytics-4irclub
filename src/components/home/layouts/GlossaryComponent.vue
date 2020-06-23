@@ -41,6 +41,9 @@
                 });
                 this.$store.commit('banner_title','Glossary')
                 this.$store.commit('banner_content','');
+                if( this.$store.getters.sidebar ){
+                    this.$store.commit('sidebar',false);
+                }
             }
         }
     }

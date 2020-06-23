@@ -3,10 +3,10 @@
           <div class="uk-margin-remove uk-padding-remove">
             <vk-card class="uk-padding-small">
               <div class="uk-flex uk-flex-center">
-                <vk-card type="blank" class="uk-width-1-1 uk-padding-remove">
+                <vk-card type="blank" class="uk-width-1-1 uk-padding-remove" padding="small">
                   <h2>Select your plan</h2>
                   <vk-grid class="uk-child-width-expand">
-                    <div class="uk-width-2-3">
+                    <div class="uk-width-2-3@xl uk-width-2-3@l uk-width-1-2@m uk-width-1-1@s">
                       <subscriptions :fields="fields" :data="{'monthly_cost':data.monthly_cost,'annual_cost':data.annual_cost}" class="uk-width-1-1 uk-padding-remove-top"/>
                       <vk-button class="uk-button-red uk-margin" size="large" @click="showpurchase" v-if="showbuy && !$store.getters.isAuthenticated">Next</vk-button>
                       <vk-button class="uk-button-red uk-margin" size="large" @click="goToCheckout" v-if="$store.getters.isAuthenticated">Next</vk-button>
@@ -25,8 +25,8 @@
                         </vk-grid>
                       </transition>
                     </div>
-                    <div class="uk-width-1-3">
-                        <vk-card class="br-plans" padding="small">
+                    <div class="uk-width-1-3@xl uk-width-1-3@l uk-width-1-2@m uk-width-1-1@s">
+                        <vk-card class="br-plans">
                             <div slot="header">
                               <h3 class="uk-margin-remove">Order Summary</h3>
                             </div>
