@@ -1,5 +1,6 @@
 Options All -Indexes
 DirectoryIndex index.html
+
 RewriteEngine On
 RewriteRule ^index\.html - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
