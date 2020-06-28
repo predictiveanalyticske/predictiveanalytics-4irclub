@@ -1,9 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@800&display=swap');
 
-h1,h2,h3,h4,h5,h6,p,a,input,text,select,label,button{
-  font-family: 'Quicksand', sans-serif;
+h1,h2,h3,h4,h5,h6,p,a,input,text,select,label,li,button,th,td{
+  font-family: 'Quicksand', sans-serif !important;
+  font-weight: 500 !important;
 }
+
 html, body {
   scroll-behavior: smooth;
   background: #ededed !important;
@@ -77,6 +79,10 @@ html, body {
   width: 100%;
   z-index:100;
   margin-bottom: 40px !important;
+}
+.br-label {
+  font-size: 12pt !important;
+  font-weight: 500;
 }
 
 .br-footer {
@@ -240,7 +246,13 @@ Animate
 /* 
 UI KIT Overrides
 */
-
+.uk-tab > li > a {
+  font-size: 12pt !important;
+}
+.uk-table th, .uk-table td {
+  font-size: 12pt !important;
+  text-transform: none !important;
+}
 .uk-button-red {
   background-image: linear-gradient(to right,#bf040f ,#e95905) !important;
   color: #fff !important;
