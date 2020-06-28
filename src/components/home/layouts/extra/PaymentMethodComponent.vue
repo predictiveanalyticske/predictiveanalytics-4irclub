@@ -53,8 +53,22 @@
                           <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Valid Card</li>
                           <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Amount Charge is <strong>{{ total }}</strong></li>
                       </ul>
-                      <div id="card-element" class="uk-margin-small uk-padding-small"></div>
-                        <vk-button size="large" class="uk-margin uk-button-red" @click="initPayment">Pay {{ total }}</vk-button>
+                      <flutterwave 
+                        :isProduction="data.flutterEnv == 'live' ? true : false"
+                        :name="data.name"
+                        :email="data.email"
+                        :phone-number="data.phone"
+                        :amount="parseInt(data.amount)"
+                        :reference="reference"
+                        :flw-key="data.flutterKey"
+                        :callback="flwCallback"
+                        :close="flwClose"
+                        :currency="data.currency"
+                        :country="data.country"
+                        :custom_title="'4IRCLUB PAYMENT'"
+                        :custom_logo="'@/assets/images/logo-full-red.png'"
+                        :payment_method="'card'"
+                      />
                     </div>
                   </div>
               </div>
@@ -69,10 +83,14 @@
 </template>
 <script>
 import gsap from "gsap";
-import { TweenLite, Bounce, Elastic } from 'gsap/all'
-import {loadStripe} from '@stripe/stripe-js';
+import { TweenLite, Bounce, Elastic } from 'gsap/all';
+import flutterwave from '@/components/home/layouts/extra/FlutterwaveComponent';
+// import {loadStripe} from '@stripe/stripe-js';
 
 export default {
+  components: {
+    flutterwave
+  },
   name: "paymentmethod",
   props: ["fields","data"],
   data () {
@@ -98,36 +116,50 @@ export default {
     },
     amount () {
       return this.data.amount;
+    },
+    reference() {
+        let text = "";
+        let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        for (let i = 0; i < 10; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+        return text;
     }
   },
   beforeCreate(){
     // don't forget to register plugins
     gsap.registerPlugin(TweenLite, Bounce, Elastic); 
   },
+  created () {
+    this.$nextTick( () => {
+      
+    })
+    const script = document.createElement("script");
+          script.src = !this.isProduction
+            ? "https://ravemodal-dev.herokuapp.com/v3.js"
+            : "https://checkout.flutterwave.com/v3.js";
+          document.getElementsByTagName("head")[0].appendChild(script);
+  },
   mounted () {
-    loadStripe(this.data.stripeKey).then((s) => {
-        this.stripe = s;
-        const elements = this.stripe.elements();
-        this.cardElement = elements.create('card');
-        this.cardElement.mount('#card-element');
-    });
+    // loadStripe(this.data.stripeKey).then((s) => {
+    //     this.stripe = s;
+    //     const elements = this.stripe.elements();
+    //     this.cardElement = elements.create('card');
+    //     this.cardElement.mount('#card-element');
+    // });
   },
   methods: {
-    async initPayment () {
-        const { paymentMethod, error } = await this.stripe.createPaymentMethod(
-            'card', this.cardElement, {
-                billing_details: {
-                  name: 'Card Tester'
-                }
-            }
-        );
-
-        if (error) {
-          console.error(error);
-            // Display "error.message" to the user...
-        } else {
-          let formData = new FormData();
-          formData.append('paymentMethod',JSON.stringify(paymentMethod));
+    flwCallback(val) {
+      switch( val.status ){
+        case "successful":
+          var formData = new FormData();
+          formData.append('amount',val.amount);
+          formData.append('currency',val.currency);
+          formData.append('customer_email',val.customer.email);
+          formData.append('customer_name',val.customer.name);
+          formData.append('customer_phone',val.customer.phone_number);
+          formData.append('flw_reference',val.flw_ref);
+          formData.append('tx_reference',val.tx_ref);
+          formData.append('payment',this.data.payment);
           this.bralcoaxios({url: this.$store.state.app.env.backend_url + "/api/v1/4irclub/subscribe/pay/card", request: 'POST', form: formData}).then( (response) => {
             let resolve = this.bralcoresponse(response);
             if( resolve.data.charged ){
@@ -137,7 +169,32 @@ export default {
               this.fields.checkout = resolve.data.checkout;
             }
           });
-        }
+        break;
+        default:
+          console.log(val);
+      }
+    },
+    flwClose() {
+
+    },
+    makePayment() {
+      window.FlutterwaveCheckout({
+        public_key: this.data.flutterKey,
+        tx_ref: this.reference,
+        amount: this.data.createElementamount,
+        currency: this.currency,
+        payment_options: this.payment_method,
+        customer: {
+          name: this.name,
+          email: this.email,
+        },
+        callback: response => this.callback(response),
+        customizations: {
+          title: this.custom_title,
+          description: "Payment for items in cart",
+          logo: this.custom_logo,
+        },
+      });
     },
     getPhoneNumber (val) {
       // console.log(val.formatNational);
@@ -204,6 +261,6 @@ export default {
         break
       }
     }
-  }
+  },
 }
 </script>
