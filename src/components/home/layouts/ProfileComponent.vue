@@ -5,7 +5,7 @@
             <vk-tabs align="center" animation="fade" class="uk-padding-small">
                 <vk-tabs-item title="Profile">
                     <div class="uk-flex uk-flex-center">
-                        <div class="uk-width-1-2">
+                        <div class="uk-width-1-2@xl uk-width-1-2@l uk-width-1-2@m uk-width-1-1@s">
                             <form>
                                 <fieldset class="uk-fieldset">
                                     <h2 class="uk-legend">Account Details</h2><hr>
@@ -43,7 +43,7 @@
                                         </div>
 
                                         <div class="uk-margin">
-                                            <vk-button htmlType="submit" :class="'uk-button uk-button-primary'"> Save Changes </vk-button>
+                                            <vk-button htmlType="submit" :class="'uk-button uk-button-red'" size="large"> Save Changes </vk-button>
                                         </div>
                                     </div>
                                     <div class="uk-width-1-2 uk-padding-large uk-flex-center" v-else>
@@ -56,7 +56,7 @@
                 </vk-tabs-item>
                 <vk-tabs-item title="Subscription">
                     <div class="uk-flex uk-flex-center">
-                        <div class="uk-width-1-2">
+                        <div class="uk-width-1-2@xl uk-width-1-2@l uk-width-1-2@m uk-width-1-1@s">
                             <h2 class="uk-legend">Subscriptions</h2><hr>
                              <div class="uk-flex uk-flex-center">
                             <div class="uk-width-1-1" >
@@ -69,12 +69,51 @@
                 </vk-tabs-item>
                 <vk-tabs-item title="Payments">
                     <div class="uk-flex uk-flex-center">
-                        
+                        <div class="uk-width-1-2@xl uk-width-1-2@l uk-width-1-2@m uk-width-1-1@s">
+                            <h2 class="uk-legend">Payments</h2><hr>
+                            <div class="uk-padding-small">
+                                <table class="uk-table uk-table-divider uk-table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Method</th>
+                                            <th>Amount</th>
+                                            <th>Category</th>
+                                            <th>Created At</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody v-if="payment.data.length > 0">
+                                        <tr v-for="(item, index) in payment.table.activePage" :key="index">
+                                            <td>{{ item.key }}</td>
+                                            <td><vk-label type="success">{{ item.method }}</vk-label></td>
+                                            <td>{{ item.currency }} {{ item.amount }}</td>
+                                            <td><vk-label>{{ item.category }}</vk-label></td>
+                                            <td>{{ item.created_at }}</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody v-else-if="payment.data.length == 0">
+                                        <tr>
+                                            <td colspan="6" class="uk-text-center"> Nothing Found Here</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody v-else>
+                                        <tr>
+                                            <td colspan="6" class="uk-text-center"> <vk-spinner ratio="1.5"></vk-spinner> </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <vk-pagination align="center" :page.sync="pageNumber" :perPage="payment.table.perPage" :total="payment.data.length">
+                                    <vk-pagination-page-prev></vk-pagination-page-prev>
+                                    <vk-pagination-pages></vk-pagination-pages>
+                                    <vk-pagination-page-next></vk-pagination-page-next>
+                                </vk-pagination>
+                            </div>
+                        </div>
                     </div>
                 </vk-tabs-item>
                 <vk-tabs-item title="Security">
                     <div class="uk-flex uk-flex-center">
-                        <div class="uk-width-1-2">
+                        <div class="uk-width-1-2@xl uk-width-1-2@l uk-width-1-2@m uk-width-1-1@s">
                             <form action="" method="POST" @click.prevent="submitForm">
                                 <fieldset class="uk-fieldset">
                                     <h2 class="uk-legend">Account Security</h2><hr>
@@ -112,7 +151,7 @@
 <script>
     import dropify from "@/components/plugins/DropifyComponent";
     import accordion from "@/components/plugins/AccordionComponent"
-
+    import {chunk} from 'lodash';
 export default {
         components: {
             accordion,
@@ -120,21 +159,51 @@ export default {
         },
         computed: {
             subscription () {
-                if( this.fields.user != null ){
+                if( this.fields.subscription != null ){
                     return [{
-                        active: false,
-                        title:  this.fields.user.subscription.subscription.category,
-                        html:   '<div class="uk-padding-small"><h3>Features</h3><hr><h4>'+this.fields.user.subscription.subscription.details+'</h4><hr><</div>'
+                        active: true,
+                        title:  this.fields.subscription.subscription.category,
+                        html:   '<div class="uk-padding-small"><h3>Features</h3><hr><h5>'+this.fields.subscription.subscription.details+'</h5><hr><div class="uk-padding-small"><label class="uk-label uk-label-primary br-label"> Amount: '+this.fields.subscription.latestPayment.currency +' '+this.fields.user.subscription.latestPayment.amount+'</label><br><label class="uk-label uk-label-danger br-label"> Expires On: '+this.fields.subscription.latestPayment.currency +' '+this.fields.user.subscription.latestPayment.amount+'</label></div></div>'
                     }];
                 } else {
                     return [];
+                }
+            },
+            pageNumber: {
+                get(){
+                    return 1;
+                },
+                set(val){
+                    return val;
                 }
             }
         },
         data () {
             return {
                 fields: {
-                    user: null,
+                    payments: {
+                        type: Object,
+                        required: true,
+                        default: {}
+                    },
+                    subscription: {
+                        type: Object,
+                        required: true,
+                        default: {}
+                    },
+                    user: {
+                        type: Object,
+                        required: true,
+                        default: {}
+                    },
+                },
+                payment: {
+                    data: [],
+                    table: {
+                        activePage: {},
+                        chunk: {},
+                        perPage:10,
+                    }
                 }
             }
         },
@@ -149,17 +218,28 @@ export default {
             initData(){
                 this.bralcoaxios({ url: this.$store.state.app.env.backend_url + '/api/v1/4irclub/profile', request: 'GET' }).then( (response) => {
                     let resolve = this.bralcoresponse(response);
-                    this.fields.user = resolve.data;
-                    this.fields.user.subscription.subscription.details = '<ol>';
+                    this.fields.payments = resolve.payments;
+                    this.fields.subscription = resolve.subscription;
+                    this.fields.user = resolve.user;
+                    this.fields.subscription.subscription.details = '<ol>';
                     let self = this;
-                    JSON.parse(this.fields.user.subscription.subscription.features).forEach( function(item){
-                        self.fields.user.subscription.subscription.details += '<li>'+item+'</li>';
+                    JSON.parse(this.fields.subscription.subscription.features).forEach( function(item){
+                        self.fields.subscription.subscription.details += '<li>'+item+'</li>';
                     });
-                    this.fields.user.subscription.subscription.details += '</ol>';
+                    this.fields.subscription.subscription.details += '</ol>';
+                    this.payment.data             = this.fields.payments;
+                    this.payment.data.forEach( (item,key) => {
+                        item.key = key + 1;
+                    });
+                    this.payment.table.chunk      = chunk(this.payment.data,this.pageNumber);
+                    this.payment.table.activePage = this.payment.table.chunk[0];
                 });
                 this.$store.commit('banner_title','Profile');
                 this.$store.commit('banner_content','');
             }
+        },
+        watch: {
+
         }
     }
 </script>
