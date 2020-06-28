@@ -25,7 +25,7 @@ import NotFound from './components/global/NotFoundComponent.vue';
 Vue.use(Router);
 
 const router = new Router({ 
-   mode: "history",
+   mode: "hash",
    routes: [
             {
             path: '/',
