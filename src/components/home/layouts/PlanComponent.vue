@@ -17,9 +17,6 @@
                             <billinginfo :fields="billing" class="uk-width-1-1 uk-padding-remove-top"/>
                           </div>
                           <div>
-                            <h4>Subscription details</h4>
-                          </div>
-                          <div>
                             <vk-button class="uk-button-red uk-light" @click="submitForm" size="large">Next</vk-button>
                           </div>
                         </vk-grid>
