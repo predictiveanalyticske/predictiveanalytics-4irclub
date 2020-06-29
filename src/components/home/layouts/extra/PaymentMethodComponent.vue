@@ -54,7 +54,7 @@
                           <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Amount Charge is <strong>{{ total }}</strong></li>
                       </ul>
                       <flutterwave 
-                        :isProduction="data.flutterEnv == 'live' ? true : false"
+                        :isProduction="data.flutterwave.env == 'live' ? true : false"
                         :name="data.name"
                         :email="data.email"
                         :phone-number="data.phone"
