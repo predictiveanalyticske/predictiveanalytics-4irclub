@@ -13,7 +13,7 @@
               </div>
               <div class="accordion-body" ref="accordionmpesa">
                   <div class="accordion-content">
-                    <div class="uk-width-1-1 uk-padding-large">
+                    <div class="uk-width-1-1 uk-padding-small">
                         <h3>Guide</h3>
                         <ul class="uk-list uk-list-large">
                             <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Go to <strong>Safaricom Menu</strong></li>
@@ -54,7 +54,7 @@
                           <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Amount Charge is <strong>{{ total }}</strong></li>
                       </ul>
                       <flutterwave 
-                        :isProduction="data.flutterwave.env == 'live' ? true : false"
+                        :flutterEnv="data.flutterEnv"
                         :name="data.name"
                         :email="data.email"
                         :phone-number="data.phone"
@@ -128,24 +128,6 @@ export default {
   beforeCreate(){
     // don't forget to register plugins
     gsap.registerPlugin(TweenLite, Bounce, Elastic); 
-  },
-  created () {
-    this.$nextTick( () => {
-      
-    })
-    const script = document.createElement("script");
-          script.src = !this.isProduction
-            ? "https://ravemodal-dev.herokuapp.com/v3.js"
-            : "https://checkout.flutterwave.com/v3.js";
-          document.getElementsByTagName("head")[0].appendChild(script);
-  },
-  mounted () {
-    // loadStripe(this.data.stripeKey).then((s) => {
-    //     this.stripe = s;
-    //     const elements = this.stripe.elements();
-    //     this.cardElement = elements.create('card');
-    //     this.cardElement.mount('#card-element');
-    // });
   },
   methods: {
     flwCallback(val) {
