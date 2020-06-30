@@ -12,13 +12,6 @@
             return this.currency + ' ' + this.amount;
         }
     },
-    created() {
-        const script = document.createElement("script");
-        script.src = !this.isProduction
-            ? "https://ravemodal-dev.herokuapp.com/v3.js"
-            : "https://checkout.flutterwave.com/v3.js";
-        document.getElementsByTagName("head")[0].appendChild(script);
-    },
     methods: {
         makePayment() {
             window.FlutterwaveCheckout({
@@ -30,7 +23,7 @@
             customer: {
                 name: this.name,
                 email: this.email,
-                phone_number: this.phoneNumber
+                phoneNumber: this.phoneNumber
             },
             callback: response => this.callback(response),
             customizations: {
@@ -43,10 +36,10 @@
     },
     name: 'FlutterwaveModal',
     props: {
-        isProduction: {
-            type: Boolean,
+        flutterEnv: {
+            type: String,
             required: false,
-            default: false //set to true if you are going live
+            default: '' //set to true if you are going live
         },
         email: {
             type: String,
@@ -107,6 +100,26 @@
         payment_method: {
             type: String,
             default: "card"
+        }
+    },
+    watch:{
+        flutterEnv:{
+            handler(val){
+                const script = document.createElement("script");
+                switch(val){
+                    case "live":
+                        script.src =  "https://checkout.flutterwave.com/v3.js";
+                        console.log('live');
+                    break;
+                    case "sandbox":
+                        script.src = "https://ravemodal-dev.herokuapp.com/v3.js";
+                    break;
+                    default:
+                        script.src = "https://ravemodal-dev.herokuapp.com/v3.js";
+                }
+                document.getElementsByTagName("head")[0].appendChild(script);
+            },
+            immediate: false
         }
     }
   }
