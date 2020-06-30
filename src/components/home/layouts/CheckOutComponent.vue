@@ -1,7 +1,7 @@
 <template>
       <vk-grid class="uk-child-width-1-1 uk-margin-remove">
           <div class="uk-margin-remove uk-padding-remove">
-            <vk-card class="uk-padding-large">
+            <vk-card padding="small">
               <div class="uk-flex uk-flex-center">
                 <vk-card type="blank" class="uk-width-1-1 uk-padding-remove">
                   <h2>Review & Checkout</h2><hr>
