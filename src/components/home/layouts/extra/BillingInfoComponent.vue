@@ -15,21 +15,35 @@
                 <div class="uk-width-1-1 uk-padding-small">
                   <h3>Personal Information</h3>
                   <form ref="newuser">
-                  <div class="uk-grid uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-1-2@xl uk-child-width-expand@s">
+                    <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-1-1@s">
                       <div>
-                          <div class="uk-margin"><label>First Name</label> <input class="uk-input" name="firstname" placeholder="First Name" required v-model="fields.newaccount.first_name" /></div>
-                          <div class="uk-margin"><label>Email</label> <input class="uk-input" name="email" placeholder="Email Address" required v-model="fields.newaccount.email" /></div>
+                        <label>First Name</label> 
+                        <input class="uk-input" name="firstname" placeholder="First Name" required v-model="fields.newaccount.first_name" />
                       </div>
                       <div>
-                          <div class="uk-margin"><label>Last Name</label> <input class="uk-input" name="lastname" placeholder="Last Name" required v-model="fields.newaccount.last_name" /></div>
-                          <div class="uk-margin"><label>Phone</label> <input class="uk-input" name="text" placeholder="Phone Number" required v-model="fields.newaccount.phone" /></div>
+                        <label>Last Name</label> 
+                        <input class="uk-input" name="lastname" placeholder="Last Name" required v-model="fields.newaccount.last_name" />
                       </div>
-                  </div>
-                  <h3>Account Security</h3>
-                  <div class="uk-grid uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-1-2@xl uk-child-width-expand@s">
-                      <div><label>Password</label> <input class="uk-input" name="password" type="password" placeholder="Password" required v-model="fields.newaccount.password" /></div>
-                      <div><label>Confirm Password</label> <input class="uk-input" name="password_confirmation" type="password" placeholder="Confirm Password" required v-model="fields.newaccount.password_confirmation" /></div>
-                  </div>
+                      <div>
+                        <label>Email</label> 
+                        <input class="uk-input" name="email" placeholder="Email Address" required v-model="fields.newaccount.email" />
+                      </div>
+                      <div>
+                        <label>Phone Number</label>
+                        <vue-phone-number-input @update="getPhoneNumber" :required="true" :size="'10'" v-model="formatedNumber" :defaultCountryCode="'KE'"/>
+                        <input type="hidden" class="uk-input" name="phone" v-model="formatedNumber"/>
+                      </div>
+                      <div class="uk-width-1-1">
+                        <h3>Account Security</h3>
+                      </div>
+                      <div>
+                        <label>Password</label>
+                        <input class="uk-input" name="password" type="password" placeholder="Password" required v-model="fields.newaccount.password" />
+                      </div>
+                      <div>
+                        <label>Confirm Password</label> <input class="uk-input" name="password_confirmation" type="password" placeholder="Confirm Password" required v-model="fields.newaccount.password_confirmation" />
+                      </div>
+                    </vk-grid>
                   </form>
                 </div>
               </div>
@@ -50,10 +64,16 @@
               <div class="accordion-content">
                 <div class="uk-width-1-1 uk-padding-small">
                   <h3>Enter Credentials</h3>
-                  <div class="uk-grid uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-1-2@xl uk-child-width-expand@s">
-                      <div><label>Email Address</label> <input class="uk-input" name="email" type="text" placeholder="Email Address" required v-model="fields.existingaccount.email" /></div>
-                      <div><label>Password</label> <input class="uk-input" type="password" name="password" placeholder="Password" required v-model="fields.existingaccount.password" /></div>
-                  </div>
+                    <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-1-1@s">
+                      <div>
+                        <label>Email Address</label> 
+                        <input class="uk-input" name="email" type="text" placeholder="Email Address" required v-model="fields.existingaccount.email" />
+                      </div>
+                      <div>
+                        <label>Password</label> 
+                        <input class="uk-input" type="password" name="password" placeholder="Password" required v-model="fields.existingaccount.password" />
+                      </div>
+                    </vk-grid>
                 </div>
               </div>
           </div>
@@ -72,6 +92,7 @@ export default {
   data () {
     return {
       fieldsItems: this.fields,
+      formatedNumber: '',
       showNewAccount: {
         show: false,
         target: 'accordionnew'
@@ -90,6 +111,10 @@ export default {
     selectUser () {
       let el = event.target;
       this.selectiveToggle(this.toggleAccordion(el));
+    },
+    getPhoneNumber (val) {
+      this.fields.newaccount.phone = val.formattedNumber;
+      this.formatedNumber = val.formattedNumber;
     },
     toggleAccordion(el){
       let input;
