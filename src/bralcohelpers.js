@@ -97,11 +97,13 @@ BralcoHelpers.install = function (Vue,) {
                 return response.data;
             case 422:
                 var type = typeof data.errors;
+                console.log(type)
                 switch( type ){
                     case 'string':
                         response_container.m = data.errors;
                     break;
                     case 'array':
+                    case 'object':
                         var array            = toArray(data.errors);
                         var string           = arrayToString(array);
                         response_container.m = string;
