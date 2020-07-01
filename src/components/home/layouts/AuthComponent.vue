@@ -58,8 +58,50 @@
                 formData.append('provider', 'clubusers');
                 
                 this.bralcoaxios({ url: el.attributes.action.value, request:el.attributes.method.value, form: formData }).then( (response) => {
-                    this.bralcoresponse(response);
+                    let resolve = this.bralcoresponse(response);
+                    this.loginConfig(resolve);
                 });
+            },
+            loginConfig (response){
+
+                    localStorage.setItem('access_token',response.data.token.access_token);
+                    localStorage.setItem('token_type',response.data.token.token_type);
+                    localStorage.setItem('expires_in',response.data.token.expires_in);
+                    localStorage.setItem('refresh_token',response.data.token.refresh_token);
+                    localStorage.setItem('isSubscribed',response.data.isSubscribed);
+                    localStorage.setItem('isPaid',response.data.isPaid);
+
+                    this.$store.commit('access_token',response.data.token.access_token);
+                    this.$store.commit('token_type', response.data.token.token_type);
+                    this.$store.commit('expires_in',response.data.token.expires_in);
+                    this.$store.commit('refresh_token',response.data.token.refresh_token);
+                    this.$store.commit('isAuthenticated',true);
+                    this.$store.commit('isSubscribed',response.data.isSubscribed);
+                    this.$store.commit('isPaid',response.data.isPaid);
+
+                    switch(response.data.isSubscribed){
+                        case true:
+
+                            if(!response.data.isPaid){
+                                localStorage.setItem('pendingPayment',response.data.payment);
+                                window.location.href = window.location.hash != "" 
+                                                        ? window.location.origin + '/' + window.location.hash.split('/')[0] + '/' + this.$router.resolve({name:"checkout",params:{ payment: response.data.payment }}).href 
+                                                        : window.location.origin + this.$router.resolve({name:"checkout",params:{ payment: response.data.payment }}).href ;
+                            } else {
+                                window.location.href = window.location.hash != "" 
+                                                        ? window.location.origin + '/' + window.location.hash.split('/')[0] + '/' + this.$router.resolve({name:"home"}).href 
+                                                        : window.location.origin + this.$router.resolve({name:"checkout",params:{ payment: response.data.payment }}).href ;
+                            }
+
+                        break;
+                        case false:
+
+                            window.location.href = window.location.hash != "" 
+                                                    ? window.location.origin + '/' + window.location.hash.split('/')[0] + '/' + this.$router.resolve({name:"plans"}).href 
+                                                    : window.location.origin + this.$router.resolve({name:"checkout",params:{ payment: response.data.payment }}).href ;
+
+                        break; 
+                    }
             }
         },
         beforeMount(){
