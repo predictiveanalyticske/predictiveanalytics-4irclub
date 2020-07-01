@@ -68,7 +68,7 @@
                 if( this.$router.mode == "hash"){
                     formData.append('base_url', window.location.origin + '/#/');
                 } else {
-                    formData.append('base_url', window.location.origin);
+                    formData.append('base_url', window.location.origin + '/');
                 }
 
                 this.bralcoaxios({ url: el.attributes.action.value, request:el.attributes.method.value, form: formData }).then( (response) => {
