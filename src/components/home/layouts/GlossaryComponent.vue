@@ -20,11 +20,21 @@
         },
         beforeRouteEnter (to,from,next) {
             next( vm => {
-                vm.iniData(),
+                vm.checkSubscription(),
                 next()
             });
         },
         methods: {
+            checkSubscription(){
+                switch( JSON.parse(this.$store.getters.isSubscribed) && JSON.parse(this.$store.getters.isPaid) ){
+                    case true:
+                        this.initData();
+                    break;
+                    case false:
+                        this.$router.push({name:"home"});
+                    break;
+                }
+            },
             iniData(){
                 this.bralcoaxios({ url: this.$store.state.app.env.backend_url + "/api/v1/4irclub/glossary", request: "GET" }).then( (response) => {
                     var resolve = this.bralcoresponse(response);
