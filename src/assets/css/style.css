@@ -94,6 +94,18 @@ html, body {
   box-shadow: 0 0 2px 2px #ededed !important;
 }
 
+.br-active a {
+  border:2px solid #fff;
+  color: #fff !important;
+  font-weight: 1000 !important;
+  padding: 2%;
+  border-radius: 100px;
+}
+
+.br-light a {
+  color: #fff !important;
+  font-weight: 1000 !important;
+}
 
 .hidden {
   display: none;
@@ -260,9 +272,26 @@ UI KIT Overrides
 .uk-navbar, .uk-navbar-dropdown {
   background-color:#bf040f !important;
 }
-.uk-navbar a {
-    color: #ffffff !important;
+
+.uk-navbar li {
+  margin: 5px;
 }
+
+.uk-navbar-nav > li > a {
+  color: #fff;
+}
+
+.uk-navbar li a {
+    height: 40px !important; 
+    border-radius: 100px;
+    color: #fff;
+}
+
+.uk-navbar li:hover {
+  border:1px solid #fff;
+  border-radius: 100px;  
+}
+
 .uk-card-alerts {
   background: #2d2d2d !important;
   color: #fff !important;
