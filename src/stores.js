@@ -14,7 +14,8 @@ let VuexData = {
           expires_in:      null,
           isAuthenticated: false,
           isAuthorized:    false,
-          isSubscribed:    false,
+          isSubscribed:    storage.getItem('isSubscribed'),
+          isPaid:          storage.getItem('isPaid'),
           token_type:      null
         },
         banner: {
@@ -29,6 +30,7 @@ let VuexData = {
           backend_url: process.env.VUE_APP_ENDPOINT_URL,
         },
         data: {
+          pendingPayment: storage.getItem('pendingPayment'),
           global: {}
         },
         home: {
@@ -44,6 +46,12 @@ let VuexData = {
     },
     isAuthenticated: state => {
       return state.app.auth.isAuthenticated;
+    },
+    isPaid: state => {
+      return state.app.auth.isPaid;
+    },
+    pendingPayment: state => {
+      return state.app.data.pendingPayment;
     },
     isSubscribed: state => {
       return state.app.auth.isSubscribed;
@@ -97,6 +105,9 @@ let VuexData = {
     },
     isSubscribed (state, val){
       state.app.auth.isSubscribed = val
+    },
+    isPaid (state, val){
+      state.app.auth.isPaid = val
     },
     sidebar (state, val){
       state.app.sidebar = val
