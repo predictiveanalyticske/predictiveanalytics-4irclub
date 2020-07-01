@@ -10,8 +10,11 @@
                     <vk-card class="br-plans" padding="small" ref="plans">
                       <vk-card-title class="br-heading uk-text-center" tag="h2">{{ item.name }}</vk-card-title>
                       <div class="br-plans-content">
-                        <h3 class="uk-margin-small uk-width-1-1 uk-text-center uk-text-success">{{ item.monthly_cost }} per month</h3>
-                        <h3 class="uk-margin-small uk-width-1-1 uk-text-center uk-text-success">{{ item.annual_cost }} per year</h3>
+                        <currencies 
+                          :annualAmount="item.annual_cost"
+                          :monthlyAmount="item.monthly_cost"
+                          :currency="item.currency"
+                        />
                         <a class="uk-button uk-button-medium uk-width-1-1 uk-button-red" :href="$router.resolve({name:'plan',params:{ item: item.id }}).href">Buy Now</a>
                         <p v-for="(value, key) in JSON.parse(item.features)" :key="key"><vk-icon icon="check"></vk-icon>{{ value }}</p>
                       </div>
@@ -23,17 +26,24 @@
           </vk-card>
         </div>
     </vk-grid>
-    <router-view v-else></router-view>
 </template>
 
 <script>
+    import currencies from '@/components/home/layouts/extra/CurrencyComponent'
     export default {
+        components:{
+          currencies
+        },
         name: 'plans',
         data () {
           return {
             data: {},
             cards: {},
-
+            currencies: require('@/currencies'),
+            selectedCurrency:{
+              type: String,
+              default: ''
+            }
           }
         },
         beforeRouteEnter (to,from,next) {
@@ -56,22 +66,23 @@
                 this.data   = resolve.data.subscriptions;
                 document.body.scrollTop = 0;
                 document.documentElement.scrollTop = 0;
-                this.$nextTick(() => {
-                  let plans = document.getElementsByClassName('br-plans');
-                  plans.forEach( function(item) {
-                    var body = item.getElementsByClassName('uk-card-body');
-                    body[0].setAttribute('style','height: 530px !important');
-                    // var content = body[0].getElementsByClassName('br-plans-content');
-                    body[0].innerHTML = body[0].innerHTML + '<a href="#" class="uk-button uk-button-red uk-button-medium uk-width-1-1" style="position:absolute !important; bottom: 0 !important; right:0 !important;">Show More</a>'
-                    // console.log(content[0].innerHTML);
+                if( this.$route.params.item == undefined){
+                  this.$nextTick(() => {
+                    let plans = document.getElementsByClassName('br-plans');
+                    plans.forEach( function(item) {
+                      var body = item.getElementsByClassName('uk-card-body');
+                      body[0].setAttribute('style','height: 530px !important');
+                      // var content = body[0].getElementsByClassName('br-plans-content');
+                      body[0].innerHTML = body[0].innerHTML + '<a href="#" class="uk-button uk-button-red uk-button-medium uk-width-1-1" style="position:absolute !important; bottom: 0 !important; right:0 !important;">Show More</a>'
+                      // console.log(content[0].innerHTML);
+                    });
                   });
-                });
+                }
             });
           }
         },
         mounted () {
             this.$store.commit('loader',false);
-            
         },
     }
 </script>
