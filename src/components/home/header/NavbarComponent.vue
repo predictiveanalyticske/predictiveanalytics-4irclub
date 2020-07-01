@@ -21,8 +21,10 @@
                 :key="index" 
                 :title="value.title"
                 :href="value.to"
+                :icon="value.icon"
+                :class="$route.fullPath == value.route.resolved.fullPath ? 'br-active' : 'br-light'"
             ></vk-nav-item>
-            <vk-nav-item href="#" title="Logout" @click.prevent="logout" v-if="$store.getters.isAuthenticated"></vk-nav-item>
+            <vk-nav-item href="#" title="Logout" icon="sign-out" class="br-light" @click.prevent="logout" v-if="$store.getters.isAuthenticated"></vk-nav-item>
         </vk-navbar-nav>
     </vk-navbar>
     <div class="uk-width-1-1 uk-inline uk-visible@s uk-visible@m uk-visible@l" id="banner">
@@ -56,6 +58,7 @@
                 :key="index" 
                 :title="value.title"
                 :href="value.to"
+                :icon="value.icon"
                 :class="$route.fullPath == value.route.resolved.fullPath ? 'uk-active' : false"
             ></vk-nav-item>
             <vk-nav-item href="#" title="Logout" @click.prevent="logout" v-if="$store.getters.isAuthenticated"></vk-nav-item>
@@ -103,6 +106,22 @@
                 return val;
               }
             },
+            paid:{
+              get(){
+                return JSON.parse(this.$store.getters.isPaid);
+              },
+              set(val){
+                return val;
+              }
+            },
+            payment:{
+              get(){
+                return JSON.parse(this.$store.getters.pendingPayment);
+              },
+              set(val){
+                return val;
+              }
+            },
             show:{
               get(){
                 return this.$store.getters.sidebar;
@@ -113,7 +132,7 @@
             },
             subscribed:{
               get(){
-                return this.$store.getters.isSubscribed;
+                return JSON.parse(this.$store.getters.isSubscribed);
               },
               set(val){
                 return val;
@@ -165,14 +184,26 @@
               case true:
                 switch(this.subscribed){
                   case true:
-                    this.links = [
-                      { title: "Home",          icon: "home",    to: this.$router.resolve({name:"home"}).href,       route:this.$router.resolve({name:"home"})   },
-                      { title: "About",         icon: "users",   to: this.$router.resolve({name:"about"}).href,      route:this.$router.resolve({name:"about"})   },                
-                      { title: "Documentaries", icon: "play", to: this.$router.resolve({name:"documentaries"}).href, route:this.$router.resolve({name:"documentaries"})   },
-                      { title: "Resources",     icon: "bookmark", to: this.$router.resolve({name:"resources"}).href, route:this.$router.resolve({name:"resources"})   },
-                      { title: "Glossary",      icon: "bookmark", to: this.$router.resolve({name:"glossary"}).href,  route:this.$router.resolve({name:"glossary"})   },
-                      { title: "Profile",       icon: "user", to: this.$router.resolve({name:"profile"}).href,       route:this.$router.resolve({name:"profile"})   },
-                    ]
+                    switch(this.paid){
+                      case true:
+                      this.links = [
+                        { title: "Home",          icon: "home",    to: this.$router.resolve({name:"home"}).href,       route:this.$router.resolve({name:"home"})   },
+                        { title: "About",         icon: "users",   to: this.$router.resolve({name:"about"}).href,      route:this.$router.resolve({name:"about"})   },                
+                        { title: "Documentaries", icon: "play", to: this.$router.resolve({name:"documentaries"}).href, route:this.$router.resolve({name:"documentaries"})   },
+                        { title: "Resources",     icon: "bookmark", to: this.$router.resolve({name:"resources"}).href, route:this.$router.resolve({name:"resources"})   },
+                        { title: "Glossary",      icon: "bookmark", to: this.$router.resolve({name:"glossary"}).href,  route:this.$router.resolve({name:"glossary"})   },
+                        { title: "Profile",       icon: "user", to: this.$router.resolve({name:"profile"}).href,       route:this.$router.resolve({name:"profile"})   },
+                      ]
+                      break;
+                      case false: 
+                        this.links = [
+                          { title: "Home",          icon: "home",    to: this.$router.resolve({name:"home"}).href,       route:this.$router.resolve({name:"home"})   },
+                          { title: "About",         icon: "users",   to: this.$router.resolve({name:"about"}).href,      route:this.$router.resolve({name:"about"})   },                
+                          { title: "Payment",       icon: "credit-card",   to: this.$router.resolve({name:"checkout",params:{ payment: this.$store.getters.pendingPayment }}).href,      route:this.$router.resolve({name:"checkout",params:{ payment: this.$store.getters.pendingPayment }})   },                
+                          { title: "Profile",       icon: "user", to: this.$router.resolve({name:"profile"}).href,       route:this.$router.resolve({name:"profile"})   },
+                        ]
+                      break;
+                    }
                   break;
                   case false:
                       this.links = [
