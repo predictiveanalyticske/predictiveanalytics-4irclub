@@ -105,7 +105,7 @@
                     }
             },
             studentlogin () {
-               window.location.href = "https://lab.predictiveanalytics.co.ke/user/login/challenge?callbackurl=" + window.location.href + 'challenge/';
+               window.location.href = "https://lab.predictiveanalytics.co.ke/user/login/challenge?callbackurl=" + window.location.href + '/challenge/';
                // window.open(,"Lab_Predictive_Analytics","menubar=yes,location=yes,resizable=yes,scrollbars=yes,status=yes");
                // document.getElementById("student_login").src = "https://lab.predictiveanalytics.co.ke/user/login/challenge" + window.location.href;
              }
