@@ -11,8 +11,7 @@
                       <div class="icon-fix"></div>
                     </div>
                   </div>
-                  <h1 class="br-heading">Your email address is verified.</h1>
-                  <h2>You will be redirected to login in {{ count.value }} seconds</h2>
+                  <h1 class="br-heading">SignIn with Lab Predictive Analytics.</h1>
               </div>
           </vk-card>
         </div>
@@ -34,25 +33,9 @@
     data () {
       return {
         loading: true,
-        verified: false,
-        count: {
-          type: Number,
-          value: 5
-        }
       }
     },
     methods: {
-      countDownTimer() {
-        let self = this;
-        if(this.count.value > 0) {
-            setTimeout(function() {
-                self.count.value -= 1;
-                self.countDownTimer()
-            }, 1000)
-        } else {
-          this.$router.push({name:'auth'});
-        }
-      },
       initData() {
         let user = JSON.parse(atob(this.$route.params.user));
         let formData = new FormData();
@@ -61,11 +44,57 @@
           formData.append( value, user[value]);
         }
 
+        formData.append('base_url', window.location.origin + process.env.BASE_URL);
+        formData.append('client_id', btoa(process.env.VUE_APP_PASSPORT_KEY));
+        formData.append('client_secret', btoa(process.env.VUE_APP_PASSPORT_SECRET));
+
         this.bralcoaxios({ url: this.$store.state.app.env.backend_url+'/api/v1/4irclub/auth/challenge' , request: 'POST', form: formData }).then( (response) => {
-            let resolve   = this.bralcoresponse(response);
-            console.log(resolve);
+          let resolve = this.bralcoresponse(response);
+          this.loginConfig(resolve);
         });
-      }
+      },
+      loginConfig (response){
+
+              localStorage.setItem('access_token',response.data.token.access_token);
+              localStorage.setItem('token_type',response.data.token.token_type);
+              localStorage.setItem('expires_in',response.data.token.expires_in);
+              localStorage.setItem('refresh_token',response.data.token.refresh_token);
+              localStorage.setItem('isSubscribed',response.data.isSubscribed);
+              localStorage.setItem('isPaid',response.data.isPaid);
+
+              this.$store.commit('access_token',response.data.token.access_token);
+              this.$store.commit('token_type', response.data.token.token_type);
+              this.$store.commit('expires_in',response.data.token.expires_in);
+              this.$store.commit('refresh_token',response.data.token.refresh_token);
+              this.$store.commit('isAuthenticated',true);
+              this.$store.commit('isSubscribed',response.data.isSubscribed);
+              this.$store.commit('isPaid',response.data.isPaid);
+
+              switch(response.data.isSubscribed){
+                  case true:
+
+                      if(!response.data.isPaid){
+                          localStorage.setItem('pendingPayment',response.data.payment);
+                          window.location.href = window.location.hash != ""
+                                                  ? window.location.origin + '/' + window.location.hash.split('/')[0] + '/' + this.$router.resolve({name:"checkout",params:{ payment: response.data.payment }}).href
+                                                  : window.location.origin + this.$router.resolve({name:"checkout",params:{ payment: response.data.payment }}).href ;
+                      } else {
+                          window.location.href = window.location.hash != ""
+                                                  ? window.location.origin + '/' + window.location.hash.split('/')[0] + '/' + this.$router.resolve({name:"home"}).href
+                                                  : window.location.origin + this.$router.resolve({name:"checkout",params:{ payment: response.data.payment }}).href ;
+                      }
+
+                  break;
+                  case false:
+
+                      window.location.href = window.location.hash != ""
+                                              ? window.location.origin + '/' + window.location.hash.split('/')[0] + '/' + this.$router.resolve({name:"plans"}).href
+                                              : window.location.origin + this.$router.resolve({name:"checkout",params:{ payment: response.data.payment }}).href ;
+
+                  break;
+              }
+      },
+
     },
     mounted () {
         this.$store.commit('loader',false);
