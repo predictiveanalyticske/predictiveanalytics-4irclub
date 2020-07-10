@@ -334,15 +334,15 @@ const router = new Router({
                               path: "challenge/:user",
                               component: HomeAuthChallenge,
                               meta: {
-                                title: 'SignIn - 4IRCLUB',
+                                title: 'SignIn Challenge - 4IRCLUB',
                                 metaTags: [
                                   {
                                     name: 'description',
-                                    content: "Create a free account to access the features in the platform"
+                                    content: "Login challenge"
                                   },
                                   {
                                     property: 'og:description',
-                                    content: "Register requires personal details sent to the email address provided by the user."
+                                    content: "Challenge for signin with Predictive Analytics."
                                   }
                                 ]
                               },
