@@ -15,6 +15,7 @@ import HomePlans from './components/home/layouts/PlansComponent.vue';
 import HomePlan from './components/home/layouts/PlanComponent.vue';
 import HomePlanItem from './components/home/layouts/show/PlanItemComponent.vue';
 import HomeAuth from './components/home/layouts/AuthComponent.vue';
+import HomeAuthChallenge from './components/home/layouts/AuthChallengeComponent.vue';
 import HomeSignup from './components/home/layouts/SignupComponent.vue';
 import HomeProfile from './components/home/layouts/ProfileComponent.vue';
 import HomeVerify from './components/home/layouts/VerifyComponent.vue';
@@ -25,7 +26,7 @@ import NotFound from './components/global/NotFoundComponent.vue';
 
 Vue.use(Router);
 
-const router = new Router({ 
+const router = new Router({
    mode: "history",
    routes: [
             {
@@ -307,11 +308,22 @@ const router = new Router({
                           }
                     },
                     {
-                        name: "auth",
                         path: '/login',
-                        components: {
-                            view: HomeAuth,
-                        },
+                        children: [
+                            {
+                              name: "auth",
+                              path: "",
+                              components:{
+                                view: HomeAuth,
+                              }
+                            },
+                            {
+                              name: "authchallenge",
+                              path: "/:user",
+                              components: HomeAuthChallenge
+                            }
+                        ],
+
                         meta: {
                             title: 'SignIn - 4IRCLUB',
                             metaTags: [
