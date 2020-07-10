@@ -3,12 +3,34 @@
         <div class="uk-padding-remove uk-margin-remove">
           <vk-card class="uk-padding-large">
               <vk-grid class="uk-child-width-1-1 uk-margin-remove">
-                  <div>
-
+                  <div class="uk-card-dark">
+                    <h1 class="uk-text-center uk-heading-2xlarge">Search</h1>
+                    <div class="uk-inline uk-width-1-1 uk-margin-remove">
+                            <input class="uk-input br-search-input uk-form-large uk-visible@s uk-visible@m" type="text">
+                            <a class="uk-form-icon uk-form-icon-flip uk-visible@s uk-visible@m" href="#"><vk-icon icon="search" ratio="2"></vk-icon></a>
+                        </div>
                   </div>
-                  <div>
-
-                  </div>
+                    <div v-for="(value,index) in table.activePage" :key="index">
+                        <h1 :id="index">{{ index + 1 }}</h1><hr>
+                        <main>
+                            <div class="item">
+                                <h2>{{ value.name }}</h2>
+                                <h4>{{ value.definition }}</h4>
+                                <h4 v-if="value.formula != null">{{ value.formula }}</h4>
+                                <div v-if="value.related == 'Yes'">
+                                    <div class="item">
+                                        <main v-for="(item,key) in value.related_items" :key="key" >
+                                            <h2>{{ item.name }}</h2>
+                                            <p>{{ item.definition }}</p>
+                                        </main>
+                                    </div>
+                                </div>
+                                <vk-label class="uk-text-right">{{ value.category }}</vk-label>
+                            </div>
+                        </main>
+                    </div>
+                 <div>
+                 </div>
               </vk-grid>
           </vk-card>
         </div>
@@ -16,12 +38,25 @@
 </template>
 
 <script>
+    import { chunk } from 'lodash';
+
     export default {
         name: 'glossary',
         data () {
           return {
             cards: {},
             data: {},
+            table: {
+                activePage: {},
+                chunk: [],
+                pages: 0,
+                pageNumber: 0,
+                perPage: 35,
+                length: {
+                    type:Number,
+                    value: 0
+                }
+            }
           }
         },
         beforeRouteEnter (to,from,next) {
@@ -31,6 +66,14 @@
             });
         },
         methods: {
+            assignData(){
+                if( this.data.length > 0){
+                    this.table.pages        =  this.data.length % this.table.perPage;
+                    this.table.chunk        =  chunk(this.data, this.table.perPage);
+                    this.table.activePage   =  this.table.chunk[0];
+                    this.table.length.value =  this.data.length;
+                }
+            },
             checkSubscription(){
                 switch( JSON.parse(this.$store.getters.isSubscribed) && JSON.parse(this.$store.getters.isPaid) ){
                     case true:
@@ -44,20 +87,17 @@
             iniData(){
                 this.bralcoaxios({ url: this.$store.state.app.env.backend_url + "/api/v1/glossary", request: "GET" }).then( (response) => {
                     let resolve = this.bralcoresponse(response);
-                    console.log(resolve)
+                    this.data   = resolve.data.glossary 
+                    this.assignData();
                 });
-                this.$store.commit('banner_title','Glossary')
-                this.$store.commit('banner_content','');
-                if( this.$store.getters.sidebar ){
-                    this.$store.commit('sidebar',false);
-                }
+            }
+        },
+        mounted (){
+            this.$store.commit('banner_title','Glossary')
+            this.$store.commit('banner_content','');
+            if( this.$store.getters.sidebar ){
+                this.$store.commit('sidebar',false);
             }
         }
     }
 </script>
-
-<style>
-  .uk-card-100{
-    height: 100% !important;
-  }
-</style>
