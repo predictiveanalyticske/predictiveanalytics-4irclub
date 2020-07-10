@@ -14,8 +14,9 @@ import HomeDocumentaries from './components/home/layouts/DocumentariesComponent.
 import HomePlans from './components/home/layouts/PlansComponent.vue';
 import HomePlan from './components/home/layouts/PlanComponent.vue';
 import HomePlanItem from './components/home/layouts/show/PlanItemComponent.vue';
+import HomeLogin from './components/home/layouts/show/LoginComponent.vue';
 import HomeAuth from './components/home/layouts/AuthComponent.vue';
-import HomeAuthChallenge from './components/home/layouts/AuthChallengeComponent.vue';
+import HomeAuthChallenge from './components/home/layouts/show/AuthChallengeComponent.vue';
 import HomeSignup from './components/home/layouts/SignupComponent.vue';
 import HomeProfile from './components/home/layouts/ProfileComponent.vue';
 import HomeVerify from './components/home/layouts/VerifyComponent.vue';
@@ -312,31 +313,44 @@ const router = new Router({
                         children: [
                             {
                               name: "auth",
-                              path: "",
-                              components:{
-                                view: HomeAuth,
-                              }
+                              path: '',
+                              component: HomeLogin,
+                              meta: {
+                                title: 'SignIn - 4IRCLUB',
+                                metaTags: [
+                                  {
+                                    name: 'description',
+                                    content: "Create a free account to access the features in the platform"
+                                  },
+                                  {
+                                    property: 'og:description',
+                                    content: "Register requires personal details sent to the email address provided by the user."
+                                  }
+                                ]
+                              },
                             },
                             {
                               name: "authchallenge",
-                              path: "/:user",
-                              components: HomeAuthChallenge
+                              path: "challenge/:user",
+                              component: HomeAuthChallenge,
+                              meta: {
+                                title: 'SignIn - 4IRCLUB',
+                                metaTags: [
+                                  {
+                                    name: 'description',
+                                    content: "Create a free account to access the features in the platform"
+                                  },
+                                  {
+                                    property: 'og:description',
+                                    content: "Register requires personal details sent to the email address provided by the user."
+                                  }
+                                ]
+                              },
                             }
                         ],
-
-                        meta: {
-                            title: 'SignIn - 4IRCLUB',
-                            metaTags: [
-                              {
-                                name: 'description',
-                                content: "Create a free account to access the features in the platform"
-                              },
-                              {
-                                property: 'og:description',
-                                content: "Register requires personal details sent to the email address provided by the user."
-                              }
-                            ]
-                          },
+                        components: {
+                          view: HomeAuth,
+                        },
                         beforeEnter (to,from, next) {
                             if( stored.state.app.auth.isAuthenticated ){
                               next({name: "home"});
@@ -391,7 +405,7 @@ router.beforeEach((to,from, ...next) => {
     Array.from(document.querySelectorAll('[data-vue-router-controlled]')).map(el => el.parentNode.removeChild(el));
 
     // Skip rendering meta tags if there are none.
-    if(!nearestWithMeta) return next();
+    if(!nearestWithMeta) return  next[0]();
 
     // Turn the meta tag definitions into actual elements in the head.
     nearestWithMeta.meta.metaTags.map(tagDef => {
