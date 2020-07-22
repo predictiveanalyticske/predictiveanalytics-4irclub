@@ -39,19 +39,18 @@
       initData() {
         let user = JSON.parse(atob(this.$route.params.user));
         let formData = new FormData();
-        console.log(user);
         for(let value in user){
           formData.append( value, user[value]);
         }
 
-        // formData.append('base_url', window.location.origin + process.env.BASE_URL);
-        // formData.append('client_id', btoa(process.env.VUE_APP_PASSPORT_KEY));
-        // formData.append('client_secret', btoa(process.env.VUE_APP_PASSPORT_SECRET));
+        formData.append('base_url', window.location.origin + process.env.BASE_URL);
+        formData.append('client_id', btoa(process.env.VUE_APP_PASSPORT_KEY));
+        formData.append('client_secret', btoa(process.env.VUE_APP_PASSPORT_SECRET));
 
-        // this.bralcoaxios({ url: this.$store.state.app.env.backend_url+'/api/v1/4irclub/auth/challenge' , request: 'POST', form: formData }).then( (response) => {
-        //   let resolve = this.bralcoresponse(response);
-        //   this.loginConfig(resolve);
-        // });
+        this.bralcoaxios({ url: this.$store.state.app.env.backend_url+'/api/v1/4irclub/auth/challenge' , request: 'POST', form: formData }).then( (response) => {
+           let resolve = this.bralcoresponse(response);
+           this.loginConfig(resolve);
+        });
       },
       loginConfig (response){
 
