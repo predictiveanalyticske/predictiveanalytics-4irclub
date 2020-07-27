@@ -152,8 +152,6 @@ export default {
             }
           });
         break;
-        default:
-          console.log(val);
       }
     },
     flwClose() {
