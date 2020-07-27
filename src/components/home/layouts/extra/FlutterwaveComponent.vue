@@ -109,7 +109,6 @@
                 switch(val){
                     case "live":
                         script.src =  "https://checkout.flutterwave.com/v3.js";
-                        console.log('live');
                     break;
                     case "sandbox":
                         script.src = "https://ravemodal-dev.herokuapp.com/v3.js";
