@@ -290,7 +290,7 @@ const router = new Router({
                     },
                     {
                         name: "verify",
-                        path: '/email/verify/:token',
+                        path: '/verify/email/:token',
                         components: {
                             view: HomeVerify,
                         },
