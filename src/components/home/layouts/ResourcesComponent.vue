@@ -1,4 +1,4 @@
-<template>
+  <template>
     <vk-grid class="uk-child-width-1-1 uk-margin-remove" v-if="$route.params.item == undefined">
         <div class="uk-padding-remove uk-margin-remove">
           <vk-card class="uk-padding-large" type="blank">
@@ -61,7 +61,7 @@
                 this.$store.commit('banner_content','');
             },
             download (item){
-                this.bralcoaxios({ url: this.$store.getters.backendurl + '/api/v1/4irclub/resources/download/' + item, request: "GET" }).then( (response) => {
+                this.bralcoaxios({ url: this.$store.getters.backendurl + '/api/v1/4irclub/resources/download/' + item, request: "GET", responseType: 'arrayBuffer').then( (response) => {
                   var resolve = this.bralcoresponse(response);
                     var fileURL = window.URL.createObjectURL(new Blob([resolve]));
                     var fileLink = document.createElement('a');

@@ -6,13 +6,14 @@ const BralcoHelpers = () => {};
 
 BralcoHelpers.install = function (Vue,) {
 
-    Vue.prototype.bralcoaxios = function ({ request: method, url, form: data, }) {
+    Vue.prototype.bralcoaxios = function ({ request: method, url, form: data }) {
         var payload = {
             method,
             url,
             data,
             contentType: false,
             cache: false,
+            responseType
         };
 
         if( !stored.state.app.loader ){
