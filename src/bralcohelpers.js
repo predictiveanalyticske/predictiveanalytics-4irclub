@@ -6,7 +6,7 @@ const BralcoHelpers = () => {};
 
 BralcoHelpers.install = function (Vue,) {
 
-    Vue.prototype.bralcoaxios = function ({ request: method, url, form: data }) {
+    Vue.prototype.bralcoaxios = function ({ request: method, url, form: data, responseType }) {
         var payload = {
             method,
             url,

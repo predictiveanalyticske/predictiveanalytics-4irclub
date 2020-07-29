@@ -61,7 +61,7 @@
                 this.$store.commit('banner_content','');
             },
             download (item){
-                this.bralcoaxios({ url: this.$store.getters.backendurl + '/api/v1/4irclub/resources/download/' + item, request: "GET", responseType: 'arrayBuffer').then( (response) => {
+                this.bralcoaxios({ url: this.$store.getters.backendurl + '/api/v1/4irclub/resources/download/' + item, request: "GET", responseType: 'arrayBuffer'}).then( (response) => {
                   var resolve = this.bralcoresponse(response);
                     var fileURL = window.URL.createObjectURL(new Blob([resolve]));
                     var fileLink = document.createElement('a');
