@@ -1,14 +1,14 @@
 <template>
     <vk-grid class="uk-child-width-1-1 uk-margin-remove" v-if="$route.params.item == undefined">
         <div class="uk-padding-remove uk-margin-remove">
-          <vk-card class="uk-padding-large">
-              <h3>Below is a list of resources to utilize and read through. </h3>
+          <vk-card class="uk-padding-large" type="blank">
+              <h3 class="uk-text-center">Below is a list of resources to utilize and read through. </h3>
               <vk-grid class="uk-child-width-1-3">
                <div v-for="(value,index) in data" :key="index">
-                   <vk-card type="blank" class="uk-text-center uk-card-red uk-light uk-padding-small">
+                   <vk-card class="uk-text-center uk-dark uk-padding-small">
                     <h4>{{ value.name }}</h4>
                     <vk-icon icon="file" ratio="6"></vk-icon>
-                    <a class="uk-button uk-button-default uk-width-1-1 uk-marging" href="#"><vk-icon icon="download"></vk-icon></a>
+                    <a class="uk-button uk-button-default uk-width-1-1 uk-marging" @click.prevent="download(value.id)"><vk-icon icon="download"></vk-icon></a>
                    </vk-card>
                </div>
               </vk-grid>
@@ -59,6 +59,19 @@
                 });
                 this.$store.commit('banner_title','Resources')
                 this.$store.commit('banner_content','');
+            },
+            download (item){
+                this.bralcoaxios({ url: this.$store.getters.backendurl + '/api/v1/4irclub/resources/download/' + item, request: "GET" }).then( (response) => {
+                  var resolve = this.bralcoresponse(response);
+                    var fileURL = window.URL.createObjectURL(new Blob([resolve]));
+                    var fileLink = document.createElement('a');
+                    fileLink.href = fileURL;
+
+                    fileLink.setAttribute('download', Date.now() + '.pdf');
+
+                    document.body.appendChild(fileLink);
+                    fileLink.click();
+                });
             }
         }
     }
