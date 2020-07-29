@@ -8,7 +8,7 @@
                    <vk-card class="uk-text-center uk-dark uk-padding-small">
                     <h4>{{ value.name }}</h4>
                     <vk-icon icon="file" ratio="6"></vk-icon>
-                    <a class="uk-button uk-button-default uk-width-1-1 uk-marging" @click.prevent="download(value.id)"><vk-icon icon="download"></vk-icon></a>
+                    <a class="uk-button uk-button-default uk-width-1-1 uk-marging" @click.prevent="download(value.id,value.name, value.filename)"><vk-icon icon="download"></vk-icon></a>
                    </vk-card>
                </div>
               </vk-grid>
@@ -60,14 +60,14 @@
                 this.$store.commit('banner_title','Resources')
                 this.$store.commit('banner_content','');
             },
-            download (item){
-                this.bralcoaxios({ url: this.$store.getters.backendurl + '/api/v1/4irclub/resources/download/' + item, request: "GET", responseType: 'arrayBuffer'}).then( (response) => {
+            download (item,filename,ext){
+                this.bralcoaxios({ url: this.$store.getters.backendurl + '/api/v1/4irclub/resources/download/' + item, request: "POST", responseType: 'blob'}).then( (response) => {
                   var resolve = this.bralcoresponse(response);
                     var fileURL = window.URL.createObjectURL(new Blob([resolve]));
                     var fileLink = document.createElement('a');
                     fileLink.href = fileURL;
 
-                    fileLink.setAttribute('download', Date.now() + '.pdf');
+                    fileLink.setAttribute('download', filename + '.' + ext.split('.')[1]);
 
                     document.body.appendChild(fileLink);
                     fileLink.click();
