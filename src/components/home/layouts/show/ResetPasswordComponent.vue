@@ -55,7 +55,7 @@
 
                 this.bralcoaxios({ url: el.attributes.action.value, request:el.attributes.method.value, form: formData }).then( (response) => {
                     var resolve = this.bralcoresponse(response);
-                    if( resolve.data.status ){
+                    if( resolve.status ){
                         this.$router.push({name:"auth"});
                     }
                 });
