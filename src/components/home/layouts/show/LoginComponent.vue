@@ -9,29 +9,51 @@
                 </vk-card>
               </div>
               <div>
-                <vk-card padding="large" type="blank">
-                  <article class="uk-article uk-margin">
-                      <h1 class="uk-article-title">Account Login</h1>
-                      <p>This is a secure system and you will need to provide your login details to access other features in this website.</p>
-                  </article>
-                  <form @submit.prevent="attemptLogin" :action="$store.state.app.env.backend_url + '/api/v1/4irclub/auth/login'" method="POST">
-                      <fieldset class="uk-fieldset">
-                          <div class="uk-margin">
-                              <label>Email</label>
-                              <input class="uk-input uk-form-large" required name="email" type="email" placeholder="Email Address">
-                          </div>
+                <vk-card padding="small" type="blank">
+                    <vk-tabs align="center" animation="fade">
+                        <vk-tabs-item title="Login">
+                            <article class="uk-article uk-margin uk-text-center">
+                                <h1 class="uk-article-title">Account Login</h1>
+                                <p>This is a secure system and you will need to provide your login details to access other features in this website.</p>
+                            </article>
+                            <form @submit.prevent="attemptLogin" :action="$store.state.app.env.backend_url + '/api/v1/4irclub/auth/login'" method="POST">
+                                <fieldset class="uk-fieldset">
+                                    <div class="uk-margin">
+                                        <label>Email</label>
+                                        <input class="uk-input uk-form-large" required name="email" type="email" placeholder="Email Address">
+                                    </div>
 
-                          <div class="uk-margin">
-                              <label>Password</label>
-                              <input class="uk-input uk-form-large" required name="password" type="password" placeholder="Password">
-                          </div>
+                                    <div class="uk-margin">
+                                        <label>Password</label>
+                                        <input class="uk-input uk-form-large" required name="password" type="password" placeholder="Password">
+                                    </div>
 
-                          <div class="uk-margin">
-                            <vk-button htmlType="submit" class="uk-button-red" size="large">Login</vk-button>
-                            <vk-button class="uk-button-red" size="large" @click="studentlogin" >Login with student account</vk-button>
-                          </div>
-                      </fieldset>
-                  </form>
+                                    <div class="uk-margin">
+                                        <vk-button htmlType="submit" class="uk-width-1-1" size="medium">Login</vk-button>
+                                        <vk-button size="medium" class="uk-width-1-1 uk-margin-small-top" @click="studentlogin" >Login With Lab</vk-button>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </vk-tabs-item>
+                        <vk-tabs-item title="Reset Password">
+                            <article class="uk-article uk-margin uk-text-center">
+                                <h1 class="uk-article-title">Account Reset Password</h1>
+                                <p>Reset your account password.</p>
+                            </article>
+                            <form @submit.prevent="attemptLogin" :action="$store.state.app.env.backend_url + '/api/v1/4irclub/auth/password/reset'" method="POST">
+                                <fieldset class="uk-fieldset">
+                                    <div class="uk-margin">
+                                        <label>Email</label>
+                                        <input class="uk-input uk-form-large" required name="email" type="email" placeholder="Email Address">
+                                    </div>
+
+                                    <div class="uk-margin">
+                                        <vk-button htmlType="submit" class="uk-width-1-1" size="medium">Send</vk-button>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </vk-tabs-item>
+                    </vk-tabs>
                 </vk-card>
               </div>
             </vk-grid>
