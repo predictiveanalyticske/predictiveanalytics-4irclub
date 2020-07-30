@@ -16,6 +16,7 @@ import HomePlan from './components/home/layouts/PlanComponent.vue';
 import HomePlanItem from './components/home/layouts/show/PlanItemComponent.vue';
 import HomeLogin from './components/home/layouts/show/LoginComponent.vue';
 import HomeAuth from './components/home/layouts/AuthComponent.vue';
+import HomeAuthReset from './components/home/layouts/show/ResetPasswordComponent.vue';
 import HomeAuthChallenge from './components/home/layouts/show/AuthChallengeComponent.vue';
 import HomeSignup from './components/home/layouts/SignupComponent.vue';
 import HomeProfile from './components/home/layouts/ProfileComponent.vue';
@@ -343,6 +344,24 @@ const router = new Router({
                                   {
                                     property: 'og:description',
                                     content: "Challenge for signin with Predictive Analytics."
+                                  }
+                                ]
+                              },
+                            },
+                            {
+                              name: "authreset",
+                              path: "reset/password/:token",
+                              component: HomeAuthReset,
+                              meta: {
+                                title: 'Reset Password - 4IRCLUB',
+                                metaTags: [
+                                  {
+                                    name: 'description',
+                                    content: "Reset Account Password"
+                                  },
+                                  {
+                                    property: 'og:description',
+                                    content: "Account reset password"
                                   }
                                 ]
                               },
