@@ -40,8 +40,9 @@
                                 <h1 class="uk-article-title">Account Reset Password</h1>
                                 <p>Reset your account password.</p>
                             </article>
-                            <form @submit.prevent="attemptLogin" :action="$store.state.app.env.backend_url + '/api/v1/4irclub/auth/password/reset'" method="POST">
+                            <form @submit.prevent="resetPassword" :action="$store.state.app.env.backend_url + '/api/v1/4irclub/auth/password/reset'" method="POST">
                                 <fieldset class="uk-fieldset">
+                                    
                                     <div class="uk-margin">
                                         <label>Email</label>
                                         <input class="uk-input uk-form-large" required name="email" type="email" placeholder="Email Address">
@@ -83,6 +84,13 @@
                 this.bralcoaxios({ url: el.attributes.action.value, request:el.attributes.method.value, form: formData }).then( (response) => {
                     let resolve = this.bralcoresponse(response);
                     this.loginConfig(resolve);
+                });
+            },
+            resetPassword (event) {
+                let el = event.target
+                let formData = new FormData(el);
+                this.bralcoaxios({ url: el.attributes.action.value, request:el.attributes.method.value, form: formData }).then( (response) => {
+                    this.bralcoresponse(response);
                 });
             },
             loginConfig (response){

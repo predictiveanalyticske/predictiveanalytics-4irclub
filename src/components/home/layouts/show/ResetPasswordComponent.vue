@@ -14,7 +14,7 @@
                         <h1 class="uk-article-title">Set Account Password</h1>
                         <p>This is a secure system and you will need to provide your login details to access other features in this website.</p>
                     </article>
-                    <form @submit.prevent="attemptLogin" :action="$store.state.app.env.backend_url + '/api/v1/4irclub/auth/password/reset/store'" method="POST">
+                    <form @submit.prevent="submitForm" :action="$store.state.app.env.backend_url + '/api/v1/4irclub/auth/password/reset/store/' + user.id" method="POST">
                         <fieldset class="uk-fieldset">
 
                             <div class="uk-margin">
@@ -23,7 +23,7 @@
                             </div>
                             <div class="uk-margin">
                                 <label>Password</label>
-                                <input class="uk-input uk-form-large" required name="password" type="password" placeholder="Password">
+                                <input class="uk-input uk-form-large" required name="password_confirmation" type="password" placeholder="Password">
                             </div>
                             <div class="uk-margin">
                                 <vk-button htmlType="submit" class="uk-width-1-1" size="medium">Reset</vk-button>
@@ -43,71 +43,38 @@
         name: "login",
         data () {
             return  {
-                tab: 0,
-                fields: {}
+                user: {}
             }
         },
         methods: {
-            attemptLogin (event) {
+            submitForm (event) {
                 let el = event.target
                 let formData = new FormData(el);
 
-                formData.append('client_id',     process.env.VUE_APP_PASSPORT_KEY);
-                formData.append('client_secret', process.env.VUE_APP_PASSPORT_SECRET);
-                formData.append('provider', 'clubusers');
+                formData.append('email',this.user.email);
 
                 this.bralcoaxios({ url: el.attributes.action.value, request:el.attributes.method.value, form: formData }).then( (response) => {
-                    let resolve = this.bralcoresponse(response);
-                    this.loginConfig(resolve);
+                    var resolve = this.bralcoresponse(response);
+                    if( resolve.data.status ){
+                        this.$router.push({name:"auth"});
+                    }
                 });
             },
-            loginConfig (response){
-
-                    localStorage.setItem('access_token',response.data.token.access_token);
-                    localStorage.setItem('token_type',response.data.token.token_type);
-                    localStorage.setItem('expires_in',response.data.token.expires_in);
-                    localStorage.setItem('refresh_token',response.data.token.refresh_token);
-                    localStorage.setItem('isSubscribed',response.data.isSubscribed);
-                    localStorage.setItem('isPaid',response.data.isPaid);
-
-                    this.$store.commit('access_token',response.data.token.access_token);
-                    this.$store.commit('token_type', response.data.token.token_type);
-                    this.$store.commit('expires_in',response.data.token.expires_in);
-                    this.$store.commit('refresh_token',response.data.token.refresh_token);
-                    this.$store.commit('isAuthenticated',true);
-                    this.$store.commit('isSubscribed',response.data.isSubscribed);
-                    this.$store.commit('isPaid',response.data.isPaid);
-
-                    switch(response.data.isSubscribed){
-                        case true:
-
-                            if(!response.data.isPaid){
-                                localStorage.setItem('pendingPayment',response.data.payment);
-                                window.location.href = window.location.hash != ""
-                                                        ? window.location.origin + '/' + window.location.hash.split('/')[0] + '/' + this.$router.resolve({name:"checkout",params:{ payment: response.data.payment }}).href
-                                                        : window.location.origin + this.$router.resolve({name:"checkout",params:{ payment: response.data.payment }}).href ;
-                            } else {
-                                window.location.href = window.location.hash != ""
-                                                        ? window.location.origin + '/' + window.location.hash.split('/')[0] + '/' + this.$router.resolve({name:"home"}).href
-                                                        : window.location.origin + this.$router.resolve({name:"checkout",params:{ payment: response.data.payment }}).href ;
-                            }
-
-                        break;
-                        case false:
-
-                            window.location.href = window.location.hash != ""
-                                                    ? window.location.origin + '/' + window.location.hash.split('/')[0] + '/' + this.$router.resolve({name:"plans"}).href
-                                                    : window.location.origin + this.$router.resolve({name:"checkout",params:{ payment: response.data.payment }}).href ;
-
-                        break;
-                    }
-            },
-            studentlogin () {
-                window.location.href = "https://lab.predictiveanalytics.co.ke/user/login/challenge?callbackurl=" + window.location.href + "challenge/";
+            initData(){
+                this.bralcoaxios({ url: this.$store.state.app.env.backend_url + '/api/v1/4irclub/auth/password/reset/verify/' + this.$route.params.token, request:'GET' }).then( (response) => {
+                    var resolve = this.bralcoresponse(response);
+                    this.user = resolve.data.user;
+                });   
             }
         },
+        beforeRouteEnter(to,from,next){
+            next( vm => {
+                vm.initData();
+                next();
+            });
+        },
         beforeMount(){
-             this.$store.commit('banner_title','Signin')
+             this.$store.commit('banner_title','Reset Password')
              this.$store.commit('banner_content','');
              if( this.$store.getters.sidebar ){
                 this.$store.commit('sidebar',false);
