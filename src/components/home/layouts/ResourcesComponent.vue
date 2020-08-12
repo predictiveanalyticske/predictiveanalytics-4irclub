@@ -8,7 +8,9 @@
                    <vk-card class="uk-text-center uk-dark uk-padding-small">
                     <h4>{{ value.name }}</h4>
                     <vk-icon icon="file" ratio="6"></vk-icon>
-                    <a class="uk-button uk-button-default uk-width-1-1 uk-marging" @click.prevent="download(value.id,value.name, value.filename)"><vk-icon icon="download"></vk-icon></a>
+                    <vk-label>{{ value.type }}</vk-label>
+                    <a v-if="value.type == 'file'" class="uk-button uk-button-default uk-width-1-1 uk-margin" @click.prevent="download(value.id,value.name, value.filename)"><vk-icon icon="download"></vk-icon></a>
+                    <a v-if="value.type == 'link'" class="uk-button uk-button-default uk-width-1-1 uk-margin" :href="value.link" target="_blank">View</a>
                    </vk-card>
                </div>
               </vk-grid>
