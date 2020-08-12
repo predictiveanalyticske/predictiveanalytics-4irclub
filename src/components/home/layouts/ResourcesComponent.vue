@@ -6,10 +6,10 @@
               <vk-grid class="uk-child-width-1-3">
                <div v-for="(value,index) in data" :key="index">
                    <vk-card class="uk-text-center uk-dark uk-padding-small">
+                    <vk-label slot="badge">{{ value.type }}</vk-label>
                     <h4>{{ value.name }}</h4>
                     <vk-icon icon="file" ratio="6"></vk-icon>
-                    <vk-label>{{ value.type }}</vk-label>
-                    <a v-if="value.type == 'file'" class="uk-button uk-button-default uk-width-1-1 uk-margin" @click.prevent="download(value.id,value.name, value.filename)"><vk-icon icon="download"></vk-icon></a>
+                    <a v-if="value.type == 'file'" class="uk-button uk-button-default uk-width-1-1 uk-margin" @click.prevent="download(value.id,value.name, value.filename)">Download</a>
                     <a v-if="value.type == 'link'" class="uk-button uk-button-default uk-width-1-1 uk-margin" :href="value.link" target="_blank">View</a>
                    </vk-card>
                </div>
