@@ -68,6 +68,8 @@
                         :custom_title="'4IRCLUB PAYMENT'"
                         :custom_logo="'@/assets/images/logo-full-red.png'"
                         :payment_method="'card'"
+                        :paymentCharge="paymentCharge"
+                        :showPaymentMessage="showPaymentMessage"
                       />
                     </div>
                   </div>
@@ -104,10 +106,8 @@ export default {
         show: false,
         target: 'accordioncard'
       },
-      paymentCharge: true,
       phoneNumber: '',
       formatedNumber: '',
-      showPaymentMessage: false,
     }
   },
   computed: {
@@ -116,6 +116,12 @@ export default {
     },
     amount () {
       return this.data.amount;
+    },
+    paymentCharge(){
+      return true;
+    },
+    showPaymentMessage(){
+      return false;
     },
     reference() {
         let text = "";
@@ -158,7 +164,7 @@ export default {
 
     },
     makePayment() {
-      window.FlutterwaveCheckout({
+     let checkout = window.FlutterwaveCheckout({
         public_key: this.data.flutterKey,
         tx_ref: this.reference,
         amount: this.data.createElementamount,
@@ -168,7 +174,9 @@ export default {
           name: this.name,
           email: this.email,
         },
-        callback: response => this.callback(response),
+        callback: function(){
+          console.log(checkout);
+        },
         customizations: {
           title: this.custom_title,
           description: "Payment for items in cart",

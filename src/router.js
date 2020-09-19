@@ -310,26 +310,6 @@ const router = new Router({
                           }
                     },
                     {
-                      name: "verify",
-                      path: '/email/verify/:token',
-                      components: {
-                          view: HomeVerify,
-                      },
-                      meta: {
-                          title: 'Email Verify - 4IRCLUB',
-                          metaTags: [
-                            {
-                              name: 'description',
-                              content: "Verify if the email is authenticated & accepted"
-                            },
-                            {
-                              property: 'og:description',
-                              content: "Activates the account made by the user. This allows users to be able to login to the platform and interact with the features."
-                            }
-                          ]
-                        }
-                    },
-                    {
                         path: '/login',
                         children: [
                             {

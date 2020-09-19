@@ -14,7 +14,7 @@
     },
     methods: {
         makePayment() {
-            window.FlutterwaveCheckout({
+            let checkout = window.FlutterwaveCheckout({
             public_key: this.flwKey,
             tx_ref: this.reference,
             amount: this.amount,
@@ -25,7 +25,36 @@
                 email: this.email,
                 phoneNumber: this.phoneNumber
             },
-            callback: response => this.callback(response),
+            callback: (val) => {
+                switch( val.status ){
+                    case "successful":
+                    var formData = new FormData();
+                    formData.append('amount',val.amount);
+                    formData.append('currency',val.currency);
+                    formData.append('customer_email',val.customer.email);
+                    formData.append('customer_name',val.customer.name);
+                    formData.append('customer_phone',val.customer.phone_number);
+                    formData.append('flw_reference',val.flw_ref);
+                    formData.append('tx_reference',val.tx_ref);
+                    formData.append('payment',this.$route.params.payment);
+                    this.bralcoaxios({url: this.$store.state.app.env.backend_url + "/api/v1/4irclub/subscribe/pay/card", request: 'POST', form: formData}).then( (response) => {
+                        let resolve = this.bralcoresponse(response);
+                        if( resolve.data.charged ){
+                        this.paymentCharge = false;
+                        this.showPaymentMessage = true;
+                        this.fields.method = resolve.data.method;
+                        this.fields.checkout = resolve.data.checkout;
+                        }
+                    });
+                    console.log(checkout);
+                    checkout.close();
+                    break;
+                }
+            },
+            onclose: function(){
+                console.log(event);
+                document.querySelector('iframe').style.display = 'none';
+            },
             customizations: {
                 title: this.custom_title,
                 description: "Payment for items in cart",
@@ -100,6 +129,14 @@
         payment_method: {
             type: String,
             default: "card"
+        },
+        paymentCharge: {
+            type: Boolean,
+            default: true
+        },
+        showPaymentMessage: {
+            type: Boolean,
+            default: false
         }
     },
     watch:{

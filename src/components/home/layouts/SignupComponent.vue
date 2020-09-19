@@ -14,7 +14,7 @@
                       <h1 class="uk-article-title">Setup Account</h1>
                       <p>This is a secure system and you will need to provide your login details to access other features in this website.</p>
                   </article>
-                  <form @submit.prevent="attemptLogin" :action="$store.state.app.env.backend_url + '/api/v1/4irclub/signup'" method="POST">
+                  <form @submit.prevent="attemptLogin" :action="$store.state.app.env.backend_url + '/api/v1/4irclub/register'" method="POST">
                       <fieldset class="uk-fieldset">
                           <div class="uk-margin">
                               <label>First Name</label>
