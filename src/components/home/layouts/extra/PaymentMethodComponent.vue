@@ -62,14 +62,11 @@
                         :reference="reference"
                         :flw-key="data.flutterKey"
                         :callback="flwCallback"
-                        :close="flwClose"
                         :currency="data.currency"
                         :country="data.country"
                         :custom_title="'4IRCLUB PAYMENT'"
                         :custom_logo="'@/assets/images/logo-full-red.png'"
                         :payment_method="'card'"
-                        :paymentCharge="paymentCharge"
-                        :showPaymentMessage="showPaymentMessage"
                       />
                     </div>
                   </div>
@@ -106,8 +103,10 @@ export default {
         show: false,
         target: 'accordioncard'
       },
+      paymentCharge: true,
       phoneNumber: '',
       formatedNumber: '',
+      showPaymentMessage:false
     }
   },
   computed: {
@@ -116,12 +115,6 @@ export default {
     },
     amount () {
       return this.data.amount;
-    },
-    paymentCharge(){
-      return true;
-    },
-    showPaymentMessage(){
-      return false;
     },
     reference() {
         let text = "";
@@ -156,33 +149,10 @@ export default {
               this.fields.method = resolve.data.method;
               this.fields.checkout = resolve.data.checkout;
             }
+           document.querySelector('iframe').style.display = 'none';
           });
         break;
       }
-    },
-    flwClose() {
-
-    },
-    makePayment() {
-     let checkout = window.FlutterwaveCheckout({
-        public_key: this.data.flutterKey,
-        tx_ref: this.reference,
-        amount: this.data.createElementamount,
-        currency: this.currency,
-        payment_options: this.payment_method,
-        customer: {
-          name: this.name,
-          email: this.email,
-        },
-        callback: function(){
-          console.log(checkout);
-        },
-        customizations: {
-          title: this.custom_title,
-          description: "Payment for items in cart",
-          logo: this.custom_logo,
-        },
-      });
     },
     getPhoneNumber (val) {
       // console.log(val.formatNational);
