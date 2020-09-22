@@ -73,3 +73,9 @@
     },
   }
 </script>
+
+<style scoped>
+  .accordion-body{
+    height: inherit !important;
+  }
+</style>
