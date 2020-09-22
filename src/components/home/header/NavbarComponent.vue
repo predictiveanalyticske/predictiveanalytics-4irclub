@@ -209,7 +209,7 @@
                       this.links = [
                         { title: "Home",          icon: "home",    to: this.$router.resolve({name:"home"}).href,       route:this.$router.resolve({name:"home"})   },
                         { title: "About",         icon: "users",   to: this.$router.resolve({name:"about"}).href,      route:this.$router.resolve({name:"about"})   },                
-                        { title: "Plans",         icon: "star",    to: this.$router.resolve({name:"plans"}).href,      route:this.$router.resolve({name:"plans"})  },
+                        // { title: "Plans",         icon: "star",    to: this.$router.resolve({name:"plans"}).href,      route:this.$router.resolve({name:"plans"})  },
                         { title: "Profile",       icon: "user", to: this.$router.resolve({name:"profile"}).href,       route:this.$router.resolve({name:"profile"})   },
                       ]
                   break;
@@ -219,7 +219,7 @@
                 this.links = [
                   { title: "Home",          icon: "home",    to: this.$router.resolve({name:"home"}).href,       route:this.$router.resolve({name:"home"})   },
                   { title: "About",         icon: "users",   to: this.$router.resolve({name:"about"}).href,      route:this.$router.resolve({name:"about"})   },                
-                  { title: "Plans",         icon: "star",    to: this.$router.resolve({name:"plans"}).href,      route:this.$router.resolve({name:"plans"})  },
+                  // { title: "Plans",         icon: "star",    to: this.$router.resolve({name:"plans"}).href,      route:this.$router.resolve({name:"plans"})  },
                   { title: "Login",         icon: "sign-in", to: this.$router.resolve({name:"auth"}).href,       route:this.$router.resolve({name:"auth"})    },
                   { title: "Signup",        icon: "lock",    to: this.$router.resolve({name:"signup"}).href,     route:this.$router.resolve({name:"signup"}) },
                 ]
