@@ -77,6 +77,7 @@
   </div>
   <vk-card v-if="showPaymentMessage" class="uk-text-center uk-card-success uk-light">
     <h2><vk-icon icon="happy" ratio="2"></vk-icon> Payment Successful</h2>
+    <vk-button size="large" @click="finish" >Checkout</vk-button>
   </vk-card>
 </transition>
 </template>
@@ -91,7 +92,22 @@ export default {
     flutterwave
   },
   name: "paymentmethod",
-  props: ["fields","data"],
+  props: { 
+    fields:{
+      type: Object,
+      required: true
+
+    },
+    data:{
+      type: Object,
+      required: true
+
+    },
+    finish:{
+      type: Function,
+      required: true
+    }
+  },
   data () {
     return {
       checkout: false,
@@ -149,7 +165,10 @@ export default {
               this.fields.method = resolve.data.method;
               this.fields.checkout = resolve.data.checkout;
             }
-           document.querySelector('iframe').style.display = 'none';
+            let iframe = document.querySelector('iframe');
+            iframe.style.display = 'none';
+            iframe.parentNode.removeChild(iframe);
+            document.querySelector('body').style.overflow = 'auto';
           });
         break;
       }
