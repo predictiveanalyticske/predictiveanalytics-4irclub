@@ -5,7 +5,7 @@
             <vk-grid class="uk-child-width-1-1 uk-padding-large@xl uk-padding-large@l uk-padding-large@m uk-padding-small@s" matched>
               <div v-for="(value,key) in data" :key="key">
                 <h1 class="uk-text-center br-heading">{{ key }}</h1>
-                <vk-grid gutter="small" class="uk-child-width-1-4@xl uk-child-width-1-4@l uk-child-width-1-2@m uk-child-width-1-1@s uk-margin-remove uk-padding-remove">
+                <vk-grid gutter="small" class="uk-child-width-1-4@xl uk-child-width-1-4@l uk-child-width-1-2@m uk-child-width-1-1@s uk-margin-remove uk-padding-remove uk-flex uk-flex-center">
                   <div v-for="(item,index) in value" :key="index" class="uk-padding-remove">
                     <vk-card class="br-plans" padding="small" ref="plans">
                       <vk-card-title class="br-heading uk-text-center" tag="h2">{{ item.name }}</vk-card-title>
