@@ -56,20 +56,26 @@
                 </vk-tabs-item>
                 <vk-tabs-item title="Subscription">
                     <div class="uk-flex uk-flex-center">
-                        <div class="uk-width-1-2@xl uk-width-1-2@l uk-width-1-2@m uk-width-1-1@s">
+                        <div class="uk-width-2-3@xl uk-width-2-3@l uk-width-2-3@m uk-width-1-1@s">
                             <h2 class="uk-legend">Subscriptions</h2><hr>
                              <div class="uk-flex uk-flex-center">
-                            <div class="uk-width-1-1" >
-                                <p class="uk-text-break">You have an active subscription. See more details below. To check more information about the package, click <a :href="$router.resolve({name:'plans'}).href">here</a> to view more packages to subscribe.</p>
-                                <accordion :contents="subscription" />
-                            </div>
+                                <div class="uk-width-1-1" >
+                                    <p class="uk-text-break">You have an active subscription. See more details below. To check more information about the package, click <a :href="$router.resolve({name:'plans'}).href">here</a> to view more packages to subscribe.</p>
+                                    <h2>Your Subscription</h2><hr>
+                                    <h3>{{ Object.keys(fields.subscription).length > 0  ? fields.subscription.subscription.name : '' }}</h3>
+                                    <p>{{ Object.keys(fields.subscription).length > 0 ? fields.subscription.subscription.summary : '' }}</p>
+                                    <h4>Features</h4>                                    
+                                    <div class="uk-grid uk-child-width-1-1 uk-flex uk-flex-center">
+                                        <div class="uk-margin-small" v-for="(value,index) in Object.keys(fields.subscription).length > 0 ? fields.subscription.subscription.features : []" :key="index"> <vk-label>{{ index + 1 }} {{ value.name || '' }} </vk-label></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </vk-tabs-item>
                 <vk-tabs-item title="Payments">
                     <div class="uk-flex uk-flex-center">
-                        <div class="uk-width-1-2@xl uk-width-1-2@l uk-width-1-2@m uk-width-1-1@s">
+                        <div class="uk-width-2-3@xl uk-width-2-3@l uk-width-2-3@m uk-width-1-1@s">
                             <h2 class="uk-legend">Payments</h2><hr>
                             <div class="uk-padding-small">
                                 <table class="uk-table uk-table-divider uk-table-striped">
@@ -80,6 +86,7 @@
                                             <th>Amount</th>
                                             <th>Category</th>
                                             <th>Created At</th>
+                                            <th>Expire On</th>
                                         </tr>
                                     </thead>
                                     <tbody v-if="payment.data.length > 0">
@@ -89,6 +96,7 @@
                                             <td>{{ item.currency }} {{ item.amount }}</td>
                                             <td><vk-label>{{ item.category }}</vk-label></td>
                                             <td>{{ item.created_at }}</td>
+                                            <td>{{ item.expire_at }}</td>
                                         </tr>
                                     </tbody>
                                     <tbody v-else-if="payment.data.length == 0">
@@ -144,31 +152,19 @@
                 </vk-tabs-item>
             </vk-tabs>
           </vk-card>
+
         </div>
     </vk-grid>
 </template>
 
 <script>
     import dropify from "@/components/plugins/DropifyComponent";
-    import accordion from "@/components/plugins/AccordionComponent"
     import {chunk} from 'lodash';
 export default {
         components: {
-            accordion,
             dropify
         },
         computed: {
-            subscription () {
-                if( this.fields.subscription != null ){
-                    return [{
-                        active: true,
-                        title:  this.fields.subscription.subscription.category,
-                        html:   '<div class="uk-padding-small"><h3>Features</h3><hr><h5>'+this.fields.subscription.subscription.details+'</h5><hr><div class="uk-padding-small"><label class="uk-label uk-label-primary br-label"> Amount: '+this.fields.subscription.latestPayment.currency +' '+this.fields.user.subscription.latestPayment.amount+'</label><br><label class="uk-label uk-label-danger br-label"> Expires On: '+this.fields.subscription.latestPayment.currency +' '+this.fields.user.subscription.latestPayment.amount+'</label></div></div>'
-                    }];
-                } else {
-                    return [];
-                }
-            },
             pageNumber: {
                 get(){
                     return 1;
@@ -180,6 +176,7 @@ export default {
         },
         data () {
             return {
+                data: {},
                 fields: {
                     payments: {
                         type: Object,
@@ -197,6 +194,7 @@ export default {
                         default: {}
                     },
                 },
+                subscription: [],
                 payment: {
                     data: [],
                     table: {
@@ -215,31 +213,28 @@ export default {
         },
         name: "profile",
         methods: {
+            assign(){
+                this.$store.commit('banner_title','Profile');
+                this.$store.commit('banner_content','');
+                this.fields.payments = this.data.payments;
+                this.fields.subscription = this.data.subscription;
+                this.fields.user = this.data.user;
+
+                this.payment.data = this.fields.payments;
+                this.payment.data.forEach( (item,key) => {
+                    item.key = key + 1;
+                });
+
+                this.payment.table.chunk      = chunk(this.payment.data,this.pageNumber);
+                this.payment.table.activePage = this.payment.table.chunk[0];
+            },
             initData(){
                 this.bralcoaxios({ url: this.$store.state.app.env.backend_url + '/api/v1/4irclub/profile', request: 'GET' }).then( (response) => {
                     let resolve = this.bralcoresponse(response);
-                    this.fields.payments = resolve.payments;
-                    this.fields.subscription = resolve.subscription;
-                    this.fields.user = resolve.user;
-                    this.fields.subscription.subscription.details = '<ol>';
-                    let self = this;
-                    JSON.parse(this.fields.subscription.subscription.features).forEach( function(item){
-                        self.fields.subscription.subscription.details += '<li>'+item+'</li>';
-                    });
-                    this.fields.subscription.subscription.details += '</ol>';
-                    this.payment.data             = this.fields.payments;
-                    this.payment.data.forEach( (item,key) => {
-                        item.key = key + 1;
-                    });
-                    this.payment.table.chunk      = chunk(this.payment.data,this.pageNumber);
-                    this.payment.table.activePage = this.payment.table.chunk[0];
+                    this.data = resolve;
+                    this.assign();
                 });
-                this.$store.commit('banner_title','Profile');
-                this.$store.commit('banner_content','');
             }
-        },
-        watch: {
-
         }
-    }
+        }
 </script>
