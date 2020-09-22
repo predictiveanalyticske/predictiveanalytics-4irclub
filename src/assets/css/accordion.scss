@@ -135,7 +135,7 @@ html, body, #app {
 }
 
 .accordion-body {
-    height: inherit !important;
+    height: 0;
     overflow-y: auto;
 }
 
