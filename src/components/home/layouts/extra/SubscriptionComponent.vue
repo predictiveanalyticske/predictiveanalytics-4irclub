@@ -12,18 +12,14 @@
         <div class="accordion-body" ref="accordionbody">
           <div class="accordion-content uk-padding-large">
             <vk-grid class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-1-1@s">
-              <div>
+              <div v-for="(value,index) in data" :key="index">
                 <vk-card class="br-plans uk-text-center" padding="small">
-                  <label><h6 class="uk-margin-remove"><input @click="selectSubscription" class="uk-radio" name="subscription" type="radio" v-model="amount" data-target="monthly" :value="data.monthly_cost"> Monthly Subscription</h6></label>
-                  <h4 class="uk-text-muted uk-margin-remove">Monthly</h4>
-                  <vk-card-title class="uk-margin-small">{{ data.currency }} {{ data.monthly_cost }}</vk-card-title>
-                </vk-card>
-              </div>
-              <div>
-                <vk-card class="br-plans uk-text-center" padding="small">
-                  <label><h6 class="uk-margin-remove"><input class="uk-radio" @click="selectSubscription" name="subscription" type="radio" v-model="amount" data-target="annual" :value="data.annual_cost"> Annual Subscription</h6></label>
-                  <h4 class="uk-text-muted uk-margin-remove">Annually</h4>
-                  <vk-card-title class="uk-margin-small">{{ data.currency }} {{ data.annual_cost }}</vk-card-title>
+                  <label>
+                    <h6 class="uk-margin-remove">
+                      <input @click="callback" class="uk-radio" name="subscription" type="radio" :target="value.type" :value="value.amount"> {{ value.type }} Subscription</h6>
+                  </label>
+                  <h4 class="uk-text-muted uk-margin-remove">{{ value.type }}</h4>
+                  <vk-card-title class="uk-margin-small">{{ currency }} {{ value.amount }}</vk-card-title>
                 </vk-card>
               </div>
             </vk-grid>
@@ -38,9 +34,9 @@
   export default {
     methods: {
       selectSubscription () {
-        let el = event.target;
-        this.fields.subscription_type = el.attributes['data-target'].value;
-        this.type = el.attributes['data-target'].value;
+        let el = event.currentTarget;
+        this.subscription.type = el.attributes.target.value;
+        this.subscription.amount = el.value;
       }
     },
     beforeCreate(){
@@ -50,8 +46,7 @@
     data () {
       return {
         amount: 0,
-        total: this.totalAmount,
-        type: this.subType,
+        subscription: this.fields
       }
     },
     mounted () {
@@ -62,16 +57,19 @@
       });
     },
     name: "subscription",
-    props: ["fields","data","totalAmount","subType"],
-    watch:{
-      amount: {
-        handler(val){
-          if( val > 0){
-            this.fields.amount = val;
-            this.total  = this.data.currency + ' ' + val;
-          }
-        }
+    props: {
+      data:{
+        type: Array,
+        required: true
+      },
+      currency:{
+        type: String,
+        required: true
+      },
+      callback: {
+        type: Function,
+        required: true,
       }
-    }
+    },
   }
 </script>
