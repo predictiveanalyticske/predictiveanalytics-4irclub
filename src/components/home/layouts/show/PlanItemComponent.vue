@@ -4,10 +4,14 @@
             <vk-card padding="small">
               <div class="uk-flex uk-flex-center">
                 <vk-card type="blank" class="uk-width-1-1 uk-padding-remove" padding="small">
-                  <h2>Select your plan</h2>
-                  <vk-grid class="uk-child-width-expand">
+                  <vk-grid class="uk-child-width-expand uk-flex uk-flex-center">
                     <div class="uk-width-2-3@xl uk-width-2-3@l uk-width-3-4@m uk-width-1-1@s">
-                      <subscriptions :fields="fields" :totalAmount="total" :subType="type" :data="{'monthly_cost':data.monthly_cost,'annual_cost':data.annual_cost,'currency':data.currency}" class="uk-width-1-1 uk-padding-remove-top"/>
+                      <h2>Select your plan</h2>
+                      <subscriptions 
+                          :currency="data.currency || ''"
+                          :data="data.amounts || []" 
+                          :callback="selectSubscription"
+                          class="uk-width-1-1 uk-padding-remove-top"/>
                       <vk-button class="uk-button-red uk-margin" size="large" @click="showpurchase" v-if="showbuy && !$store.getters.isAuthenticated">Next</vk-button>
                       <vk-button class="uk-button-red uk-margin" size="large" @click="goToCheckout" v-if="$store.getters.isAuthenticated">Next</vk-button>
                       <transition name="slideDown">
@@ -21,31 +25,6 @@
                           </div>
                         </vk-grid>
                       </transition>
-                    </div>
-                    <div class="uk-width-1-3@xl uk-width-1-3@l uk-width-1-4@m uk-width-1-1@s">
-                        <vk-card class="br-plans">
-                                <div slot="header">
-                                    <h3 class="uk-margin-remove">Order Summary</h3>
-                                </div>
-                                <vk-grid class="uk-child-width-expand">
-                                    <div>
-                                        <p class="uk-margin-remove"> {{ data.name }}</p>
-                                        <p class="uk-margin-remove">{{ data.category }}</p>
-                                    </div>
-                                    <div>
-                                        <p class="uk-margin-remove"> {{ total }}</p>
-                                        <p class="uk-margin-remove"> {{ type }}</p>
-                                    </div>
-                                </vk-grid><hr>
-                                <vk-grid class="uk-child-width-expand">
-                                    <div>
-                                        <h5 class="uk-margin-remove"> Today's Charge</h5>
-                                    </div>
-                                    <div>
-                                        <h3 class="uk-margin-remove"> {{ total }}</h3>
-                                    </div>
-                                </vk-grid><hr>
-                            </vk-card>
                     </div>
                   </vk-grid>
                 </vk-card>
@@ -64,27 +43,19 @@
           subscriptions
         },
         computed: {
-          fields: {
-            get () {
-              return {}
+          subscription_fields:{
+            get(){
+              return {};
             },
-            set(val) {
+            set(val){
               return val;
             }
           },
-          total: {
-            get () {
-              return 0
+          subscriptionFields:{
+            get(){
+              return {};
             },
-            set(val) {
-              return val;
-            }
-          },
-          type: {
-            get () {
-              return 'Montly'
-            },
-            set(val) {
+            set(val){
               return val;
             }
           }
@@ -110,10 +81,11 @@
             data: {},
             summary: {},
             items: [],
-            showbuy: true,
+            showbuy: false,
             showpurchasediv: false,
             showExisting: false,
             showNewAccount:false,
+            subscription: ''
           }
         },
         beforeRouteEnter (to,from,next) {
@@ -123,11 +95,15 @@
           });
         },
         methods: {
+          selectSubscription () {
+            let el = event.currentTarget;
+            this.subscription = el;
+          },
           goToCheckout(){
             let formData = new FormData();
 
-            for( let value in this.fields ){
-              formData.append(value,this.fields[value]);
+            for( let value in this.subscription_fields ){
+              formData.append(value,this.subscription_fields[value]);
             }
             formData.append('plan', this.$route.params.item);
             this.bralcoaxios({ url: this.$store.state.app.env.backend_url + "/api/v1/4irclub/subscribe/challenge/subscription/store", request: "POST", form: formData }).then( (response) => {
@@ -152,8 +128,8 @@
           submitForm () {
             let formData = new FormData();
 
-            for( let value in this.fields ){
-              formData.append(value,this.fields[value]);
+            for( let value in this.subscription_fields ){
+              formData.append(value,this.subscription_fields[value]);
             }
             formData.append('plan', this.$route.params.item);
             formData.append('client_key',    btoa(process.env.VUE_APP_PASSPORT_KEY));
@@ -184,32 +160,43 @@
           }
         },
         watch: {
+          subscription:{
+            handler(val){
+              console.log(val);
+              this.subscription_fields.subscription_type  = val.attributes.target.value;
+              this.subscriptionFields.subscritpion_type   = val.attributes.target.value;
+              this.subscription_fields.amount = val.value;
+              this.subscriptionFields.amount = val.value;
+              this.showpurchasediv = true;
+            },
+            deep: true
+          },
           billing: {
              handler(val){
-               this.fields.type = this.billing.type;
-               this.fields.currency = this.data.currency;
+               this.subscription_fields.type = this.billing.type;
+               this.subscription_fields.currency = this.data.currency;
                if( val.type != null ){
                  switch( val.type ){
                    case 'existingaccount':
-                    if( Object.keys(this.fields).length > 0){
-                      for(let value in this.fields){
-                        delete this.fields[value];
+                    if( Object.keys(this.subscriptionFields).length > 0){
+                      for(let value in this.subscription_fields){
+                        this.subscription_fields[value];
                       }
                       for(let value in val.existingaccount){
-                        this.fields[value] = val.existingaccount[value];
+                        this.subscription_fields[value] = val.existingaccount[value];
                       }
                     } else {
-                        this.fields = val.existingaccount;
+                        this.subscription_fields = val.existingaccount;
                     }
 
                    break;
                    case 'newaccount':
-                     if( Object.keys(this.fields).length > 0){
+                     if( Object.keys(this.subscriptionFields).length > 0){
                        for(let value in val.newaccount){
-                         this.fields[value] = val.newaccount[value];
+                         this.subscription_fields[value] = val.newaccount[value];
                        }
                      } else {
-                         this.fields = val.newaccount;
+                         this.subscription_fields = val.newaccount;
                      }
 
                    break;
