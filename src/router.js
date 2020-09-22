@@ -18,7 +18,7 @@ import HomeLogin from './components/home/layouts/show/LoginComponent.vue';
 import HomeAuth from './components/home/layouts/AuthComponent.vue';
 import HomeAuthReset from './components/home/layouts/show/ResetPasswordComponent.vue';
 import HomeAuthChallenge from './components/home/layouts/show/AuthChallengeComponent.vue';
-import HomeSignup from './components/home/layouts/SignupComponent.vue';
+// import HomeSignup from './components/home/layouts/SignupComponent.vue';
 import HomeProfile from './components/home/layouts/ProfileComponent.vue';
 import HomeVerify from './components/home/layouts/VerifyComponent.vue';
 import HomeCheckout from './components/home/layouts/CheckOutComponent.vue';
@@ -266,7 +266,7 @@ const router = new Router({
                         name: "signup",
                         path: '/signup',
                         components: {
-                            view: HomeSignup,
+                            view: HomePlans,
                         },
                         meta: {
                             title: 'SignUp - 4IRCLUB',
