@@ -1,7 +1,7 @@
 <template>
     <div>
-        <h3 class="uk-margin-small uk-width-1-1 uk-text-center uk-text-success">{{ monthlyAmount }} per month</h3>
-        <h3 class="uk-margin-small uk-width-1-1 uk-text-center uk-text-success">{{ annualAmount }} per year</h3>
+        <h3 class="uk-margin-small uk-width-1-1 uk-text-center uk-text-success"
+            v-for="(value,index) in amounts" :key="index">{{ currency }} {{ value.amount }} {{ value.type }}</h3>
         <select class="uk-select" v-model="currencySelected">
             <option 
                 v-for="(value,key) in currencies.data"
@@ -27,20 +27,14 @@
         },
         name: "currency",
         props: {
-            annualAmount:{
-                type: Number,
+            amounts:{
+                type: Array,
                 required: true,
-                default: 0
             },
             currency:{
                 type: String,
                 required: true,
                 default: 'KES',
-            },
-            monthlyAmount:{
-                type: Number,
-                required: true,
-                default: 0
             },
         }
     }
