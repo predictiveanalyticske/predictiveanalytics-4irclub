@@ -11,12 +11,11 @@
                       <vk-card-title class="br-heading uk-text-center" tag="h2">{{ item.name }}</vk-card-title>
                       <div class="br-plans-content">
                         <currencies 
-                          :annualAmount="item.annual_cost"
-                          :monthlyAmount="item.monthly_cost"
+                          :amounts="item.amounts"
                           :currency="item.currency"
                         />
                         <a class="uk-button uk-button-medium uk-width-1-1 uk-button-red" :href="$router.resolve({name:'plan',params:{ item: item.id }}).href">Buy Now</a>
-                        <p v-for="(value, key) in JSON.parse(item.features)" :key="key"><vk-icon icon="check"></vk-icon>{{ value }}</p>
+                        <p v-for="(value, key) in item.features" :key="key"><vk-icon icon="check"></vk-icon>{{ value.name }}</p>
                       </div>
                     </vk-card>
                   </div>
