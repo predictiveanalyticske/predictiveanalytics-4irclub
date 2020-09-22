@@ -1,5 +1,5 @@
 <template>
-  <div class="accordion  uk-padding-remove">
+  <div class="accordion uk-padding-remove">
     <div class="accordion-item">
         <div class="accordion-header">
             <a href="#" @click.prevent="true">

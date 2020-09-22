@@ -37,3 +37,6 @@ export default {
   @import './assets/css/style.css';
 </style>
 
+<style lang="scss">
+  @import '@/assets/css/accordion.scss';
+</style>
