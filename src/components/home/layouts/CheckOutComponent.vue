@@ -8,7 +8,7 @@
                   <h3>Product details</h3>
                   <vk-grid class="uk-child-width-expand">
                     <div class="uk-width-2-3@xl uk-width-2-3@l uk-width-2-3@m uk-width-1-1@s">
-                      <payment :fields="paymentFields" :data="paymentInit"/>
+                      <payment :fields="paymentFields" :data="paymentInit" :finish="initCheckout"/>
                     </div>
                     <div class="uk-width-1-3@xl uk-width-1-3@l uk-width-1-3@m uk-width-1-1@s">
                       <vk-card class="br-plans" padding="small">
@@ -17,26 +17,13 @@
                         <h5 class="uk-margin-small">Category</h5>
                         <h4 class="uk-margin-small">{{ product.category }}</h4><hr class="uk-margin-small">
                         <h4 class="uk-margin-small">Features</h4>
-                        <div v-html="product.details"></div>
+                        <ul class="uk-list uk-list-bullet">
+                            <li v-for="(value,index) in features" :key="index">{{ value.name }}</li>
+                        </ul>
                       </vk-card>
                     </div>
                   </vk-grid>
                 </vk-card>
-              </div>
-            </vk-card>
-          </div>
-          <div class="uk-width-1-1 br-banner uk-light uk-margin-remove uk-padding-remove">
-            <vk-card type="blank">
-              <div class="uk-flex uk-padding-small">
-                <div class="uk-flex-left">
-                  <vk-button size="large">Cancel</vk-button>
-                </div>
-                <div class="uk-flex-center uk-width-1-1 uk-text-center"></div>
-                <div class="uk-flex-right">
-                  <transition name="slide-fade">
-                    <vk-button size="large" @click="initCheckout" v-if="paymentFields.checkout" >Checkout</vk-button>
-                  </transition>
-                </div>
               </div>
             </vk-card>
           </div>
@@ -54,6 +41,7 @@
           return {
             data: {},
             fields: {},
+            features: [],
             global: {},
             paymentFields:{
               method: null,
@@ -97,11 +85,7 @@
             this.bralcoaxios({ url: this.$store.state.app.env.backend_url + "/api/v1/4irclub/subscription/payment/" + this.$route.params.payment, request: "GET" }).then( (response) => {
                 let resolve = this.bralcoresponse(response);
                 this.data   = resolve.data;
-                this.data.subscription.details = '<ol>';
-                JSON.parse(this.data.subscription.features).forEach( (item,) => {
-                  this.data.subscription.details += '<li>'+item+'</li>';
-                });
-                this.data.subscription.details += '</ol>';
+                this.features = this.data.subscription.features || [];
                 this.$store.commit('banner_title','Plan Review and Checkout');
                 this.$store.commit('banner_content',this.data.subscription.name);
             });
