@@ -16,12 +16,9 @@
                     <div class="uk-width-1-1 uk-padding-small">
                         <h3>Guide</h3>
                         <ul class="uk-list uk-list-large">
-                            <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Go to <strong>Safaricom Menu</strong></li>
-                            <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Select <strong>M-PESA</strong></li>
-                            <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Select <strong>Lipa na MPESA</strong></li>
-                            <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Select <strong>Buy Good and Services</strong></li>
-                            <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Enter Paybill No <strong> {{ data.mpesa_paybill }}</strong></li>
-                            <li><vk-icon icon="check" class="uk-text-success"></vk-icon> Enter Amount <strong>{{ total }}</strong></li>
+                            <li><vk-icon icon="check" class="uk-text-success"></vk-icon><strong>Pop up from sim toolkit.</strong></li>
+                            <li><vk-icon icon="check" class="uk-text-success"></vk-icon><strong>Enter your MPESA PIN</strong></li>
+                            <li><vk-icon icon="check" class="uk-text-success"></vk-icon><strong>If successful, a checkout button will appear.</strong></li>
                         </ul>
                         <form method="POST" @submit.prevent="validatePayment" :action="this.$store.state.app.env.backend_url+'/api/v1/4irclub/subscribe/pay/mpesa/'+data.payment">
                           <div class="uk-margin">
