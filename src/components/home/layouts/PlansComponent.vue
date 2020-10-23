@@ -14,7 +14,7 @@
                           :amounts="item.amounts"
                           :currency="item.currency"
                         />
-                        <a class="uk-button uk-button-medium uk-width-1-1 uk-button-red" :href="$router.resolve({name:'plan',params:{ item: item.id }}).href">Buy Now</a>
+                        <a class="uk-button uk-button-medium uk-width-1-1 uk-button-red uk-margin-top" :href="$router.resolve({name:'plan',params:{ item: item.id }}).href">Buy Now</a>
                         <p v-for="(value, key) in item.features" :key="key"><vk-icon icon="check"></vk-icon>{{ value.name }}</p>
                       </div>
                     </vk-card>

@@ -58,3 +58,9 @@
         
     }
 </script>
+
+<style>
+    .div-table{
+        overflow: auto;
+    }
+</style>

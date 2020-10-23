@@ -17,9 +17,11 @@
                         <h5 class="uk-margin-small">Category</h5>
                         <h4 class="uk-margin-small">{{ product.category }}</h4><hr class="uk-margin-small">
                         <h4 class="uk-margin-small">Features</h4>
-                        <ul class="uk-list uk-list-bullet">
-                            <li v-for="(value,index) in features" :key="index">{{ value.name }}</li>
-                        </ul>
+                        <div class="div-table">
+                          <ul class="uk-list uk-list-bullet">
+                              <li v-for="(value,index) in features" :key="index">{{ value.name }}</li>
+                          </ul>
+                        </div>
                       </vk-card>
                     </div>
                   </vk-grid>
@@ -74,6 +76,10 @@
             }
           },
         },
+        beforeMount(){
+            this.$store.commit('banner_title','Plan Review and Checkout');
+            this.$store.commit('banner_content','');
+        },
         beforeRouteEnter (to,from,next) {
           next( vm => {
             vm.initData(),
@@ -86,7 +92,7 @@
                 let resolve = this.bralcoresponse(response);
                 this.data   = resolve.data;
                 this.features = this.data.subscription.features || [];
-                this.$store.commit('banner_title','Plan Review and Checkout');
+
                 this.$store.commit('banner_content',this.data.subscription.name);
             });
             this.bralcoaxios({ url: this.$store.state.app.env.backend_url + "/api/v1/home", request: "GET" }).then( (response) => {

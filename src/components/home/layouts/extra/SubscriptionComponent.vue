@@ -16,8 +16,8 @@
                 <vk-card class="br-plans uk-text-center" padding="small">
                   <label>
                     <h6 class="uk-margin-remove">
-                      <input @click="callback" class="uk-radio" name="subscription" type="radio" :target="value.type" :value="value.amount"> {{ value.type }} Subscription</h6>
-                  </label>
+                      <input @click="callback" class="uk-radio" name="subscription" type="radio" :target="value.type" :value="JSON.stringify(value)"> {{ value.type }} Subscription</h6>
+                 </label>
                   <h4 class="uk-text-muted uk-margin-remove">{{ value.type }}</h4>
                   <vk-card-title class="uk-margin-small">{{ currency }} {{ value.amount }}</vk-card-title>
                 </vk-card>

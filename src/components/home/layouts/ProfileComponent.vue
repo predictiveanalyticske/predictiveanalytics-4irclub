@@ -39,7 +39,8 @@
 
                                         <div class="uk-margin">
                                             <label>Phone Number</label>
-                                            <input class="uk-input" type="text" v-model="fields.user.phone" placeholder="Phone Number">
+                                            <vue-phone-number-input @update="getPhoneNumber" :required="true" :size="'10'" v-model="fields.user.phone" :defaultCountryCode="'KE'"/>
+                                            <input class="uk-input" type="hidden" v-model="fields.user.phone" placeholder="Phone Number">
                                         </div>
 
                                         <div class="uk-margin">
@@ -54,30 +55,67 @@
                         </div>
                     </div>
                 </vk-tabs-item>
-                <vk-tabs-item title="Subscription">
+                <vk-tabs-item title="Subscriptions">
                     <div class="uk-flex uk-flex-center">
-                        <div class="uk-width-2-3@xl uk-width-2-3@l uk-width-2-3@m uk-width-1-1@s">
+                        <div class="uk-width-3-4@xl uk-width-3-4@l uk-width-2-3@m uk-width-1-1@s">
                             <h2 class="uk-legend">Subscriptions</h2><hr>
-                             <div class="uk-flex uk-flex-center">
-                                <div class="uk-width-1-1" >
-                                    <p class="uk-text-break">You have an active subscription. See more details below. To check more information about the package, click <a :href="$router.resolve({name:'plans'}).href">here</a> to view more packages to subscribe.</p>
-                                    <h2>Your Subscription</h2><hr>
-                                    <h3>{{ Object.keys(fields.subscription).length > 0  ? fields.subscription.subscription.name : '' }}</h3>
-                                    <p>{{ Object.keys(fields.subscription).length > 0 ? fields.subscription.subscription.summary : '' }}</p>
-                                    <h4>Features</h4>                                    
-                                    <div class="uk-grid uk-child-width-1-1 uk-flex uk-flex-center">
-                                        <div class="uk-margin-small" v-for="(value,index) in Object.keys(fields.subscription).length > 0 ? fields.subscription.subscription.features : []" :key="index"> <vk-label>{{ index + 1 }} {{ value.name || '' }} </vk-label></div>
-                                    </div>
-                                </div>
+                             <div class="uk-padding-small div-table">
+                                <table class="uk-table uk-table-divider uk-table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>Category</th>
+                                            <th>Active</th>
+                                            <th>Expired</th>
+                                            <th>Expire On</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody v-if="subscriptions.data.length > 0">
+                                        <tr v-for="(item, index) in subscriptions.table.activePage" :key="index">
+                                            <td>{{ item.key }}</td>
+                                            <td>
+                                                <p class="uk-margin-remove">{{ item.subscription.name }}</p>
+                                            </td>
+                                            <td>
+                                                <p class="uk-margin-remove"><b>{{ item.subscription.category }}</b></p>
+                                            </td>
+                                            <td>
+                                                <vk-label type="success" v-if="item.active">Active</vk-label>
+                                                <vk-label type="success" v-else>Inactive</vk-label>
+                                            </td>
+                                            <td>
+                                                <vk-label type="danger" v-if="item.expired">Expired</vk-label>
+                                                <vk-label type="success" v-else>Not Expired</vk-label>
+                                            </td>
+                                            <td>{{ item.expires_at | formatDate }}</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody v-else-if="subscriptions.data.length == 0">
+                                        <tr>
+                                            <td colspan="6" class="uk-text-center"> Nothing Found Here</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody v-else>
+                                        <tr>
+                                            <td colspan="6" class="uk-text-center"> <vk-spinner ratio="1.5"></vk-spinner> </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <vk-pagination align="center" :page.sync="subscriptions.table.pageNumber" :perPage="subscriptions.table.perPage" :total="subscriptions.table.tableLength.value">
+                                    <vk-pagination-page-prev></vk-pagination-page-prev>
+                                    <vk-pagination-pages></vk-pagination-pages>
+                                    <vk-pagination-page-next></vk-pagination-page-next>
+                                </vk-pagination>
                             </div>
                         </div>
                     </div>
                 </vk-tabs-item>
                 <vk-tabs-item title="Payments">
                     <div class="uk-flex uk-flex-center">
-                        <div class="uk-width-2-3@xl uk-width-2-3@l uk-width-2-3@m uk-width-1-1@s">
+                        <div class="uk-width-3-4@xl uk-width-3-4@l uk-width-2-3@m uk-width-1-1@s">
                             <h2 class="uk-legend">Payments</h2><hr>
-                            <div class="uk-padding-small">
+                            <div class="uk-padding-small div-table">
                                 <table class="uk-table uk-table-divider uk-table-striped">
                                     <thead>
                                         <tr>
@@ -89,8 +127,8 @@
                                             <th>Expire On</th>
                                         </tr>
                                     </thead>
-                                    <tbody v-if="payment.data.length > 0">
-                                        <tr v-for="(item, index) in payment.table.activePage" :key="index">
+                                    <tbody v-if="payments.data.length > 0">
+                                        <tr v-for="(item, index) in payments.table.activePage" :key="index">
                                             <td>{{ item.key }}</td>
                                             <td><vk-label type="success">{{ item.method }}</vk-label></td>
                                             <td>{{ item.currency }} {{ item.amount }}</td>
@@ -99,7 +137,7 @@
                                             <td>{{ item.expire_at }}</td>
                                         </tr>
                                     </tbody>
-                                    <tbody v-else-if="payment.data.length == 0">
+                                    <tbody v-else-if="payments.data.length == 0">
                                         <tr>
                                             <td colspan="6" class="uk-text-center"> Nothing Found Here</td>
                                         </tr>
@@ -110,7 +148,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <vk-pagination align="center" :page.sync="pageNumber" :perPage="payment.table.perPage" :total="payment.data.length">
+                                <vk-pagination align="center" :page.sync="payments.table.pageNumber" :perPage="payments.table.perPage" :total="payments.table.tableLength.value">
                                     <vk-pagination-page-prev></vk-pagination-page-prev>
                                     <vk-pagination-pages></vk-pagination-pages>
                                     <vk-pagination-page-next></vk-pagination-page-next>
@@ -194,16 +232,40 @@ export default {
                         default: {}
                     },
                 },
-                subscription: [],
-                payment: {
+                formatedNumber: '',                 
+                subscriptions: {
                     data: [],
                     table: {
                         activePage: {},
-                        chunk: {},
-                        perPage:10,
+                        pages: {},
+                        pageNumber: 1,  // default to page 0
+                        perPage: 10,
+                        sortedBy: { name: 'asc' },
+                        tableLength: {
+                            type: Number,
+                            value: 0
+                        }
+                    }
+                },
+                payments: {
+                    data: [],
+                    table: {
+                        activePage: {},
+                        pages: {},
+                        pageNumber: 1,  // default to page 0
+                        perPage: 10,
+                        sortedBy: { name: 'asc' },
+                        tableLength: {
+                            type: Number,
+                            value: 0
+                        }
                     }
                 }
             }
+        },
+        beforeMount (){
+            this.$store.commit('banner_title','Profile');
+            this.$store.commit('banner_content','');
         },
         beforeRouteEnter(to,from,next){
             next( vm => {
@@ -214,19 +276,36 @@ export default {
         name: "profile",
         methods: {
             assign(){
-                this.$store.commit('banner_title','Profile');
-                this.$store.commit('banner_content','');
-                this.fields.payments = this.data.payments;
-                this.fields.subscription = this.data.subscription;
-                this.fields.user = this.data.user;
 
-                this.payment.data = this.fields.payments;
-                this.payment.data.forEach( (item,key) => {
-                    item.key = key + 1;
-                });
+                this.payments.data      = this.data.payments;
+                this.subscriptions.data = this.data.subscriptions;
+                this.fields.user        = this.data.user;
 
-                this.payment.table.chunk      = chunk(this.payment.data,this.pageNumber);
-                this.payment.table.activePage = this.payment.table.chunk[0];
+                if( this.data.payments.length > 0){
+                    let payments = this.payments.data;
+                    for(let value in payments)
+                    {
+                       payments[value].key = parseInt(value) + 1;
+                    }
+                    this.payments.table.subChunk          = chunk(this.payments.data, this.payments.table.perPage);
+                    this.payments.table.activePage        = this.payments.table.subChunk[this.payments.table.pageNumber - 1];
+                    this.payments.table.tableLength.value = this.payments.data.length;
+                }
+
+                if( this.data.subscriptions.length > 0){
+                    let subscriptions = this.subscriptions.data;
+                    for(let value in subscriptions)
+                    {
+                       subscriptions[value].key = parseInt(value) + 1;
+                    }
+                    this.subscriptions.table.subChunk          = chunk(this.subscriptions.data, this.subscriptions.table.perPage);
+                    this.subscriptions.table.activePage        = this.subscriptions.table.subChunk[this.subscriptions.table.pageNumber - 1];
+                    this.subscriptions.table.tableLength.value = this.subscriptions.data.length;
+                }
+            },
+            getPhoneNumber (val) {
+                this.fields.user.phone = val.formattedNumber;
+                this.formatedNumber = val.formattedNumber;
             },
             initData(){
                 this.bralcoaxios({ url: this.$store.state.app.env.backend_url + '/api/v1/4irclub/profile', request: 'GET' }).then( (response) => {

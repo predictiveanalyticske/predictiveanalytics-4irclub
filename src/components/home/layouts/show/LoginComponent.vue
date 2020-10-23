@@ -77,9 +77,10 @@
                 let el = event.target
                 let formData = new FormData(el);
 
-                formData.append('client_id',     process.env.VUE_APP_PASSPORT_KEY);
-                formData.append('client_secret', process.env.VUE_APP_PASSPORT_SECRET);
-                formData.append('provider', 'clubusers');
+                formData.append('app_role',      btoa(process.env.VUE_APP_ROLE) );
+                formData.append('client_id',     btoa(process.env.VUE_APP_PASSPORT_KEY) );
+                formData.append('client_secret', btoa(process.env.VUE_APP_PASSPORT_SECRET) );
+                formData.append('provider',      btoa('clubusers') );
 
                 this.bralcoaxios({ url: el.attributes.action.value, request:el.attributes.method.value, form: formData }).then( (response) => {
                     let resolve = this.bralcoresponse(response);
