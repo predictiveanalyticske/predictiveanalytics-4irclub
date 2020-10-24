@@ -2,7 +2,7 @@
     <vk-grid class="uk-child-width-1-1 uk-margin-remove">
         <div class="uk-padding-remove uk-margin-remove">
           <vk-card padding="large">
-            <vk-tabs align="center" animation="fade" class="uk-padding-small">
+            <vk-tabs align="center" animation="fade">
                 <vk-tabs-item title="Profile">
                     <div class="uk-flex uk-flex-center">
                         <div class="uk-width-1-2@xl uk-width-1-2@l uk-width-1-2@m uk-width-1-1@s">
@@ -59,55 +59,24 @@
                     <div class="uk-flex uk-flex-center">
                         <div class="uk-width-3-4@xl uk-width-3-4@l uk-width-2-3@m uk-width-1-1@s">
                             <h2 class="uk-legend">Subscriptions</h2><hr>
-                             <div class="uk-padding-small div-table">
-                                <table class="uk-table uk-table-divider uk-table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Name</th>
-                                            <th>Category</th>
-                                            <th>Active</th>
-                                            <th>Expired</th>
-                                            <th>Expire On</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody v-if="subscriptions.data.length > 0">
-                                        <tr v-for="(item, index) in subscriptions.table.activePage" :key="index">
-                                            <td>{{ item.key }}</td>
-                                            <td>
-                                                <p class="uk-margin-remove">{{ item.subscription.name }}</p>
-                                            </td>
-                                            <td>
-                                                <p class="uk-margin-remove"><b>{{ item.subscription.category }}</b></p>
-                                            </td>
-                                            <td>
-                                                <vk-label type="success" v-if="item.active">Active</vk-label>
-                                                <vk-label type="success" v-else>Inactive</vk-label>
-                                            </td>
-                                            <td>
-                                                <vk-label type="danger" v-if="item.expired">Expired</vk-label>
-                                                <vk-label type="success" v-else>Not Expired</vk-label>
-                                            </td>
-                                            <td>{{ item.expires_at | formatDate }}</td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody v-else-if="subscriptions.data.length == 0">
-                                        <tr>
-                                            <td colspan="6" class="uk-text-center"> Nothing Found Here</td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody v-else>
-                                        <tr>
-                                            <td colspan="6" class="uk-text-center"> <vk-spinner ratio="1.5"></vk-spinner> </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div v-if="subscriptions.data.length > 0" class="uk-grid uk-child-width-1-3@xl uk-child-width-1-3@l uk-child-width-1-3@m uk-child-width-1-1@s uk-padding-small">
+                                    <div class="uk-padding-remove">
+                                    <vk-card v-for="(item, index) in subscriptions.table.activePage" :key="index" class="uk-padding-remove" padding="small">
+                                        <vk-label type="success" slot="badge" v-if="item.active">Active</vk-label>
+                                        <vk-label type="danger" slot="badge" v-else>Inactive</vk-label>
+                                        <vk-card-title>{{ item.subscription.name }} <br> {{ item.subscription.category }}</vk-card-title>
+                                        <p>{{item.subscription.summary}}</p>
+                                        <vk-label type="danger" v-if="item.expired">Expired</vk-label>
+                                        <vk-label type="success" v-else>Not Expired</vk-label>
+                                    </vk-card>
+                                    </div>
+                                </div>
+
                                 <vk-pagination align="center" :page.sync="subscriptions.table.pageNumber" :perPage="subscriptions.table.perPage" :total="subscriptions.table.tableLength.value">
                                     <vk-pagination-page-prev></vk-pagination-page-prev>
                                     <vk-pagination-pages></vk-pagination-pages>
                                     <vk-pagination-page-next></vk-pagination-page-next>
                                 </vk-pagination>
-                            </div>
                         </div>
                     </div>
                 </vk-tabs-item>
