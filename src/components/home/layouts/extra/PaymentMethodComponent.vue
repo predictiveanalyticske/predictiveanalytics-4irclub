@@ -74,7 +74,7 @@
   </div>
   <vk-card v-if="showPaymentMessage" class="uk-text-center uk-card-success uk-light">
     <h2><vk-icon icon="happy" ratio="2"></vk-icon> Payment Successful</h2>
-    <vk-button size="large" @click="finish" >Checkout</vk-button>
+    <!-- <vk-button size="large" @click="finish" >Checkout</vk-button> -->
   </vk-card>
 </transition>
 </template>
@@ -142,6 +142,20 @@ export default {
     gsap.registerPlugin(TweenLite, Bounce, Elastic); 
   },
   methods: {
+    initcheckout (value) {
+      console.log(value);
+      if( value.data.charged ){
+        this.paymentCharge      = false;
+        this.showPaymentMessage = true;
+        this.fields.method      = value.data.method;
+        this.fields.checkout    = value.data.checkout;
+        this.bralcoswal({t:"success",m: value.data.m, h:value.data.h});
+        setTimeout( () => {
+            this.$store.commit('isSubscribed',true);
+            this.$router.push({name:"profile"});
+        },1000);
+      }
+    },
     flwCallback(val) {
       switch( val.status ){
         case "successful":
@@ -156,16 +170,11 @@ export default {
           formData.append('payment',this.data.payment);
           this.bralcoaxios({url: this.$store.state.app.env.backend_url + "/api/v1/4irclub/subscribe/pay/card", request: 'POST', form: formData}).then( (response) => {
             let resolve = this.bralcoresponse(response);
-            if( resolve.data.charged ){
-              this.paymentCharge = false;
-              this.showPaymentMessage = true;
-              this.fields.method = resolve.data.method;
-              this.fields.checkout = resolve.data.checkout;
-            }
             let iframe = document.querySelector('iframe');
             iframe.style.display = 'none';
             iframe.parentNode.removeChild(iframe);
             document.querySelector('body').style.overflow = 'auto';
+            this.initcheckout(resolve);
           });
         break;
       }
