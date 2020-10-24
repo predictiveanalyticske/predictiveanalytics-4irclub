@@ -60,15 +60,15 @@
                         <div class="uk-width-3-4@xl uk-width-3-4@l uk-width-2-3@m uk-width-1-1@s">
                             <h2 class="uk-legend">Subscriptions</h2><hr>
                                 <div v-if="subscriptions.data.length > 0" class="uk-grid uk-child-width-1-3@xl uk-child-width-1-3@l uk-child-width-1-3@m uk-child-width-1-1@s uk-padding-small">
-                                    <div class="uk-padding-remove">
-                                    <vk-card v-for="(item, index) in subscriptions.table.activePage" :key="index" class="uk-padding-remove" padding="small">
-                                        <vk-label type="success" slot="badge" v-if="item.active">Active</vk-label>
-                                        <vk-label type="danger" slot="badge" v-else>Inactive</vk-label>
-                                        <vk-card-title>{{ item.subscription.name }} <br> {{ item.subscription.category }}</vk-card-title>
-                                        <p>{{item.subscription.summary}}</p>
-                                        <vk-label type="danger" v-if="item.expired">Expired</vk-label>
-                                        <vk-label type="success" v-else>Not Expired</vk-label>
-                                    </vk-card>
+                                    <div class="uk-padding-remove" v-for="(item, index) in subscriptions.table.activePage" :key="index">
+                                        <vk-card class="uk-padding-remove" padding="small">
+                                            <vk-label type="success" slot="badge" v-if="item.active">Active</vk-label>
+                                            <vk-label type="danger" slot="badge" v-else>Inactive</vk-label>
+                                            <vk-card-title>{{ item.subscription.name }} <br> {{ item.subscription.category }}</vk-card-title>
+                                            <p>{{item.subscription.summary}}</p>
+                                            <vk-label type="danger" v-if="item.expired">Expired</vk-label>
+                                            <vk-label type="success" v-else>Not Expired</vk-label>
+                                        </vk-card>
                                     </div>
                                 </div>
 
