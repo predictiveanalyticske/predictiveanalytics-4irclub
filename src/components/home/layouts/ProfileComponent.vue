@@ -61,7 +61,7 @@
                             <h2 class="uk-legend">Subscriptions</h2><hr>
                                 <div v-if="subscriptions.data.length > 0" class="uk-grid uk-child-width-1-3@xl uk-child-width-1-3@l uk-child-width-1-3@m uk-child-width-1-1@s uk-padding-small">
                                     <div class="uk-padding-remove" v-for="(item, index) in subscriptions.table.activePage" :key="index">
-                                        <vk-card class="uk-padding-remove" padding="small">
+                                        <vk-card class="uk-padding-remove uk-margin-small" padding="small">
                                             <vk-label type="success" slot="badge" v-if="item.active">Active</vk-label>
                                             <vk-label type="danger" slot="badge" v-else>Inactive</vk-label>
                                             <vk-card-title>{{ item.subscription.name }} <br> {{ item.subscription.category }}</vk-card-title>
