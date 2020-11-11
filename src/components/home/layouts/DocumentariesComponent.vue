@@ -51,6 +51,7 @@
                 pages: 0,
                 postChunk: {},
                 posts: {},
+                youtubelink: "https://www.youtube.com/embed/"
             }
         },
         computed: {
@@ -73,6 +74,36 @@
             });
         },
         methods: {
+            assignData() {
+                if( this.posts.length > 0){
+                    for(let index in this.posts)
+                    {
+                        let post = this.posts[index];
+
+                        switch( post.type ){
+                        case 'youtube':
+                            if( post.link.search('embed') < 0  ){
+                            post.link  = this.youtubelink + post.link;
+                            }
+                        break;
+                        default:
+
+                        }
+                        
+                        let linksplit = post.link.split("/");
+                        post.image = "http://i.ytimg.com/vi/"+linksplit[(linksplit.length - 1)]+"/hqdefault.jpg";
+
+                    }                    
+                    this.posts = Object.entries(this.posts).map( ([, value]) => {return value;});
+                    this.postChunk = chunk(this.posts, this.perPage);
+                    this.activePostChunk = this.postChunk[0];
+                }
+                this.$store.commit('banner_title','Documentaries');
+                this.$store.commit('banner_content','');
+                if( this.$store.getters.sidebar ){
+                    this.$store.commit('sidebar',false);
+                }
+            },
             checkSubscription(){
                 switch( JSON.parse(this.$store.getters.isSubscribed) && JSON.parse(this.$store.getters.isPaid) ){
                     case true:
@@ -87,15 +118,9 @@
                 this.bralcoaxios({ url: this.$store.state.app.env.backend_url + "/api/v1/home/posts", request: "GET" }).then( (response) => {
                     var resolve = this.bralcoresponse(response);
                     this.posts = resolve.data.posts;
-                    this.posts = Object.entries(this.posts).map( ([, value]) => {return value;});
-                    this.postChunk = chunk(this.posts, this.perPage);
-                    this.activePostChunk = this.postChunk[0];
+                    this.assignData();
                 });
-                this.$store.commit('banner_title','Documentaries');
-                this.$store.commit('banner_content','');
-                if( this.$store.getters.sidebar ){
-                    this.$store.commit('sidebar',false);
-                }
+
             },
             gotToPage (event) {
                 let el = event.target;
