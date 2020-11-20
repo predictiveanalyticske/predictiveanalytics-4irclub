@@ -139,10 +139,22 @@
                 this.$store.commit('token_type',    value.token.token_type);
                 this.$store.commit('isAuthenticated',true);
                 let formData = new FormData();
-                formData.append('subscription_amount',this.subscription.id);
-                this.bralcoaxios({url: this.$store.state.app.env.backend_url + "/api/v1/4irclub/subscriptions", request: 'POST', form: formData}).then( (response) => {
+                formData.set('subscription_amount',this.subscription.id);
+                formData.set('subscription_id',this.$route.params.item);
+                formData.set('type',value.type);
+                this.bralcoaxios({url: this.$store.state.app.env.backend_url + "/api/v1/4irclub/subscribe/challenge", request: 'POST', form: formData}).then( (response) => {
                   let resolve = this.bralcoresponse(response);
-                  this.$router.push( { name:"checkout",params:{ payment: resolve.id } } );
+                  if( resolve.data != undefined ){
+                    switch( resolve.data.status ){
+                      case 'checkout':
+                          this.$router.push( { name:"checkout",params:{ payment: resolve.data.payment.id } } );  
+                      break;
+                      case 'subscribed':
+                          this.$store.commit('isSubscribed',true);
+                          this.$router.push({name:"profile"});
+                      break;  
+                    } 
+                  }
                 });
               }
               //  this.subscription_fields.type = this.billing.type;

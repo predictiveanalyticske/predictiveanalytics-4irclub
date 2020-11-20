@@ -37,7 +37,12 @@ BralcoHelpers.install = function (Vue,) {
         stored.state.app.loader = false;
 
         let data               = response.data;
-        var response_container = {t:"error",h:response.statusText,m:response.data.m != undefined ? response.data.m : null};
+        var response_container = {  
+            t:"error",
+            h:response.statusText,
+            m:response.data.m != undefined ? response.data.m : null, 
+            url:response.data.url != undefined ? response.data.url : null
+        };
 
         switch( response.status ){
             case 200:
@@ -75,7 +80,6 @@ BralcoHelpers.install = function (Vue,) {
                 return response.data;
             case 422:
                 var type = typeof data.errors;
-                console.log(type)
                 switch( type ){
                     case 'string':
                         response_container.m = data.errors;
@@ -87,7 +91,6 @@ BralcoHelpers.install = function (Vue,) {
                         response_container.m = string;
                     break;
                 }
-
                 Vue.prototype.bralcoswal(response_container);
             break;
         }
@@ -122,7 +125,13 @@ BralcoHelpers.install = function (Vue,) {
         switch(d.t){
             case 'error':
                 Swal.fire({ title: d.h, text: d.m ,icon: d.t }).then((result) => {
-                    return result;
+                    if(result) {
+                        if(d.url){
+                           window.location.href = d.url.path;
+                        } else {
+                            return result
+                        }
+                    }
                 });
             break;
             case 'success':

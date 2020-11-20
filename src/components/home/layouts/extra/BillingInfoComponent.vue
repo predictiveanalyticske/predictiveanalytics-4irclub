@@ -105,6 +105,7 @@ export default {
       window.addEventListener("message", (event) => {
           if (event.origin == process.env.VUE_APP_ENDPOINT_URL) { 
               var data          = event.data;
+              console.log(typeof data.values);
               this.fields.token = data.values;
               if( data.close ){
                 this.$store.commit('loader',false);
