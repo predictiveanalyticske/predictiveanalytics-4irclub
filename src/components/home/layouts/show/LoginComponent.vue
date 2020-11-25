@@ -16,24 +16,7 @@
                                 <h1 class="uk-article-title">Account Login</h1>
                                 <p>This is a secure system and you will need to provide your login details to access other features in this website.</p>
                             </article>
-                            <form @submit.prevent="attemptLogin" :action="$store.state.app.env.backend_url + '/api/v1/4irclub/auth/login'" method="POST">
-                                <fieldset class="uk-fieldset">
-                                    <div class="uk-margin">
-                                        <label>Email</label>
-                                        <input class="uk-input uk-form-large" required name="email" type="email" placeholder="Email Address">
-                                    </div>
-
-                                    <div class="uk-margin">
-                                        <label>Password</label>
-                                        <input class="uk-input uk-form-large" required name="password" type="password" placeholder="Password">
-                                    </div>
-
-                                    <div class="uk-margin">
-                                        <vk-button htmlType="submit" class="uk-width-1-1" size="medium">Login</vk-button>
-                                        <vk-button size="medium" class="uk-width-1-1 uk-margin-small-top" @click="studentlogin" >Login With Lab</vk-button>
-                                    </div>
-                                </fieldset>
-                            </form>
+                            <vk-button @click="ssoLogin" class="uk-width-1-1" size="medium">Predictive Analytics SSO Login</vk-button>
                         </vk-tabs-item>
                         <vk-tabs-item title="Reset Password">
                             <article class="uk-article uk-margin uk-text-center">
@@ -42,7 +25,7 @@
                             </article>
                             <form @submit.prevent="resetPassword" :action="$store.state.app.env.backend_url + '/api/v1/4irclub/auth/password/reset'" method="POST">
                                 <fieldset class="uk-fieldset">
-                                    
+
                                     <div class="uk-margin">
                                         <label>Email</label>
                                         <input class="uk-input uk-form-large" required name="email" type="email" placeholder="Email Address">
@@ -77,15 +60,35 @@
                 let el = event.target
                 let formData = new FormData(el);
 
-                formData.append('app_role',      btoa(process.env.VUE_APP_ROLE) );
-                formData.append('client_id',     btoa(process.env.VUE_APP_PASSPORT_KEY) );
-                formData.append('client_secret', btoa(process.env.VUE_APP_PASSPORT_SECRET) );
-                formData.append('provider',      btoa('clubusers') );
+                formData.append('client_id',     process.env.VUE_APP_PASSPORT_KEY);
+                formData.append('client_secret', process.env.VUE_APP_PASSPORT_SECRET);
+                formData.append('provider', 'clubusers');
 
                 this.bralcoaxios({ url: el.attributes.action.value, request:el.attributes.method.value, form: formData }).then( (response) => {
                     let resolve = this.bralcoresponse(response);
                     this.loginConfig(resolve);
                 });
+            },
+            ssoLogin(){
+              let url = this.$store.getters.env.VUE_APP_ENDPOINT_AUTH_URL;
+                  url = url.replaceAll('#url#', btoa(window.location));
+                  url = url.replaceAll('#role#',btoa(this.$store.getters.env.VUE_APP_ROLE));
+
+              this.$store.commit('loader',true);
+
+              window.addEventListener("message", (event) => {
+                if (event.origin == this.$store.getters.env.VUE_APP_ENDPOINT_URL) {
+                    var data = event.data;
+                    this.loginConfig(data.values)
+                    if( data.close ){
+                      this.$store.commit('loader',false);
+                    }
+                }
+              },false);
+
+              let current = window.open(url,'popup','height=800px, width=600px');
+              current.focus();
+
             },
             resetPassword (event) {
                 let el = event.target
@@ -94,46 +97,50 @@
                     this.bralcoresponse(response);
                 });
             },
-            loginConfig (response){
+            loginConfig (data){
 
-                    localStorage.setItem('access_token',response.data.token.access_token);
-                    localStorage.setItem('token_type',response.data.token.token_type);
-                    localStorage.setItem('expires_in',response.data.token.expires_in);
-                    localStorage.setItem('refresh_token',response.data.token.refresh_token);
-                    localStorage.setItem('isSubscribed',response.data.isSubscribed);
-                    localStorage.setItem('isPaid',response.data.isPaid);
+                    localStorage.setItem('access_token',data.access_token);
+                    localStorage.setItem('token_type',data.token_type);
+                    localStorage.setItem('expires_in',data.expires_in);
+                    localStorage.setItem('refresh_token',data.refresh_token);
 
-                    this.$store.commit('access_token',response.data.token.access_token);
-                    this.$store.commit('token_type', response.data.token.token_type);
-                    this.$store.commit('expires_in',response.data.token.expires_in);
-                    this.$store.commit('refresh_token',response.data.token.refresh_token);
+
+                    this.$store.commit('access_token',data.access_token);
+                    this.$store.commit('token_type', data.token_type);
+                    this.$store.commit('expires_in',data.expires_in);
+                    this.$store.commit('refresh_token',data.refresh_token);
                     this.$store.commit('isAuthenticated',true);
-                    this.$store.commit('isSubscribed',response.data.isSubscribed);
-                    this.$store.commit('isPaid',response.data.isPaid);
 
-                    switch(response.data.isSubscribed){
-                        case true:
+                    this.bralcoaxios({ url: this.$store.getters.env.VUE_APP_ENDPOINT_URL + '/api/v1/4irclub/auth', request:'POST' }).then( (response) => {
+                        let resolve = this.bralcoresponse(response);
 
-                            if(!response.data.isPaid){
-                                localStorage.setItem('pendingPayment',response.data.payment);
+                        this.$store.commit('isSubscribed',resolve.data.isSubscribed);
+                        this.$store.commit('isPaid',resolve.data.isPaid);
+
+                        localStorage.setItem('isSubscribed',resolve.data.isSubscribed);
+                        localStorage.setItem('isPaid',resolve.data.isPaid);
+
+                        switch(resolve.data.isSubscribed){
+                            case true:
+                                if(!resolve.data.isPaid){
+                                    localStorage.setItem('pendingPayment',resolve.data.payment);
+                                    window.location.href = window.location.hash != ""
+                                                            ? window.location.origin + '/' + window.location.hash.split('/')[0] + '/' + this.$router.resolve({name:"checkout",params:{ payment: resolve.data.payment }}).href
+                                                            : window.location.origin + this.$router.resolve({name:"checkout",params:{ payment: resolve.data.payment }}).href ;
+                                } else {
+                                    window.location.href = window.location.hash != ""
+                                                            ? window.location.origin + '/' + window.location.hash.split('/')[0] + '/' + this.$router.resolve({name:"home"}).href
+                                                            : window.location.origin + this.$router.resolve({name:"checkout",params:{ payment: resolve.data.payment }}).href ;
+                                }
+                            break;
+                            case false:
                                 window.location.href = window.location.hash != ""
-                                                        ? window.location.origin + '/' + window.location.hash.split('/')[0] + '/' + this.$router.resolve({name:"checkout",params:{ payment: response.data.payment }}).href
-                                                        : window.location.origin + this.$router.resolve({name:"checkout",params:{ payment: response.data.payment }}).href ;
-                            } else {
-                                window.location.href = window.location.hash != ""
-                                                        ? window.location.origin + '/' + window.location.hash.split('/')[0] + '/' + this.$router.resolve({name:"home"}).href
-                                                        : window.location.origin + this.$router.resolve({name:"checkout",params:{ payment: response.data.payment }}).href ;
-                            }
+                                                        ? window.location.origin + '/' + window.location.hash.split('/')[0] + '/' + this.$router.resolve({name:"plans"}).href
+                                                        : window.location.origin + this.$router.resolve({name:"checkout",params:{ payment: resolve.data.payment }}).href ;
+                            break;
+                        }
+                    });
 
-                        break;
-                        case false:
-
-                            window.location.href = window.location.hash != ""
-                                                    ? window.location.origin + '/' + window.location.hash.split('/')[0] + '/' + this.$router.resolve({name:"plans"}).href
-                                                    : window.location.origin + this.$router.resolve({name:"checkout",params:{ payment: response.data.payment }}).href ;
-
-                        break;
-                    }
             },
             studentlogin () {
                 window.location.href = "https://lab.predictiveanalytics.co.ke/user/login/challenge?callbackurl=" + window.location.href + "challenge/";

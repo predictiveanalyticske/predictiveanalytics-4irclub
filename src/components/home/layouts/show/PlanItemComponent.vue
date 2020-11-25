@@ -7,9 +7,9 @@
                   <vk-grid class="uk-child-width-expand uk-flex uk-flex-center">
                     <div class="uk-width-2-3@xl uk-width-2-3@l uk-width-3-4@m uk-width-1-1@s">
                       <h2>Select your plan</h2>
-                      <subscriptions 
+                      <subscriptions
                           :currency="data.currency || ''"
-                          :data="data.amounts || []" 
+                          :data="data.amounts || []"
                           :callback="selectSubscription"
                           class="uk-width-1-1 uk-padding-remove-top"
                       />
@@ -19,7 +19,7 @@
                         <vk-grid class="uk-child-width-1-1 uk-margin" v-if="showpurchasediv">
                           <div>
                             <h4 class="uk-margin-small">Billing Details</h4>
-                            <billinginfo 
+                            <billinginfo
                               :fields="billing"
                               class="uk-width-1-1 uk-padding-remove-top"
                             />
@@ -142,18 +142,18 @@
                 formData.set('subscription_amount',this.subscription.id);
                 formData.set('subscription_id',this.$route.params.item);
                 formData.set('type',value.type);
-                this.bralcoaxios({url: this.$store.state.app.env.backend_url + "/api/v1/4irclub/subscribe/challenge", request: 'POST', form: formData}).then( (response) => {
+                this.bralcoaxios({url: this.$store.getters.env.VUE_APP_ENDPOINT_URL + "/api/v1/4irclub/subscribe/challenge", request: 'POST', form: formData}).then( (response) => {
                   let resolve = this.bralcoresponse(response);
                   if( resolve.data != undefined ){
                     switch( resolve.data.status ){
                       case 'checkout':
-                          this.$router.push( { name:"checkout",params:{ payment: resolve.data.payment.id } } );  
+                          this.$router.push( { name:"checkout",params:{ payment: resolve.data.payment.id } } );
                       break;
                       case 'subscribed':
                           this.$store.commit('isSubscribed',true);
                           this.$router.push({name:"profile"});
-                      break;  
-                    } 
+                      break;
+                    }
                   }
                 });
               }

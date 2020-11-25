@@ -28,6 +28,7 @@ let VuexData = {
         env: {
           state: process.env.MIX_APP_ENV,
           backend_url: process.env.VUE_APP_ENDPOINT_URL,
+          ...process.env
         },
         data: {
           pendingPayment: storage.getItem('pendingPayment'),
@@ -43,6 +44,9 @@ let VuexData = {
   getters: {
     global: state => {
       return state.app.data.global;
+    },
+    env: state => {
+      return state.app.env;
     },
     isAuthenticated: state => {
       return state.app.auth.isAuthenticated;
