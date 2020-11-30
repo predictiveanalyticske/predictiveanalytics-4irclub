@@ -73,7 +73,8 @@
               let url = this.$store.getters.env.VUE_APP_ENDPOINT_AUTH_URL;
                   url = url.replaceAll('#url#', btoa(window.location));
                   url = url.replaceAll('#role#',btoa(this.$store.getters.env.VUE_APP_ROLE));
-
+              console.debug("Predictive Auth [URL] Confirmed");
+              console.log(url);
               this.$store.commit('loader',true);
 
               window.addEventListener("message", (event) => {
